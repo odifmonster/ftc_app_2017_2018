@@ -22,4 +22,39 @@ times.
 ### Windows Users
 
 I haven't figured out how to deal with this yet, but just know that if you use
-Windows everything will break which is why Apple is better.
+Windows everything will break which is why Apple is better. Just get Apple
+products.
+
+## Current Dependencies
+
+We are currently using DogeCV (I know, but it's legit I swear), which is based
+off of OpenCV and EnderCV. The CV in all of these stands for computer vision
+which is exactly what it sounds like. I won't get into the specifics (although
+you can research it if you want, it's very cool), but here is a simple
+breakdown:
+
+* OpenCV is a computer vision library used by everyone and allows for a lot of
+freedom but requires a fairly extensive understanding of computer vision and
+Android Studio in order to implement correctly
+
+* EnderCV is based off of OpenCV and provides help for using OpenCV in the
+context of the FTC app (so if you're not an Android Developer you can just use
+their code), but actually detecting the objects is something you have to
+figure out yourself. We plan on using this in the future, but right now we
+simply do not have the time.
+
+* DogeCV comes with the OpenCV320 library (as does ender), but they have a lot
+of Relic Recovery-specific stuff builtin, so it's a simple solution for now.
+Everything is prepackaged, so if you think their algorithms aren't all that
+impressive, you should only be using it if you really have no time.
+
+## Current Libraries
+
+Most of these will change from year to year, but it's still good to explain,
+and the driving library probably won't need to change
+
+### Driving Library
+
+This was configured for mecanum wheels, so if future drive trains may need to
+reconfigure some of this. I don't personally know the algorithm for omni
+wheels, but I believe it remains somewhat the same.
