@@ -104,11 +104,11 @@ public class CryptoboxDetector extends OpenCVPipeline {
         Collections.sort(linesVertical, new Comparator<Line>() {
             @Override
             public int compare(Line line1, Line line2) {
-                if(line1.center().x > line2.center().x){
+                if (line1.center().x > line2.center().x) {
                     return 1;
-                }else if(line1.center().x < line2.center().x){
+                } else if(line1.center().x < line2.center().x) {
                     return -1;
-                }else{
+                } else {
                     return 0;
                 }
             }
