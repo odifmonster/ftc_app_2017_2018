@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.libraries;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -11,7 +12,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  */
 
 public class GlyphArmLibrary {
-    private OpMode opMode;
+    private LinearOpMode opMode;
     private HardwareMap hardwareMap;
     private DcMotor pulley;
     private Servo leftTop, leftBottom, rightTop, rightBottom;
@@ -24,7 +25,7 @@ public class GlyphArmLibrary {
 
     double pulleySpeed;
 
-    public GlyphArmLibrary(OpMode opMode) {
+    public GlyphArmLibrary(LinearOpMode opMode) {
         this.opMode = opMode;
         hardwareMap = opMode.hardwareMap;
         pulley = hardwareMap.get(DcMotor.class, "pulley");
@@ -132,6 +133,18 @@ public class GlyphArmLibrary {
         } else if (gamepad.dpad_down) {
             pulley.setPower(-pulleySpeed);
         } else {
+            pulley.setPower(0);
+        }
+    }
+
+    public void movePulleyAuton(boolean direction) {
+        if (direction) {
+            pulley.setPower(pulleySpeed);
+            opMode.sleep(1000);
+            pulley.setPower(0);
+        } else {
+            pulley.setPower(-pulleySpeed);
+            opMode.sleep(1000);
             pulley.setPower(0);
         }
     }

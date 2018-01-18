@@ -32,13 +32,8 @@ public class AutonModeLibrary {
     Servo colorArm;
     ColorSensor colorSensor;
     DistanceSensor distanceSensor;
-    DigitalChannel touchSensor;
 
-    int taps;
-    boolean tapped = false;
-    int state = 0;
-
-    int[][] cryptobox;
+    boolean[][] cryptobox;
 
     public AutonModeLibrary(LinearOpMode opMode, FTCAlliance alliance, FTCPosition position) {
         this.alliance = alliance;
@@ -49,10 +44,9 @@ public class AutonModeLibrary {
         this.colorArm = opMode.hardwareMap.get(Servo.class,"color_arm");
         colorSensor = opMode.hardwareMap.get(ColorSensor.class, "color_sensor");
         distanceSensor = opMode.hardwareMap.get(DistanceSensor.class, "color_sensor");
-        touchSensor = opMode.hardwareMap.get(DigitalChannel.class, "touchSensor");
         this.opMode = opMode;
         this.vuMarkIdentify = new VuMarkIdentifyLibrary(opMode);
-        this.cryptobox = new int[3][4];
+        this.cryptobox = new boolean[3][4];
     }
 
     //updated code
@@ -207,6 +201,7 @@ public class AutonModeLibrary {
         drivingLibrary.stopDrivingMotors();
     }
 
+    //change vuforial lib to localizer
     public RelicRecoveryVuMark identifyPictograph() {
         //pick up
         return vuMarkIdentify.identifyPictograph(opMode);
@@ -218,83 +213,34 @@ public class AutonModeLibrary {
 
     public boolean identifyAndPlace(Direction direction) {
         // use alliance and position in OP mode
-        boolean finished = false;
-        switch (state) {
-            case 0:
-                //go and turn
-                RelicRecoveryVuMark vuMark = identifyPictograph();
-                //taps algorithm?
-                if (vuMark == RelicRecoveryVuMark.RIGHT) {
-                    //go right
-                    //CHANGE taps?
-                    taps = 3;
-                    state += 1;
-                } else if (vuMark == RelicRecoveryVuMark.LEFT) {
-                    //go left
-                    //CHANGE taps?
-                    taps = 1;
-                    state += 1;
-                }
-                else if (vuMark == RelicRecoveryVuMark.CENTER) {
-                    //go center
-                    taps = 2;
-                    state += 1;
-                } else {
-                    //CHECK how much time has passed????
-                    //try?
-                    //abandon ship. Put glyph in Center automatically
-                    taps = 0;
-                }
-                opMode.telemetry.addData("Taps", taps);
-                opMode.telemetry.update();
-                opMode.sleep(200);
-                break;
-            case 1:
-                //DRIVE
-                opMode.telemetry.addData("Taps", taps);
-                opMode.telemetry.update();
-                //checking sensor.
-                tapped = testTouchSensor();
-                if (!tapped) {
-                    taps -= 1;
-                }
-                //secondary if statement
-                if (taps <= 0) {
-                    state += 1;
-                }
-                //check failsafe
-                break;
-            case 2:
-                //turn
-                opMode.telemetry.addData("Turning", "Yes!");
-                opMode.telemetry.update();
-                //turn for howevermany seconds
-                opMode.sleep(3000);
-                state += 1;
-                break;
-            case 3:
-                //place glyph
-                opMode.telemetry.addData("Placing glyph", "Yes!");
-                opMode.telemetry.update();
-                opMode.sleep(3000);
-                state += 1;
-                break;
-            case 4:
-                //GET GLYPHS
-                opMode.telemetry.addData("Getting additional glyphs", "Yes!");
-                opMode.telemetry.update();
-                opMode.sleep(3000);
-                state += 1;
-                break;
-            default:
-                opMode.telemetry.addData("waiting", "Yes!");
-                opMode.telemetry.update();
-                opMode.sleep(3000);
-                finished = true;
-                //stop all motors
-                break;
-        }
-        return finished;
+        //pick up glyph
+
+        //drive forward and turn to face camera (90 deg TURN preset maybe??)
+        drivingLibrary.driveStraight(0,.5f);
+        opMode.sleep(1000);
+        drivingLibrary.turn(.5f,.5f);
+        opMode.sleep(500);
+        drivingLibrary.stopDrivingMotors();
+
+        //use vuforia to identify
+        vuMarkIdentify.identifyPictograph(opMode);
+        //disable vuforia
+        //??>
+
+        //STRAFE sideways; use DogeCV to identify cryptoboxes
+        //DEPENDINGg on WHICH dir/etc
+        drivingLibrary.driveStraight(.2f,0);
+        opMode.sleep(1000);
+        //need CASE statement!!
+        drivingLibrary.stopDrivingMotors();
+
+        //put glyph in
+        glyphArm.movePulleyAuton(false);
+        //turns around 180 to face glyph pit
+        drivingLibrary.turn(.5f,.5f);
+        opMode.sleep(1000);
+        drivingLibrary.stopDrivingMotors();
+        return true;
     }
 
     public void driveGetGlyphPlace() {
@@ -305,17 +251,12 @@ public class AutonModeLibrary {
         |   |   |   | (row 1)
         | 0 |1  |2  | (row 0) --> Accessed: [x][0]
          */
-
+        //use dogecv
+        //identify nearest glyph (and color?)
         //picks up glyph
         //checks color/pressure
         //checks pattern/avaliable spaces
         //uses touch?
-
-    }
-
-    public boolean testTouchSensor() {
-        // is button pressed?
-        return touchSensor.getState();
 
     }
 
