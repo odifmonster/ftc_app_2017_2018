@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.vuforia.VuMarkTarget;
 
 import org.firstinspires.ftc.enums.Direction;
 import org.firstinspires.ftc.enums.FTCAlliance;
@@ -214,6 +215,9 @@ public class AutonModeLibrary {
     public boolean identifyAndPlace(Direction direction) {
         // use alliance and position in OP mode
         //pick up glyph
+        glyphArm.closeArmsPreset(true);
+        opMode.sleep(300);
+        glyphArm.movePulleyAuton(true);
 
         //drive forward and turn to face camera (90 deg TURN preset maybe??)
         drivingLibrary.driveStraight(0,.5f);
@@ -223,7 +227,8 @@ public class AutonModeLibrary {
         drivingLibrary.stopDrivingMotors();
 
         //use vuforia to identify
-        vuMarkIdentify.identifyPictograph(opMode);
+        RelicRecoveryVuMark vuMark = vuMarkIdentify.identifyPictograph(opMode);
+
         //disable vuforia
         //??>
 
@@ -235,7 +240,13 @@ public class AutonModeLibrary {
         drivingLibrary.stopDrivingMotors();
 
         //put glyph in
+        drivingLibrary.driveStraight(0,.5f);
+        opMode.sleep(300);
+        drivingLibrary.stopDrivingMotors();
         glyphArm.movePulleyAuton(false);
+        glyphArm.openArmsPreset(.6f);
+        opMode.sleep(300);
+
         //turns around 180 to face glyph pit
         drivingLibrary.turn(.5f,.5f);
         opMode.sleep(1000);
