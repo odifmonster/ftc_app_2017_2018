@@ -65,7 +65,7 @@ public class SensorOutputMode extends LinearOpMode {
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.calibrationDataFile = "BNO055IMUCalibration.json";
         parameters.loggingEnabled      = true;
@@ -130,7 +130,7 @@ public class SensorOutputMode extends LinearOpMode {
                     @Override
                     public void run() {
                         angles = imu.getAngularOrientation(AxesReference.INTRINSIC,
-                                AxesOrder.ZYX, AngleUnit.DEGREES);
+                                AxesOrder.ZYX, AngleUnit.RADIANS);
                         gravity = imu.getGravity();
                     }
                 });
