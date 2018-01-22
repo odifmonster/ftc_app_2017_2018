@@ -22,9 +22,14 @@ public class TestIdentifyPictograph extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         waitForStart();
+        boolean done = false;
 
         while (opModeIsActive()) {
-            autonMode.identifyAndPlace(Direction.BACKWARD);
+            if (!done) {
+                autonMode.identifyAndPlace(Direction.BACKWARD);
+                done = true;
+            }
+            telemetry.update();
         }
     }
 }

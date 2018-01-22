@@ -140,11 +140,11 @@ public class GlyphArmLibrary {
     public void movePulleyAuton(boolean direction) {
         if (direction) {
             pulley.setPower(pulleySpeed);
-            opMode.sleep(1000);
+            opMode.sleep(500);
             pulley.setPower(0);
         } else {
             pulley.setPower(-pulleySpeed);
-            opMode.sleep(1000);
+            opMode.sleep(500);
             pulley.setPower(0);
         }
     }

@@ -217,16 +217,21 @@ public class AutonModeLibrary {
         // use alliance and position in OP mode
         //pick up glyph
         glyphArm.closeArmsPreset(true);
-        opMode.sleep(300);
+        opMode.sleep(500);
         glyphArm.movePulleyAuton(true);
 
+        //based on dist!
         //drive forward and turn to face camera (90 deg TURN preset maybe??)
-        drivingLibrary.driveStraight(0,.5f);
-        opMode.sleep(1000);
-        drivingLibrary.turn(.5f,.5f);
-        opMode.sleep(500);
+        drivingLibrary.driveStraight(0,.2f);
+        opMode.sleep(2500);
+        drivingLibrary.turn(.2f,.2f);
+        opMode.sleep(2500);
+        drivingLibrary.driveStraight(-.2f,0);
+        opMode.sleep(1400);
         drivingLibrary.stopDrivingMotors();
 
+
+        /*
         //use vuforia to identify
         RelicRecoveryVuMark vuMark = vuMarkIdentify.identifyPictograph(opMode);
         int count = 0;
@@ -239,6 +244,7 @@ public class AutonModeLibrary {
             count = 3;
         } else {
             count = 2;
+            count = 2;
         }
         //disable vuforia
         //??>
@@ -250,9 +256,6 @@ public class AutonModeLibrary {
         while (count != 0) {
             double dist = distanceSensor.getDistance(DistanceUnit.CM);
             if (dist < 10) {
-                count--;
-                //to get out of way of dist sensor
-                opMode.sleep(500);
             }
             opMode.telemetry.addData("Distance", dist);
             opMode.telemetry.update();
@@ -270,7 +273,7 @@ public class AutonModeLibrary {
         //turns around 180 to face glyph pit
         drivingLibrary.turn(.5f,.5f);
         opMode.sleep(1000);
-        drivingLibrary.stopDrivingMotors();
+        drivingLibrary.stopDrivingMotors();*/
         return true;
     }
 
