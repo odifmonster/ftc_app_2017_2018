@@ -37,9 +37,9 @@ public class GlyphArmLibrary {
         rightTop = hardwareMap.get(Servo.class, "right_top");
         rightBottom = hardwareMap.get(Servo.class, "right_bottom");
 
-        closedBottomPosition = new double[] {0.64, 0.33};
-        closedTopPosition = new double[] {0.86, 0.4};
-        openBottomPosition = new double[] {0.9, 0.1};
+        closedBottomPosition = new double[] {1, 0};
+        closedTopPosition = new double[] {1, 0};
+        openBottomPosition = new double[] {0, 1};
         openTopPosition = new double[] {0, 1};
         servos = new Servo[] {leftTop, leftBottom, rightTop, rightBottom};
         increment = 0.002;
