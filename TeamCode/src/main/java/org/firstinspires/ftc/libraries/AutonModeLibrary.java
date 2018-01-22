@@ -14,6 +14,7 @@ import org.firstinspires.ftc.enums.FTCAlliance;
 import org.firstinspires.ftc.enums.FTCPosition;
 import org.firstinspires.ftc.libraries.DrivingLibrary;
 import org.firstinspires.ftc.libraries.VuMarkIdentifyLibrary;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 /**
@@ -228,7 +229,17 @@ public class AutonModeLibrary {
 
         //use vuforia to identify
         RelicRecoveryVuMark vuMark = vuMarkIdentify.identifyPictograph(opMode);
-
+        int count = 0;
+        if (vuMark == RelicRecoveryVuMark.RIGHT) {
+            count = 1;
+        } else if (vuMark == RelicRecoveryVuMark.CENTER) {
+            count = 2;
+        }
+        else if (vuMark == RelicRecoveryVuMark.LEFT) {
+            count = 3;
+        } else {
+            count = 2;
+        }
         //disable vuforia
         //??>
 
@@ -236,7 +247,16 @@ public class AutonModeLibrary {
         //DEPENDINGg on WHICH dir/etc
         drivingLibrary.driveStraight(.2f,0);
         opMode.sleep(1000);
-        //need CASE statement!!
+        while (count != 0) {
+            double dist = distanceSensor.getDistance(DistanceUnit.CM);
+            if (dist < 10) {
+                count--;
+                //to get out of way of dist sensor
+                opMode.sleep(500);
+            }
+            opMode.telemetry.addData("Distance", dist);
+            opMode.telemetry.update();
+        }
         drivingLibrary.stopDrivingMotors();
 
         //put glyph in
