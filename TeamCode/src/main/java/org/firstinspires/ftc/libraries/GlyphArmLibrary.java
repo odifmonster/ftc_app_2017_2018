@@ -3,9 +3,12 @@ package org.firstinspires.ftc.libraries;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.enums.Direction;
 
 /**
  * Created by lamanwyner on 1/11/18.
@@ -36,7 +39,7 @@ public class GlyphArmLibrary {
 
         closedBottomPosition = new double[] {0.64, 0.33};
         closedTopPosition = new double[] {0.86, 0.4};
-        openBottomPosition = new double[] {0.1, 0.9};
+        openBottomPosition = new double[] {0.9, 0.1};
         openTopPosition = new double[] {0, 1};
         servos = new Servo[] {leftTop, leftBottom, rightTop, rightBottom};
         increment = 0.002;
@@ -137,7 +140,7 @@ public class GlyphArmLibrary {
         }
     }
 
-    public void movePulleyAuton(boolean direction) {
+    public void movePulley(boolean direction) {
         if (direction) {
             pulley.setPower(pulleySpeed);
             opMode.sleep(500);
@@ -147,5 +150,25 @@ public class GlyphArmLibrary {
             opMode.sleep(500);
             pulley.setPower(0);
         }
+    }
+
+    public void movePulley(int clicks, Direction direction) {
+        pulley.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        pulley.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        if (direction == Direction.FORWARD) {
+            pulley.setDirection(DcMotorSimple.Direction.FORWARD);
+        } else {
+            pulley.setDirection(DcMotorSimple.Direction.REVERSE);
+        }
+
+        pulley.setTargetPosition(clicks);
+        pulley.setPower(pulleySpeed);
+
+        while (pulley.getCurrentPosition() < clicks) {
+            // continue
+        }
+
+        pulley.setPower(0);
     }
 }

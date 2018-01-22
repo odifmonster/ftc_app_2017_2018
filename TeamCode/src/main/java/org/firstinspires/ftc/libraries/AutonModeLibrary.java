@@ -218,7 +218,7 @@ public class AutonModeLibrary {
         //pick up glyph
         glyphArm.closeArmsPreset(true);
         opMode.sleep(500);
-        glyphArm.movePulleyAuton(true);
+        glyphArm.movePulley(true);
 
         //based on dist!
         //drive forward and turn to face camera (90 deg TURN preset maybe??)
@@ -266,7 +266,7 @@ public class AutonModeLibrary {
         drivingLibrary.driveStraight(0,.5f);
         opMode.sleep(300);
         drivingLibrary.stopDrivingMotors();
-        glyphArm.movePulleyAuton(false);
+        glyphArm.movePulley(false);
         glyphArm.openArmsPreset(.6f);
         opMode.sleep(300);
 
