@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.opencv.core.Mat;
+
 public class DrivingLibrary {
     // hardware variables
     private DcMotor leftFront;
@@ -35,7 +37,12 @@ public class DrivingLibrary {
     }
 
     public void driveStraight(float x, float y) {
-        double multiplier = Math.sqrt(2.0) / 2.0;
+        float maxSpeed = Math.max(y + x, y - x);
+        double multiplier = 1;
+
+        if (maxSpeed > 1) {
+            multiplier = 1 / maxSpeed;
+        }
 
         leftFront.setPower(multiplier * speedSetting * (y + x));
         rightFront.setPower(multiplier * speedSetting * (y - x));
@@ -44,10 +51,17 @@ public class DrivingLibrary {
     }
 
     public void turn(float x, float y) {
-        leftFront.setPower((y + x) * speedSetting);
-        leftRear.setPower((y + x) * speedSetting);
-        rightFront.setPower((y - x) * speedSetting);
-        rightRear.setPower((y - x) * speedSetting);
+        float maxSpeed = Math.max(y + x, y - x);
+        double multiplier = 1;
+
+        if (maxSpeed > 1) {
+            multiplier = 1 / maxSpeed;
+        }
+
+        leftFront.setPower((y + x) * speedSetting * multiplier);
+        leftRear.setPower((y + x) * speedSetting * multiplier);
+        rightFront.setPower((y - x) * speedSetting * multiplier);
+        rightRear.setPower((y - x) * speedSetting * multiplier);
     }
 
     public void setSpeed(double speed) {
