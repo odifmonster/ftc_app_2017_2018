@@ -136,13 +136,13 @@ public class SensorOutputMode extends LinearOpMode {
                 });
 
                 telemetry.addLine()
-                    .addData("Heading", new Func<String>() {
+                    .addData("Yaw", new Func<String>() {
                         @Override
                         public String value() {
                             return formatAngle(angles.angleUnit, angles.firstAngle);
                         }
                     })
-                    .addData("Roll", new Func<String>() {
+                    .addData("Pitch", new Func<String>() {
                         @Override
                         public String value() {
                             return formatAngle(angles.angleUnit, angles.secondAngle);
@@ -151,7 +151,7 @@ public class SensorOutputMode extends LinearOpMode {
                     .addData("Roll", new Func<String>() {
                         @Override
                         public String value() {
-                            return formatAngle(angles.angleUnit, angles.secondAngle);
+                            return formatAngle(angles.angleUnit, angles.thirdAngle);
                         }
                     })
                 ;
