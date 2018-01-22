@@ -36,6 +36,7 @@ public class TeleOpMode extends LinearOpMode {
             glyphArmLibrary.openArmsPreset(gamepad2.left_trigger);
             glyphArmLibrary.closeArmsIncrement(gamepad2.right_bumper);
             glyphArmLibrary.openArmsIncrement(gamepad2.right_trigger);
+            glyphArmLibrary.movePulley(gamepad2);
 
             telemetry.addData("Status", "Running");
             telemetry.update();
