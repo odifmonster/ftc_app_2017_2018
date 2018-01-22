@@ -98,7 +98,7 @@ public class DrivingLibrary {
         }
 
         while (currentYaw - subtractYaw < targetYaw) {
-            turn(1, 0);
+            turn(0.2f, 0);
             currentYaw = imu.getAngularOrientation(AxesReference.INTRINSIC,
                     AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
         }
@@ -118,7 +118,7 @@ public class DrivingLibrary {
         }
 
         while (currentYaw + addYaw > targetYaw) {
-            turn(-1, 0);
+            turn(-0.2f, 0);
             currentYaw = imu.getAngularOrientation(AxesReference.INTRINSIC,
                     AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
         }
