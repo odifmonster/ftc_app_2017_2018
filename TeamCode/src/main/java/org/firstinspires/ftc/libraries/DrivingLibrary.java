@@ -4,10 +4,17 @@ package org.firstinspires.ftc.libraries;
  * Created by lamanwyner on 12/29/17.
  */
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.opencv.core.Mat;
 
 public class DrivingLibrary {
@@ -18,6 +25,11 @@ public class DrivingLibrary {
     private DcMotor rightRear;
     private DcMotor[] allMotors;
     private HardwareMap hardwareMap;
+
+    // sensor variables
+    private BNO055IMU imu;
+    private Orientation angles;
+    private Acceleration gravity;
 
     // other variables
     private double speedSetting;
@@ -32,6 +44,16 @@ public class DrivingLibrary {
 
         rightRear.setDirection(DcMotor.Direction.REVERSE);
         rightFront.setDirection(DcMotor.Direction.REVERSE);
+
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json";
+        parameters.loggingEnabled      = true;
+        parameters.loggingTag          = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+        imu.initialize(parameters);
 
         allMotors = new DcMotor[] {leftFront, rightFront, leftRear, rightRear};
     }
@@ -62,6 +84,46 @@ public class DrivingLibrary {
         leftRear.setPower((y + x) * speedSetting * multiplier);
         rightFront.setPower((y - x) * speedSetting * multiplier);
         rightRear.setPower((y - x) * speedSetting * multiplier);
+    }
+
+    public void turnRight(double radians) {
+        double currentYaw = imu.getAngularOrientation(AxesReference.INTRINSIC,
+                AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
+        double targetYaw = currentYaw + radians;
+        double subtractYaw = 0;
+
+        if (targetYaw > 2 * Math.PI) {
+            targetYaw -= (2 * Math.PI);
+            subtractYaw = 2 * Math.PI;
+        }
+
+        while (currentYaw - subtractYaw < targetYaw) {
+            turn(0.2f, 0);
+            currentYaw = imu.getAngularOrientation(AxesReference.INTRINSIC,
+                    AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
+        }
+
+        stopDrivingMotors();
+    }
+
+    public void turnLeft(double radians) {
+        double currentYaw = imu.getAngularOrientation(AxesReference.INTRINSIC,
+                AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
+        double targetYaw = currentYaw - radians;
+        double addYaw = 0;
+
+        if (targetYaw < 0) {
+            targetYaw += (2 * Math.PI);
+            addYaw = 2 * Math.PI;
+        }
+
+        while (currentYaw + addYaw > targetYaw) {
+            turn(-0.2f, 0);
+            currentYaw = imu.getAngularOrientation(AxesReference.INTRINSIC,
+                    AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
+        }
+
+        stopDrivingMotors();
     }
 
     public void setSpeed(double speed) {

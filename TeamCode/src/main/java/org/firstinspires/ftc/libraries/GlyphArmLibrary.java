@@ -39,7 +39,7 @@ public class GlyphArmLibrary {
 
         closedBottomPosition = new double[] {1, 0};
         closedTopPosition = new double[] {1, 0};
-        openBottomPosition = new double[] {0, 1};
+        openBottomPosition = new double[] {0.1, 0.9};
         openTopPosition = new double[] {0, 1};
         servos = new Servo[] {leftTop, leftBottom, rightTop, rightBottom};
         increment = 0.002;
