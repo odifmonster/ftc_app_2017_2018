@@ -222,18 +222,21 @@ public class AutonModeLibrary {
 
         //based on dist!
         //drive forward and turn to face camera (90 deg TURN preset maybe??)
-        drivingLibrary.driveStraight(0,.2f);
-        opMode.sleep(2500);
-        drivingLibrary.turn(.2f,.2f);
-        opMode.sleep(2500);
-        drivingLibrary.driveStraight(-.2f,0);
-        opMode.sleep(1400);
+        drivingLibrary.driveStraight(0,.5f);
+        opMode.sleep(800);
+        drivingLibrary.driveStraight(-.5f,0);
+        opMode.sleep(500);
+        drivingLibrary.turn(.5f,0);
+        opMode.sleep(700);
+        drivingLibrary.driveStraight (.5f,0);
+        opMode.sleep(600);
+        drivingLibrary.turn(.5f,0);
+        opMode.sleep(200);
         drivingLibrary.stopDrivingMotors();
 
-
-        /*
         //use vuforia to identify
         RelicRecoveryVuMark vuMark = vuMarkIdentify.identifyPictograph(opMode);
+        opMode.sleep(500);
         int count = 0;
         if (vuMark == RelicRecoveryVuMark.RIGHT) {
             count = 1;
@@ -243,12 +246,13 @@ public class AutonModeLibrary {
         else if (vuMark == RelicRecoveryVuMark.LEFT) {
             count = 3;
         } else {
-            count = 2;
-            count = 2;
+            count = 0                                                                              ;
         }
+        opMode.telemetry.addData("count", count);
         //disable vuforia
         //??>
 
+        /*
         //STRAFE sideways; use DogeCV to identify cryptoboxes
         //DEPENDINGg on WHICH dir/etc
         drivingLibrary.driveStraight(.2f,0);
