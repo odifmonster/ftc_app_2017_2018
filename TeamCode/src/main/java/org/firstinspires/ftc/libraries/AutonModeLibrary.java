@@ -5,6 +5,7 @@ import android.graphics.Color;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.vuforia.VuMarkTarget;
@@ -23,6 +24,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 public class AutonModeLibrary {
     LinearOpMode opMode;
+    Gamepad autonGamePad;
 
     DrivingLibrary drivingLibrary;
     VuMarkIdentifyLibrary vuMarkIdentify;
@@ -38,6 +40,7 @@ public class AutonModeLibrary {
     boolean[][] cryptobox;
 
     public AutonModeLibrary(LinearOpMode opMode, FTCAlliance alliance, FTCPosition position) {
+        autonGamePad = new Gamepad();
         this.alliance = alliance;
         this.position = position;
         drivingLibrary = new DrivingLibrary(opMode);
