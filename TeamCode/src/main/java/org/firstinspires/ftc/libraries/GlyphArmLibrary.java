@@ -22,7 +22,6 @@ public class GlyphArmLibrary {
 
     private double[] closedBottomPosition, closedTopPosition, openBottomPosition,
         openTopPosition;
-    private double[] maxClosed, maxOpen;
     private Servo[] servos;
     private double increment;
 
