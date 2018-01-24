@@ -51,7 +51,7 @@ public class AutonModeLibrary {
         this.cryptobox = new boolean[3][4];
     }
 
-    //updated code
+    //UPDATE this code
     public Direction knockOffJewel() {
         // hsvValues is an array that will hold the hue, saturation, and value information.
         float hsvValues[] = {0F, 0F, 0F};
@@ -125,7 +125,7 @@ public class AutonModeLibrary {
         return Direction.FORWARD;
     }
 
-    //EDIT this
+    //UPDATE this code
     public void driveToSafeZone(Direction dir) {
         opMode.sleep(500);
         if (position == FTCPosition.LEFT) {
@@ -211,16 +211,32 @@ public class AutonModeLibrary {
 
     public void pickUpGlyph() {
         //pick up
+        glyphArm.closeArmsPreset(true);
+        opMode.sleep(500);
+        glyphArm.movePulley(true);
+    }
+
+    public void dropGlyph() {
+        //put down
+        glyphArm.movePulley(false);
+        opMode.sleep(500);
+        glyphArm.openArmsPreset(.6f);
+
+    }
+
+    public void testDistSensor(int count) {
+        //strafe slowly
+        drivingLibrary.driveStraight (.2f,0);
+        double dist = distanceSensor.getDistance(DistanceUnit.CM);
+        opMode.telemetry.addData("Sensing", dist != java.lang.Double.NaN);
+        opMode.telemetry.addData("Dist", dist);
+        opMode.telemetry.update();
     }
 
     public boolean identifyAndPlace(Direction direction) {
         // use alliance and position in OP mode
-        //pick up glyph
-        glyphArm.closeArmsPreset(true);
-        opMode.sleep(500);
-        glyphArm.movePulley(true);
-
         //based on dist!
+        //IF backwards DIR- then go x.
         //drive forward and turn to face camera (90 deg TURN preset maybe??)
         drivingLibrary.driveStraight(0,.5f);
         opMode.sleep(800);
@@ -237,7 +253,9 @@ public class AutonModeLibrary {
         //use vuforia to identify
         RelicRecoveryVuMark vuMark = vuMarkIdentify.identifyPictograph(opMode);
         opMode.sleep(500);
-        int count = 0;
+
+        /*
+        int count;
         if (vuMark == RelicRecoveryVuMark.RIGHT) {
             count = 1;
         } else if (vuMark == RelicRecoveryVuMark.CENTER) {
@@ -249,30 +267,32 @@ public class AutonModeLibrary {
             count = 0                                                                              ;
         }
         opMode.telemetry.addData("count", count);
+        double distThreshold = distanceSensor.getDistance(DistanceUnit.CM);
+
         //disable vuforia
         //??>
-
-        /*
-        //STRAFE sideways; use DogeCV to identify cryptoboxes
+        //USE distance threshold (detect how far away from wall) and then strafe
         //DEPENDINGg on WHICH dir/etc
+        //STRAFE sideways;
         drivingLibrary.driveStraight(.2f,0);
         opMode.sleep(1000);
         while (count != 0) {
             double dist = distanceSensor.getDistance(DistanceUnit.CM);
-            if (dist < 10) {
+            //or just use 10
+            //margin of error of 3 cm
+            if (dist < (distThreshold + 3))) {
             }
             opMode.telemetry.addData("Distance", dist);
             opMode.telemetry.update();
         }
         drivingLibrary.stopDrivingMotors();
+        opMode.sleep(300);
 
         //put glyph in
         drivingLibrary.driveStraight(0,.5f);
+        dropGlyph();
         opMode.sleep(300);
         drivingLibrary.stopDrivingMotors();
-        glyphArm.movePulley(false);
-        glyphArm.openArmsPreset(.6f);
-        opMode.sleep(300);
 
         //turns around 180 to face glyph pit
         drivingLibrary.turn(.5f,.5f);
@@ -281,6 +301,7 @@ public class AutonModeLibrary {
         return true;
     }
 
+    //LAMAN this is YOU
     public void driveGetGlyphPlace() {
         /*
         cryptobox looks like
