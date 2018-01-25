@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.enums.DrivingMode;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -33,6 +34,7 @@ public class DrivingLibrary {
 
     // other variables
     private double speedSetting;
+    private DrivingMode drivingMode;
 
     public DrivingLibrary(OpMode opMode) {
         hardwareMap = opMode.hardwareMap;
@@ -130,7 +132,42 @@ public class DrivingLibrary {
         speedSetting = speed;
     }
 
-    public void setAllMotors(double speed) {
+    public void setMode(int i) {
+        DrivingMode[] values = DrivingMode.values();
+        drivingMode = values[i];
+
+        switch (drivingMode) {
+            case FLOAT_STOP:
+                for (DcMotor motor : allMotors) {
+                    motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                }
+                break;
+            case BRAKE_STOP:
+                for (DcMotor motor : allMotors) {
+                    motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                }
+                break;
+        }
+    }
+
+    public void setMode(DrivingMode d) {
+        drivingMode = d;
+
+        switch (drivingMode) {
+            case FLOAT_STOP:
+                for (DcMotor motor : allMotors) {
+                    motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                }
+                break;
+            case BRAKE_STOP:
+                for (DcMotor motor : allMotors) {
+                    motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                }
+                break;
+        }
+    }
+
+    public void setMotorSpeed(double speed) {
         for (DcMotor motor : allMotors) {
             motor.setPower(speed);
         }
@@ -142,7 +179,21 @@ public class DrivingLibrary {
         }
     }
 
-    public void resetEncoders() {
+    public void floatStop() {
+        for (DcMotor motor : allMotors) {
+            motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            motor.setPower(0);
+        }
+    }
+
+    public void brakeStop() {
+        for (DcMotor motor : allMotors) {
+            motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            motor.setPower(0);
+        }
+    }
+
+    private void resetEncoders() {
         for (DcMotor motor : allMotors) {
             if (motor != null) motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         }
