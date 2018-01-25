@@ -227,9 +227,9 @@ public class AutonModeLibrary {
 
     }
 
-    public void testDistSensor(int count) {
+    public void testPLEASEWORK(int count) {
         //strafe slowly
-        drivingLibrary.driveStraight (.2f,0);
+        drivingLibrary.driveStraight (-.4f,0);
         double dist = distanceSensor.getDistance(DistanceUnit.CM);
         opMode.telemetry.addData("Sensing", dist != java.lang.Double.NaN);
         opMode.telemetry.addData("Dist", dist);
@@ -251,7 +251,7 @@ public class AutonModeLibrary {
         opMode.sleep(600);
         drivingLibrary.turn(.5f,0);
         opMode.sleep(200);
-        drivingLibrary.stopDrivingMotors();
+        drivingLibrary.brakeStop();
 
         //use vuforia to identify
         RelicRecoveryVuMark vuMark = vuMarkIdentify.identifyPictograph(opMode);
@@ -288,19 +288,19 @@ public class AutonModeLibrary {
             opMode.telemetry.addData("Distance", dist);
             opMode.telemetry.update();
         }
-        drivingLibrary.stopDrivingMotors();
+        drivingLibrary.brakeStop();
         opMode.sleep(300);
 
         //put glyph in
         drivingLibrary.driveStraight(0,.5f);
         dropGlyph();
         opMode.sleep(300);
-        drivingLibrary.stopDrivingMotors();
+        drivingLibrary.brakeStop();
 
         //turns around 180 to face glyph pit
         drivingLibrary.turn(.5f,.5f);
         opMode.sleep(1000);
-        drivingLibrary.stopDrivingMotors();*/
+        drivingLibrary.brakeStop();*/
         return true;
     }
 
