@@ -105,7 +105,7 @@ public class DrivingLibrary {
                     AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
         }
 
-        stopDrivingMotors();
+        brakeStop();
     }
 
     public void turnLeft(double radians) {
@@ -125,7 +125,7 @@ public class DrivingLibrary {
                     AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
         }
 
-        stopDrivingMotors();
+        brakeStop();
     }
 
     public void setSpeed(double speed) {
@@ -165,6 +165,10 @@ public class DrivingLibrary {
                 }
                 break;
         }
+    }
+
+    public String getMode() {
+        return drivingMode.getStringValue();
     }
 
     public void setMotorSpeed(double speed) {
