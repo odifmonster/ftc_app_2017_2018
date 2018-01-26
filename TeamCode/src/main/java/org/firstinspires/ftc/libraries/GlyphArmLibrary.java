@@ -41,7 +41,7 @@ public class GlyphArmLibrary {
         openBottomPosition = new double[] {0.1, 0.9};
         openTopPosition = new double[] {0, 1};
         servos = new Servo[] {leftTop, leftBottom, rightTop, rightBottom};
-        increment = 0.002;
+        increment = 0.02;
 
         pulleySpeed = 0.5;
     }

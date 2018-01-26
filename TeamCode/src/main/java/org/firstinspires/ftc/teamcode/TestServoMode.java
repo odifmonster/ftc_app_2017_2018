@@ -12,7 +12,7 @@ import org.firstinspires.ftc.libraries.GlyphArmLibrary;
 
 @TeleOp
 @Disabled
-public class ServoTestMode extends LinearOpMode {
+public class TestServoMode extends LinearOpMode {
     GlyphArmLibrary glyphArmLibrary;
 
     public void runOpMode() {
