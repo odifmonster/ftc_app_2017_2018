@@ -15,22 +15,30 @@ public class TestRelicClaw extends LinearOpMode {
 
 
     public void runOpMode() throws InterruptedException {
+        extendServo = hardwareMap.get(Servo.class, "extendServo");
+        liftServo = hardwareMap.get(Servo.class, "liftServo");
+        clawServo = hardwareMap.get(Servo.class, "clawServo");
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+        double x = 0;
 
         waitForStart();
 
         while (opModeIsActive()) {
             if (gamepad2.right_stick_x > 0) {
-                extendServo.setPosition(extendServo.getPosition() + .2);
+                extendServo.setPosition(x + .02);
+                x += .02;
             } if (gamepad2.right_stick_x < 0) {
-                extendServo.setPosition(extendServo.getPosition() - .2);
+                extendServo.setPosition(x - .02);
+                x -= .02;
             }
 
             if (gamepad2.right_stick_y > 0) {
-                liftServo.setPosition(liftServo.getPosition() + .2);
+                liftServo.setPosition(x + .02);
+                x += .02;
             } if (gamepad2.right_stick_y < 0) {
-                liftServo.setPosition(liftServo.getPosition() - .2);
+                liftServo.setPosition(x - .02);
+                x -= .02;
             }
 
             if (gamepad2.a) {
