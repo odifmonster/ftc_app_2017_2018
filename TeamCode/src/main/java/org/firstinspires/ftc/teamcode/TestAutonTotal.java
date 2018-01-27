@@ -27,7 +27,7 @@ public class TestAutonTotal extends LinearOpMode {
         telemetry.update();
         waitForStart();
         Direction direction = Direction.BACKWARD;
-        int state = 0;
+        int state = 5;
 
         while (opModeIsActive()) {
             //knock off jewel: 2 sec/1 sec
@@ -59,8 +59,8 @@ public class TestAutonTotal extends LinearOpMode {
                     state++;
                     break;
                 case 5:
-                    drivingLibrary.turnRight(Math.PI / 2);
-                    drivingLibrary.turnLeft(Math.PI / 2);
+                    drivingLibrary.turnRight(Math.PI / 4);
+                    drivingLibrary.turnLeft(Math.PI / 4);
                 default:
                     sleep(30000);
                     break;

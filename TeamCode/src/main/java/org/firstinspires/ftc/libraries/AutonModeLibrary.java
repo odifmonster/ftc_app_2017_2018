@@ -214,7 +214,7 @@ public class AutonModeLibrary {
 
     public void pickUpGlyph() {
         //pick up
-        glyphArm.closeArmsPreset(true);
+        glyphArm.allArmsPreset(true, 0);
         opMode.sleep(500);
         glyphArm.movePulley(true);
     }
@@ -223,7 +223,7 @@ public class AutonModeLibrary {
         //put down
         glyphArm.movePulley(false);
         opMode.sleep(500);
-        glyphArm.openArmsPreset(.6f);
+        glyphArm.allArmsPreset(false, .6f);
 
     }
 
