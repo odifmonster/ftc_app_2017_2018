@@ -35,8 +35,10 @@ public class DrivingLibrary {
     // other variables
     private double speedSetting;
     private DrivingMode drivingMode;
+    private OpMode opMode;
 
     public DrivingLibrary(OpMode opMode) {
+        this.opMode = opMode;
         hardwareMap = opMode.hardwareMap;
 
         leftFront = hardwareMap.get(DcMotor.class, "left_front");
@@ -103,6 +105,10 @@ public class DrivingLibrary {
             turn(0.2f, 0);
             currentYaw = imu.getAngularOrientation(AxesReference.INTRINSIC,
                     AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
+            opMode.telemetry.addData("Direction", "Right");
+            opMode.telemetry.addData("Current Angle", currentYaw);
+            opMode.telemetry.addData("Target Angle", targetYaw);
+            opMode.telemetry.update();
         }
 
         brakeStop();
@@ -123,6 +129,10 @@ public class DrivingLibrary {
             turn(-0.2f, 0);
             currentYaw = imu.getAngularOrientation(AxesReference.INTRINSIC,
                     AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
+            opMode.telemetry.addData("Direction", "Left");
+            opMode.telemetry.addData("Current Angle", currentYaw);
+            opMode.telemetry.addData("Target Angle", targetYaw);
+            opMode.telemetry.update();
         }
 
         brakeStop();
