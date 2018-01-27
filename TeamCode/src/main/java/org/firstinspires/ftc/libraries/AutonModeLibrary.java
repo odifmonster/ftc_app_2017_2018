@@ -2,6 +2,8 @@ package org.firstinspires.ftc.libraries;
 
 import android.graphics.Color;
 
+import com.disnodeteam.dogecv.CameraViewDisplay;
+import com.disnodeteam.dogecv.detectors.GlyphDetector;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -37,6 +39,8 @@ public class AutonModeLibrary {
     ColorSensor colorSensor;
     DistanceSensor distanceSensor;
 
+    private GlyphDetector glyphDetector;
+
     boolean[][] cryptobox;
 
     public AutonModeLibrary(LinearOpMode opMode, FTCAlliance alliance, FTCPosition position) {
@@ -52,6 +56,10 @@ public class AutonModeLibrary {
         this.opMode = opMode;
         this.vuMarkIdentify = new VuMarkIdentifyLibrary(opMode);
         this.cryptobox = new boolean[3][4];
+
+        glyphDetector = new GlyphDetector();
+        glyphDetector.init(opMode.hardwareMap.appContext, CameraViewDisplay.getInstance());
+        glyphDetector.enable();
     }
 
     //UPDATE this code
@@ -227,6 +235,7 @@ public class AutonModeLibrary {
 
     }
 
+    //fix
     public void senseCryotobox(int count) {
         //strafe slowly
         drivingLibrary.driveStraight (-.4f,0);
@@ -236,8 +245,10 @@ public class AutonModeLibrary {
         opMode.telemetry.update();
     }
 
-    public boolean identifyAndPlace(Direction direction) {
-        // use alliance and position in OP mode
+    //this needs so much fixing
+    public void glyptograph(Direction direction) {
+        //***CHECKS DIRECTION***
+
         //based on dist!
         //IF backwards DIR- then go x.
         //drive forward and turn to face camera (90 deg TURN preset maybe??)
@@ -272,11 +283,6 @@ public class AutonModeLibrary {
         opMode.telemetry.addData("count", count);
         double distThreshold = distanceSensor.getDistance(DistanceUnit.CM);
 
-        //disable vuforia
-        //??>
-        //USE distance threshold (detect how far away from wall) and then strafe
-        //DEPENDINGg on WHICH dir/etc
-        //STRAFE sideways;
         drivingLibrary.driveStraight(.2f,0);
         opMode.sleep(1000);
         while (count != 0) {
@@ -300,12 +306,14 @@ public class AutonModeLibrary {
         //turns around 180 to face glyph pit
         drivingLibrary.turn(.5f,.5f);
         opMode.sleep(1000);
-        drivingLibrary.brakeStop();*/
-        return true;
+        drivingLibrary.brakeStop();
+
+        EDIT cryptobox array
+        */
     }
 
     //LAMAN this is YOU
-    public void driveGetGlyphPlace() {
+    public void getGlyphs() {
         /*
         cryptobox looks like
         |   |   |   | (row 3) --> Accessed: [x][3]
@@ -316,10 +324,12 @@ public class AutonModeLibrary {
         //use dogecv
         //identify nearest glyph (and color?)
         //picks up glyph
-        //checks color/pressure
-        //checks pattern/avaliable spaces
-        //uses touch?
-
+        //strafe until offset is zero OR within a given padding
+        double offset = glyphDetector.getChosenGlyphOffset();
+        while (offset != 0) {
+            offset = glyphDetector.getChosenGlyphOffset();
+            opMode.telemetry.addData("offset", offset);
+            opMode.telemetry.update();
+        }
     }
-
 }

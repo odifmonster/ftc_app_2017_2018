@@ -26,45 +26,27 @@ public class TestAutonTotal extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         waitForStart();
-        Direction direction = Direction.BACKWARD;
-        int state = 0;
+        Direction direction;
 
         while (opModeIsActive()) {
             //knock off jewel: 2 sec/1 sec
-            switch (state) {
-                case 0:
-                    direction = autonMode.knockOffJewel();
-                    state++;
-                    break;
-                case 1:
-                    //pick up glyph: 1 sec
-                    autonMode.pickUpGlyph();
-                    state++;
-                    break;
-                case 2:
-                    //place glyph: 10 sec
-                    if (autonMode.identifyAndPlace(direction)) {
-                        state++;
-                    }
-                    break;
-                case 3:
-                    //get more glyphs: 15 (7.5 and 7.5)
-                    autonMode.driveGetGlyphPlace();
-                    //CHECK if they've done it twice, etc.
-                    state++;
-                    break;
-                case 4:
-                    //drive to safe zone: 2 sec **NEEDS FIXING**
-                    autonMode.driveToSafeZone(direction);
-                    state++;
-                    break;
-                case 5:
-                    drivingLibrary.turnRight(Math.PI / 2);
-                    drivingLibrary.turnLeft(Math.PI / 2);
-                default:
-                    sleep(30000);
-                    break;
-            }
+            direction = autonMode.knockOffJewel();
+
+            //pick up the glyph currently in the arms
+            autonMode.pickUpGlyph();
+
+            //glyptograph
+            autonMode.glyptograph(direction);
+
+            //extra glyphs
+            autonMode.getGlyphs();
+
+            //drive to safe zone: 2 sec **NEEDS FIXING**
+            autonMode.driveToSafeZone(direction);
+            /*drivingLibrary.turnRight(Math.PI / 2);
+            drivingLibrary.turnLeft(Math.PI / 2);*/
+
+            sleep(30000);
         }
     }
 }

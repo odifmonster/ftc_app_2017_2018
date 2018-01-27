@@ -9,10 +9,11 @@ import org.firstinspires.ftc.enums.FTCPosition;
 import org.firstinspires.ftc.libraries.AutonModeLibrary;
 
 /**
- * Created by megankaye on 1/10/18.
+ * Created by megankaye on 1/27/18.
  */
+
 @Autonomous
-public class TestIdentifyPictograph extends LinearOpMode {
+public class TestGetGlyphs extends LinearOpMode {
     AutonModeLibrary autonMode;
 
     public void runOpMode() throws InterruptedException {
@@ -20,16 +21,12 @@ public class TestIdentifyPictograph extends LinearOpMode {
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+
         waitForStart();
-        boolean done = false;
 
         while (opModeIsActive()) {
-            if (!done) {
-                autonMode.pickUpGlyph();
-                autonMode.glyptograph(Direction.BACKWARD);
-                done = true;
-            }
-            telemetry.update();
+            autonMode.getGlyphs();
         }
     }
+
 }
