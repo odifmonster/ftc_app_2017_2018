@@ -227,7 +227,7 @@ public class AutonModeLibrary {
 
     }
 
-    public void testPLEASEWORK(int count) {
+    public void senseCryotobox(int count) {
         //strafe slowly
         drivingLibrary.driveStraight (-.4f,0);
         double dist = distanceSensor.getDistance(DistanceUnit.CM);
@@ -254,7 +254,7 @@ public class AutonModeLibrary {
         drivingLibrary.brakeStop();
 
         //use vuforia to identify
-        RelicRecoveryVuMark vuMark = vuMarkIdentify.identifyPictograph(opMode);
+        RelicRecoveryVuMark vuMark = identifyPictograph();
         opMode.sleep(500);
 
         /*

@@ -23,7 +23,7 @@ public class TestDistSensor extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            autonMode.testPLEASEWORK(2);
+            autonMode.senseCryotobox(2);
         }
     }
 }
