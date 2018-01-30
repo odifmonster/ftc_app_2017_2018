@@ -11,7 +11,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 public class RelicArmLibrary {
     OpMode opMode;
-    DcMotor extendArm;
+    DcMotor extendArmL;
+    DcMotor extendArmR;
     Servo liftArm;
     Servo clawArm;
 
@@ -21,21 +22,25 @@ public class RelicArmLibrary {
 
     public RelicArmLibrary(LinearOpMode opMode) {
         this.opMode = opMode;
-        extendArm = opMode.hardwareMap.get(DcMotor.class,"extendArm");
+        extendArmL = opMode.hardwareMap.get(DcMotor.class,"extendArmL");
+        extendArmR = opMode.hardwareMap.get(DcMotor.class,"extendArmR");
         liftArm = opMode.hardwareMap.get(Servo.class, "liftArm");
         clawArm = opMode.hardwareMap.get(Servo.class, "clawArm");
     }
 
     public void extendArm(boolean direction) {
         if (direction) {
-            extendArm.setPower(.3);
+            extendArmL.setPower(.3);
+            extendArmR.setPower(-.3);
         } else {
-            extendArm.setPower(-.3);
+            extendArmL.setPower(-.3);
+            extendArmR.setPower(.3);
         }
     }
 
     public void stopArm() {
-        extendArm.setPower(0);
+        extendArmL.setPower(0);
+        extendArmR.setPower(0);
     }
 
     public void activateLift() {
@@ -58,7 +63,8 @@ public class RelicArmLibrary {
     }
 
     public void outputInfo() {
-        opMode.telemetry.addData("extend", extendArm.getPower());
+        opMode.telemetry.addData("extendL", extendArmL.getPower());
+        opMode.telemetry.addData("extendR", extendArmR.getPower());
         opMode.telemetry.addData("lift", liftArm.getPosition());
         opMode.telemetry.addData("claw", clawArm.getPosition());
         opMode.telemetry.update();
