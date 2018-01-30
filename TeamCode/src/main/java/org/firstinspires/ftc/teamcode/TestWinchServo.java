@@ -12,8 +12,8 @@ public class TestWinchServo extends LinearOpMode {
     Servo wServo;
 
     public void runOpMode() throws InterruptedException {
-        wServo.getController().pwmDisable();
         wServo = hardwareMap.get(Servo.class, "wServo");
+        wServo.getController().pwmDisable();
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         double x = 0;
@@ -23,21 +23,18 @@ public class TestWinchServo extends LinearOpMode {
         while (opModeIsActive()) {
             if (gamepad2.right_stick_x > 0) {
                 wServo.setPosition(1);
-                wServo.getController().pwmDisable();
+               // wServo.getController().pwmDisable();
                 telemetry.addData("set pos?", "done");
                 telemetry.update();
-                sleep(3000);
             }
             else if (gamepad2.right_stick_x < 0) {
                 wServo.setPosition(0);
-                wServo.getController().pwmDisable();
+               // wServo.getController().pwmDisable();
                 telemetry.addData("set pos?", "-done");
                 telemetry.update();
-                sleep(3000);
             } else {
                 wServo.setPosition(.5);
-                wServo.getController().pwmDisable();
-                sleep(3000);
+                //wServo.getController().pwmDisable();
                 telemetry.addData("stopped?", "hopeflly");
                 telemetry.update();
             }

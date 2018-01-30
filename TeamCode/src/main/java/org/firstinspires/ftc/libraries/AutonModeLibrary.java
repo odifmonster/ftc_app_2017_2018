@@ -15,6 +15,7 @@ import com.vuforia.VuMarkTarget;
 import org.firstinspires.ftc.enums.Direction;
 import org.firstinspires.ftc.enums.FTCAlliance;
 import org.firstinspires.ftc.enums.FTCPosition;
+import org.firstinspires.ftc.enums.JewelColor;
 import org.firstinspires.ftc.libraries.DrivingLibrary;
 import org.firstinspires.ftc.libraries.VuMarkIdentifyLibrary;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -62,180 +63,54 @@ public class AutonModeLibrary {
         glyphDetector.enable();
     }
 
-    //UPDATE this code
-    public Direction knockOffJewel() {
+    //internal methods
+    private JewelColor senseColor() {
+        //threshold variables
+        int redBThreshold = 20;
+        int redTThreshold = 320;
+        int blueBThreshold = 120;
+        int blueTThreshold = 260;
+        int waitSenseColor = 500;
+
         // hsvValues is an array that will hold the hue, saturation, and value information.
         float hsvValues[] = {0F, 0F, 0F};
         final float values[] = hsvValues;
         final double SCALE_FACTOR = 255;
-
-        //MOVE SERVO
-        colorArm.setPosition(0.1);
-        opMode.sleep(2000);
 
         // convert the RGB values to HSV values.
         //SENSE COLOR
         Color.RGBToHSV(colorSensor.red() * 8, colorSensor.green() * 8, colorSensor.blue() * 8, hsvValues);
         float hue = hsvValues[0];
         opMode.telemetry.addData("hue", hue);
+        opMode.sleep(waitSenseColor);
 
-        boolean seeingRedJewel = hue < 20 || hue > 320;
-        boolean seeingBlueJewel = hue > 120 && hue < 260;
+        boolean seeingRedJewel = hue < redBThreshold || hue > redTThreshold;
+        boolean seeingBlueJewel = hue > blueBThreshold && hue < blueTThreshold;
 
-        //DELETE
         if (seeingBlueJewel && !seeingRedJewel) {
             opMode.telemetry.addData("Saw:", "Blue Jewel");
+            opMode.telemetry.update();
+            return JewelColor.RED;
         }
         else if (!seeingBlueJewel && seeingRedJewel) {
             opMode.telemetry.addData("Saw:", "Red Jewel");
+            opMode.telemetry.update();
+            return JewelColor.BLUE;
         }
         else {
             opMode.telemetry.addData("Saw:", "Unknown");
+            opMode.telemetry.update();
+            return JewelColor.UNKNOWN;
         }
-        //DELETE
-        opMode.telemetry.update();
-        /*
-        opMode.sleep(3000);
-        Direction dir;
-        if (alliance == FTCAlliance.RED) {
-            if (seeingBlueJewel) {
-                drivingLibrary.driveStraight(0, -.4f);
-                dir = Direction.BACKWARD;
-            }
-            else if (seeingRedJewel) {
-                drivingLibrary.driveStraight(0, .4f);
-                dir = Direction.FORWARD;
-            }
-            else {
-                colorArm.setPosition(1);
-                opMode.sleep(250);
-                drivingLibrary.driveStraight(0, .4f);
-                dir = Direction.FORWARD;
-            }
-        } else {
-            if (seeingRedJewel) {
-                drivingLibrary.driveStraight(0, .4f);
-                dir = Direction.FORWARD;
-            }
-            else if (seeingBlueJewel){
-                drivingLibrary.driveStraight(0, -.4f);
-                dir = Direction.BACKWARD;
-            }
-            else {
-                colorArm.setPosition(1);
-                opMode.sleep(250);
-                drivingLibrary.driveStraight(0, .4f);
-                dir = Direction.FORWARD;
-            }
-        }
-        opMode.sleep(500);
-        drivingLibrary.stopDrivingMotors();
-        colorArm.setPosition(1);
-        opMode.telemetry.update();
-        return dir*/
-        return Direction.FORWARD;
     }
 
-    //UPDATE this code
-    public void driveToSafeZone(Direction dir) {
-        opMode.sleep(500);
-        if (position == FTCPosition.LEFT) {
-            if (dir == Direction.BACKWARD) {
-                if (alliance == FTCAlliance.RED) {
-                    //if red, on left side, and went backwards
-                    drivingLibrary.driveStraight(0, .6f);
-                    opMode.sleep(2500);
-                    drivingLibrary.driveStraight(1f, 0);
-                    opMode.sleep(250);
-                } else {
-                    //if blue, on left side, and went backwards
-                    drivingLibrary.driveStraight(0, -.4f);
-                    opMode.sleep(500);
-                    drivingLibrary.driveStraight(-1f, 0);
-                    opMode.sleep(1000);
-                    drivingLibrary.driveStraight(0, -.4f);
-                    opMode.sleep(500);
-                }
-            } else {
-                if (alliance == FTCAlliance.RED) {
-                    //if red, on left side, and went forwards
-                    drivingLibrary.driveStraight(0, .4f);
-                    opMode.sleep(750);
-                    drivingLibrary.driveStraight(1f, 0);
-                    opMode.sleep(250);
-                }
-                else {
-                    //if blue, on left side, and went forwards
-                    drivingLibrary.driveStraight(0, -.6f);
-                    opMode.sleep(1250);
-                    drivingLibrary.driveStraight(-1f, 0);
-                    opMode.sleep(1000);
-                    drivingLibrary.driveStraight(0, -.4f);
-                    opMode.sleep(800);
-                }
-            }
-
-        } else {
-            if (dir == Direction.BACKWARD) {
-                if (alliance == FTCAlliance.RED) {
-                    //if red, on right side, and went backwards
-                    drivingLibrary.driveStraight(0, .6f);
-                    opMode.sleep(2000);
-                    drivingLibrary.driveStraight(-1f, 0);
-                    opMode.sleep(1000);
-                    drivingLibrary.driveStraight(0, .4f);
-                    opMode.sleep(500);
-                } else {
-                    //if blue, on right side, and went backwards
-                    drivingLibrary.driveStraight(0, -.4f);
-                    opMode.sleep(750);
-                    drivingLibrary.driveStraight(1f, 0);
-                    opMode.sleep(250);
-                }
-            } else {
-                if (alliance == FTCAlliance.RED) {
-                    //if red, on right side, and went forwards
-                    drivingLibrary.driveStraight(0, .4f);
-                    opMode.sleep(800);
-                    drivingLibrary.driveStraight(-1f, 0);
-                    opMode.sleep(1000);
-                    drivingLibrary.driveStraight(0, .4f);
-                    opMode.sleep(300);
-                } else {
-                    //if blue, on right side, and went forwards
-                    drivingLibrary.driveStraight(0, -.6f);
-                    opMode.sleep(2500);
-                    drivingLibrary.driveStraight(1f, 0);
-                    opMode.sleep(250);
-                }
-            }
-        }
-        opMode.telemetry.update();
-        drivingLibrary.stopDrivingMotors();
-    }
-
-    //change vuforial lib to localizer
-    public RelicRecoveryVuMark identifyPictograph() {
+    //TODO:change vuforial lib to localizer
+    private RelicRecoveryVuMark identifyPictograph() {
         //pick up
         return vuMarkIdentify.identifyPictograph(opMode);
     }
 
-    public void pickUpGlyph() {
-        //pick up
-        glyphArm.allArmsPreset(true, 0);
-        opMode.sleep(500);
-        glyphArm.movePulley(true);
-    }
-
-    public void dropGlyph() {
-        //put down
-        glyphArm.movePulley(false);
-        opMode.sleep(500);
-        glyphArm.allArmsPreset(false, .6f);
-
-    }
-
-    //fix
+    //TODO:after testing, change to private
     public void senseCryotobox(int count) {
         //strafe slowly
         drivingLibrary.driveStraight (-.4f,0);
@@ -243,47 +118,9 @@ public class AutonModeLibrary {
         opMode.telemetry.addData("Sensing", dist != java.lang.Double.NaN);
         opMode.telemetry.addData("Dist", dist);
         opMode.telemetry.update();
-    }
-
-    //this needs so much fixing
-    public void glyptograph(Direction direction) {
-        //***CHECKS DIRECTION***
-
-        //based on dist!
-        //IF backwards DIR- then go x.
-        //drive forward and turn to face camera (90 deg TURN preset maybe??)
-        drivingLibrary.driveStraight(0,.5f);
-        opMode.sleep(800);
-        drivingLibrary.driveStraight(-.5f,0);
-        opMode.sleep(500);
-        drivingLibrary.turn(.5f,0);
-        opMode.sleep(700);
-        drivingLibrary.driveStraight (.5f,0);
-        opMode.sleep(600);
-        drivingLibrary.turn(.5f,0);
-        opMode.sleep(200);
-        drivingLibrary.brakeStop();
-
-        //use vuforia to identify
-        RelicRecoveryVuMark vuMark = identifyPictograph();
-        opMode.sleep(500);
 
         /*
-        int count;
-        if (vuMark == RelicRecoveryVuMark.RIGHT) {
-            count = 1;
-        } else if (vuMark == RelicRecoveryVuMark.CENTER) {
-            count = 2;
-        }
-        else if (vuMark == RelicRecoveryVuMark.LEFT) {
-            count = 3;
-        } else {
-            count = 0                                                                              ;
-        }
-        opMode.telemetry.addData("count", count);
-        double distThreshold = distanceSensor.getDistance(DistanceUnit.CM);
-
-        drivingLibrary.driveStraight(.2f,0);
+        drivingLibrary.driveStraight(-4f,0);
         opMode.sleep(1000);
         while (count != 0) {
             double dist = distanceSensor.getDistance(DistanceUnit.CM);
@@ -306,13 +143,195 @@ public class AutonModeLibrary {
         //turns around 180 to face glyph pit
         drivingLibrary.turn(.5f,.5f);
         opMode.sleep(1000);
-        drivingLibrary.brakeStop();
-
-        EDIT cryptobox array
-        */
+        drivingLibrary.brakeStop();*/
     }
 
-    //LAMAN this is YOU
+
+    //external methods
+    public void pickUpGlyph() {
+        int waitTime = 500;
+        glyphArm.allArmsPreset(true, 0);
+        opMode.sleep(waitTime);
+        glyphArm.movePulley(true);
+    }
+
+    public Direction knockOffJewel() {
+        //test variables
+        int waitMoveArm = 1000;
+        int waitDriveTime = 500;
+        int colorArmResetPos = 1;
+        double colorArmDownPos = 0.1;
+        float driveSpeed = .4f;
+
+        //other variables
+        Direction dir;
+
+        //MOVE SERVO
+        colorArm.setPosition(colorArmDownPos);
+        opMode.sleep(waitMoveArm);
+        JewelColor color = senseColor();
+
+        if (alliance == FTCAlliance.RED) {
+            if (color == JewelColor.BLUE) {
+                drivingLibrary.driveStraight(0, -driveSpeed);
+                dir = Direction.BACKWARD;
+            }
+            else if (color == JewelColor.RED) {
+                drivingLibrary.driveStraight(0, driveSpeed);
+                dir = Direction.FORWARD;
+            }
+            else {
+                colorArm.setPosition(colorArmResetPos);
+                opMode.sleep(waitMoveArm);
+                drivingLibrary.driveStraight(0, driveSpeed);
+                dir = Direction.FORWARD;
+            }
+        } else {
+            if (color == JewelColor.RED) {
+                drivingLibrary.driveStraight(0, driveSpeed);
+                dir = Direction.FORWARD;
+            }
+            else if (color == JewelColor.BLUE){
+                drivingLibrary.driveStraight(0, -driveSpeed);
+                dir = Direction.BACKWARD;
+            }
+            else {
+                colorArm.setPosition(colorArmResetPos);
+                opMode.sleep(waitMoveArm);
+                drivingLibrary.driveStraight(0, driveSpeed);
+                dir = Direction.FORWARD;
+            }
+        }
+        opMode.sleep(waitDriveTime);
+        drivingLibrary.stopDrivingMotors();
+        colorArm.setPosition(colorArmResetPos);
+        opMode.telemetry.update();
+        return dir;
+    }
+
+    //TODO: fix lol
+    public int glyptograph(Direction direction) {
+        float driveSpeedStone = .6f;
+        float driveSpeedStrafe = 1f;
+        float driveSpeed = .4f;
+
+        int waitShort = 500;
+        int waitMed = 1000;
+        int waitLong = 2500;
+        int waitSensePictograph = 500;
+
+        /*if (position == FTCPosition.LEFT) {
+            if (dir == Direction.BACKWARD) {
+                if (alliance == FTCAlliance.RED) {
+                    //if red, on left side, and went backwards
+                    drivingLibrary.driveStraight(0, driveSpeedStone);
+                    opMode.sleep(2500);
+                    drivingLibrary.driveStraight(driveSpeedStrafe, 0);
+                    opMode.sleep(250);
+                } else {
+                    //if blue, on left side, and went backwards
+                    drivingLibrary.driveStraight(0, -driveSpeed);
+                    opMode.sleep(500);
+                    drivingLibrary.driveStraight(-driveSpeedStrafe, 0);
+                    opMode.sleep(1000);
+                    drivingLibrary.driveStraight(0, -driveSpeed);
+                    opMode.sleep(500);
+                }
+            } else {
+                if (alliance == FTCAlliance.RED) {
+                    //if red, on left side, and went forwards
+                    drivingLibrary.driveStraight(0, driveSpeed);
+                    opMode.sleep(750);
+                    drivingLibrary.driveStraight(driveSpeedStrafe, 0);
+                    opMode.sleep(250);
+                }
+                else {
+                    //if blue, on left side, and went forwards
+                    drivingLibrary.driveStraight(0, -driveSpeedStone);
+                    opMode.sleep(1250);
+                    drivingLibrary.driveStraight(-driveSpeedStrafe, 0);
+                    opMode.sleep(1000);
+                    drivingLibrary.driveStraight(0, -driveSpeed);
+                    opMode.sleep(800);
+                }
+            }
+
+        } else {
+            if (dir == Direction.BACKWARD) {
+                if (alliance == FTCAlliance.RED) {
+                    //if red, on right side, and went backwards
+                    drivingLibrary.driveStraight(0, driveSpeedStone);
+                    opMode.sleep(2000);
+                    drivingLibrary.driveStraight(-driveSpeedStrafe, 0);
+                    opMode.sleep(1000);
+                    drivingLibrary.driveStraight(0, driveSpeed);
+                    opMode.sleep(500);
+                } else {
+                    //if blue, on right side, and went backwards
+                    drivingLibrary.driveStraight(0, -driveSpeed);
+                    opMode.sleep(750);
+                    drivingLibrary.driveStraight(driveSpeedStrafe, 0);
+                    opMode.sleep(250);
+                }
+            } else {
+                if (alliance == FTCAlliance.RED) {
+                    //if red, on right side, and went forwards
+                    drivingLibrary.driveStraight(0, driveSpeed);
+                    opMode.sleep(800);
+                    drivingLibrary.driveStraight(-driveSpeedStrafe, 0);
+                    opMode.sleep(1000);
+                    drivingLibrary.driveStraight(0, driveSpeed);
+                    opMode.sleep(300);
+                } else {
+                    //if blue, on right side, and went forwards
+                    drivingLibrary.driveStraight(0, -driveSpeedStone);
+                    opMode.sleep(2500);
+                    drivingLibrary.driveStraight(driveSpeedStrafe, 0);
+                    opMode.sleep(250);
+                }
+            }
+        }*/
+
+        driveSpeed = .5f;
+        int drive1 = 800;
+        int drive2 = 500;
+        int drive3 = 700;
+        int drive4 = 600;
+        int drive5 = 200;
+
+        drivingLibrary.driveStraight(0,driveSpeed);
+        opMode.sleep(drive1);
+        drivingLibrary.driveStraight(-driveSpeed,0);
+        opMode.sleep(drive2);
+        drivingLibrary.turn(driveSpeed,0);
+        opMode.sleep(drive3);
+        drivingLibrary.driveStraight (driveSpeed,0);
+        opMode.sleep(drive4);
+        drivingLibrary.turn(driveSpeed,0);
+        opMode.sleep(drive5);
+        drivingLibrary.brakeStop();
+
+        //use vuforia to identify
+        RelicRecoveryVuMark vuMark = identifyPictograph();
+        opMode.sleep(waitSensePictograph);
+
+
+        int count;
+        if (vuMark == RelicRecoveryVuMark.RIGHT) {
+            count = 1;
+        } else if (vuMark == RelicRecoveryVuMark.CENTER) {
+            count = 2;
+        }
+        else if (vuMark == RelicRecoveryVuMark.LEFT) {
+            count = 3;
+        } else {
+            count = 0                                                                              ;
+        }
+        opMode.telemetry.addData("count", count);
+        return count;
+    }
+
+    //sensing
     public void getGlyphs() {
         /*
         cryptobox looks like
@@ -332,4 +351,101 @@ public class AutonModeLibrary {
             opMode.telemetry.update();
         }
     }
+
+    public void dropGlyph() {
+        int waitTime = 500;
+        //put down
+        glyphArm.movePulley(false);
+        opMode.sleep(waitTime);
+        glyphArm.allArmsPreset(false, .6f);
+
+    }
+
+    //EXCLUSIVELY for Jewel Only Run
+    public void driveToSafeZone(Direction dir) {
+        float driveSpeedStone = .6f;
+        float driveSpeedStrafe = 1f;
+        float driveSpeed = .4f;
+
+        int waitShort = 500;
+        int waitMed = 1000;
+        int waitLong = 2500;
+
+
+        if (position == FTCPosition.LEFT) {
+            if (dir == Direction.BACKWARD) {
+                if (alliance == FTCAlliance.RED) {
+                    //if red, on left side, and went backwards
+                    drivingLibrary.driveStraight(0, driveSpeedStone);
+                    opMode.sleep(2500);
+                    drivingLibrary.driveStraight(driveSpeedStrafe, 0);
+                    opMode.sleep(250);
+                } else {
+                    //if blue, on left side, and went backwards
+                    drivingLibrary.driveStraight(0, -driveSpeed);
+                    opMode.sleep(500);
+                    drivingLibrary.driveStraight(-driveSpeedStrafe, 0);
+                    opMode.sleep(1000);
+                    drivingLibrary.driveStraight(0, -driveSpeed);
+                    opMode.sleep(500);
+                }
+            } else {
+                if (alliance == FTCAlliance.RED) {
+                    //if red, on left side, and went forwards
+                    drivingLibrary.driveStraight(0, driveSpeed);
+                    opMode.sleep(750);
+                    drivingLibrary.driveStraight(driveSpeedStrafe, 0);
+                    opMode.sleep(250);
+                }
+                else {
+                    //if blue, on left side, and went forwards
+                    drivingLibrary.driveStraight(0, -driveSpeedStone);
+                    opMode.sleep(1250);
+                    drivingLibrary.driveStraight(-driveSpeedStrafe, 0);
+                    opMode.sleep(1000);
+                    drivingLibrary.driveStraight(0, -driveSpeed);
+                    opMode.sleep(800);
+                }
+            }
+
+        } else {
+            if (dir == Direction.BACKWARD) {
+                if (alliance == FTCAlliance.RED) {
+                    //if red, on right side, and went backwards
+                    drivingLibrary.driveStraight(0, driveSpeedStone);
+                    opMode.sleep(2000);
+                    drivingLibrary.driveStraight(-driveSpeedStrafe, 0);
+                    opMode.sleep(1000);
+                    drivingLibrary.driveStraight(0, driveSpeed);
+                    opMode.sleep(500);
+                } else {
+                    //if blue, on right side, and went backwards
+                    drivingLibrary.driveStraight(0, -driveSpeed);
+                    opMode.sleep(750);
+                    drivingLibrary.driveStraight(driveSpeedStrafe, 0);
+                    opMode.sleep(250);
+                }
+            } else {
+                if (alliance == FTCAlliance.RED) {
+                    //if red, on right side, and went forwards
+                    drivingLibrary.driveStraight(0, driveSpeed);
+                    opMode.sleep(800);
+                    drivingLibrary.driveStraight(-driveSpeedStrafe, 0);
+                    opMode.sleep(1000);
+                    drivingLibrary.driveStraight(0, driveSpeed);
+                    opMode.sleep(300);
+                } else {
+                    //if blue, on right side, and went forwards
+                    drivingLibrary.driveStraight(0, -driveSpeedStone);
+                    opMode.sleep(2500);
+                    drivingLibrary.driveStraight(driveSpeedStrafe, 0);
+                    opMode.sleep(250);
+                }
+            }
+        }
+
+        opMode.telemetry.update();
+        drivingLibrary.stopDrivingMotors();
+    }
+
 }
