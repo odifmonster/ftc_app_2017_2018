@@ -59,7 +59,6 @@ public class AutonModeLibrary {
 
         glyphDetector = new GlyphDetector();
         glyphDetector.init(opMode.hardwareMap.appContext, CameraViewDisplay.getInstance());
-        glyphDetector.enable();
     }
 
     //internal methods
@@ -137,12 +136,12 @@ public class AutonModeLibrary {
         drivingLibrary.driveStraight(0,.5f);
         dropGlyph();
         opMode.sleep(300);
-        drivingLibrary.brakeStop();
+        drivingLibrary.brakeStop();*/
 
         //turns around 180 to face glyph pit
-        drivingLibrary.turn(.5f,.5f);
+        drivingLibrary.turnRight(Math.PI);
         opMode.sleep(1000);
-        drivingLibrary.brakeStop();*/
+        drivingLibrary.brakeStop();
     }
 
 
