@@ -90,7 +90,7 @@ public class DrivingLibrary {
         rightRear.setPower((y - x) * speedSetting * multiplier);
     }
 
-    public void turnRight(double radians) {
+    public void turnLeft(double radians) {
         double currentYaw = imu.getAngularOrientation(AxesReference.INTRINSIC,
                 AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
         double targetYaw = currentYaw + radians;
@@ -102,7 +102,7 @@ public class DrivingLibrary {
         }
 
         while (currentYaw - subtractYaw < targetYaw) {
-            turn(0.2f, 0);
+            turn(-0.2f, 0);
             currentYaw = imu.getAngularOrientation(AxesReference.INTRINSIC,
                     AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
             opMode.telemetry.addData("Direction", "Right");
@@ -114,7 +114,7 @@ public class DrivingLibrary {
         brakeStop();
     }
 
-    public void turnLeft(double radians) {
+    public void turnRight(double radians) {
         double currentYaw = imu.getAngularOrientation(AxesReference.INTRINSIC,
                 AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
         double targetYaw = currentYaw - radians;
@@ -126,7 +126,7 @@ public class DrivingLibrary {
         }
 
         while (currentYaw + addYaw > targetYaw) {
-            turn(-0.2f, 0);
+            turn(0.2f, 0);
             currentYaw = imu.getAngularOrientation(AxesReference.INTRINSIC,
                     AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
             opMode.telemetry.addData("Direction", "Left");

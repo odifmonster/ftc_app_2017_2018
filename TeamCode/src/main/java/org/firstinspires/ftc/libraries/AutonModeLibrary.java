@@ -20,6 +20,7 @@ import org.firstinspires.ftc.libraries.DrivingLibrary;
 import org.firstinspires.ftc.libraries.VuMarkIdentifyLibrary;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.opencv.core.Point;
 
 /**
  * Created by megankaye on 1/3/18.
@@ -27,7 +28,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 public class AutonModeLibrary {
     LinearOpMode opMode;
-    Gamepad autonGamePad;
 
     DrivingLibrary drivingLibrary;
     VuMarkIdentifyLibrary vuMarkIdentify;
@@ -45,7 +45,6 @@ public class AutonModeLibrary {
     boolean[][] cryptobox;
 
     public AutonModeLibrary(LinearOpMode opMode, FTCAlliance alliance, FTCPosition position) {
-        autonGamePad = new Gamepad();
         this.alliance = alliance;
         this.position = position;
         drivingLibrary = new DrivingLibrary(opMode);
@@ -333,23 +332,15 @@ public class AutonModeLibrary {
 
     //sensing
     public void getGlyphs() {
-        /*
-        cryptobox looks like
-        |   |   |   | (row 3) --> Accessed: [x][3]
-        |   |   |   | (row 2)
-        |   |   |   | (row 1)
-        | 0 |1  |2  | (row 0) --> Accessed: [x][0]
-         */
-        //use dogecv
-        //identify nearest glyph (and color?)
-        //picks up glyph
-        //strafe until offset is zero OR within a given padding
+        glyphDetector.enable();
+
         double offset = glyphDetector.getChosenGlyphOffset();
-        while (offset != 0) {
-            offset = glyphDetector.getChosenGlyphOffset();
-            opMode.telemetry.addData("offset", offset);
-            opMode.telemetry.update();
-        }
+        Point pos = glyphDetector.getChosenGlyphPosition();
+        opMode.telemetry.addData("Offset", offset);
+        opMode.telemetry.addData("Pos X", pos.x);
+        opMode.telemetry.addData("Pos Y", pos.y);
+
+        glyphDetector.disable();
     }
 
     public void dropGlyph() {
