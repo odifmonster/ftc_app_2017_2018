@@ -3,10 +3,11 @@ package org.firstinspires.ftc.whatever;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
-
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 /**
  * Created by megankaye on 1/27/18.
  */
+@Disabled
 @TeleOp
 public class TestWinchServo extends LinearOpMode {
     Servo wServo;

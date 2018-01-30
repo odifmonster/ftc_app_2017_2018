@@ -2,6 +2,7 @@ package org.firstinspires.ftc.whatever;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.CRServo;
 
 import org.firstinspires.ftc.enums.FTCAlliance;
@@ -11,6 +12,7 @@ import org.firstinspires.ftc.libraries.AutonModeLibrary;
 /**
  * Created by megankaye on 1/25/18.
  */
+@Disabled
 @Autonomous
 public class TestArmRollers extends LinearOpMode {
     AutonModeLibrary autonMode;

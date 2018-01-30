@@ -4,10 +4,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.libraries.DrivingLibrary;
-
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 /**
  * Created by megankaye on 1/25/18.
  */
+@Disabled
 @Autonomous
 public class TestCoastDrivingLibrary extends LinearOpMode {
     DrivingLibrary drivingLibrary;
