@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.whatever;
 
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.detectors.GlyphDetector;
@@ -26,8 +26,6 @@ public class TestGlyphDetectMode extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            telemetry.addData("Closest Glyph Pos", glyphDetector.getChosenGlyphPosition().toString());
-            telemetry.addData("Closest Glyph Offset", glyphDetector.getChosenGlyphOffset());
             telemetry.update();
         }
 

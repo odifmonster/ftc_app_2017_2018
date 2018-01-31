@@ -59,6 +59,7 @@ public class AutonModeLibrary {
 
         glyphDetector = new GlyphDetector();
         glyphDetector.init(opMode.hardwareMap.appContext, CameraViewDisplay.getInstance());
+        glyphDetector.enable();
     }
 
     //internal methods
