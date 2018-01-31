@@ -331,15 +331,21 @@ public class AutonModeLibrary {
 
     //sensing
     public void getGlyphs() {
-        glyphDetector.enable();
+        if (glyphDetector.isFoundRect()) {
+            double offset = glyphDetector.getChosenGlyphOffset();
+            Point pos = glyphDetector.getChosenGlyphPosition();
 
-        double offset = glyphDetector.getChosenGlyphOffset();
-        Point pos = glyphDetector.getChosenGlyphPosition();
-        opMode.telemetry.addData("Offset", offset);
-        opMode.telemetry.addData("Pos X", pos.x);
-        opMode.telemetry.addData("Pos Y", pos.y);
+            opMode.telemetry.addData("Offset", offset);
+            opMode.telemetry.addData("Pos X", pos.x);
+            opMode.telemetry.addData("Pos Y", pos.y);
+            opMode.telemetry.addData("Glyph Status", "Available");
+        }
 
-        glyphDetector.disable();
+        opMode.telemetry.addData("Offset", "0");
+        opMode.telemetry.addData("Pos X", "0");
+        opMode.telemetry.addData("Pos Y", "0");
+        opMode.telemetry.addData("Glyph Status", "Unavailable");
+        opMode.telemetry.update();
     }
 
     public void dropGlyph() {
