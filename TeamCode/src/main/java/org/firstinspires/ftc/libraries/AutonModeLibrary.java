@@ -17,7 +17,7 @@ import org.firstinspires.ftc.enums.FTCAlliance;
 import org.firstinspires.ftc.enums.FTCPosition;
 import org.firstinspires.ftc.enums.JewelColor;
 import org.firstinspires.ftc.libraries.DrivingLibrary;
-import org.firstinspires.ftc.libraries.VuMarkIdentifyLibrary;
+import org.firstinspires.ftc.libraries.ClosableVuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.opencv.core.Point;
@@ -105,7 +105,6 @@ public class AutonModeLibrary {
         }
     }
 
-    //TODO:change vuforial lib to localizer
     private RelicRecoveryVuMark identifyPictograph() {
         //pick up
         return vuMarkIdentify.identifyPictograph(opMode);
@@ -334,6 +333,7 @@ public class AutonModeLibrary {
 
     //sensing
     public void getGlyphs() {
+        vuMarkIdentify.closeVuforia();
         if (glyphDetector.isFoundRect()) {
             double offset = glyphDetector.getChosenGlyphOffset();
             Point pos = glyphDetector.getChosenGlyphPosition();
