@@ -12,6 +12,34 @@ import org.firstinspires.ftc.libraries.GlyphArmLibrary;
  * Created by lamanwyner on 12/30/17.
  */
 
+/**
+ * GC1
+ * rt: relic claw
+ * rb: relic claw
+ * lt: relic lift
+ * lb: relic lift
+ * dpad: relic extend (x)
+ * rjoy: move (y) turn (x)
+ * ljoy: move (y) strafe (x)
+ * a: switch driving modes
+ * b: relic lift preset
+ * x: relic drop preset
+ * y: relic preset
+
+ * GC2
+ * rt: glyph arm
+ * rb: glyph arm
+ * lt: glyph arm
+ * lb: glyph arm
+ * dpad: pully (x)
+ * rjoy:
+ * ljoy:
+ * a: switch glyph arm modes
+ * b: preset: ready for more glyphs
+ * x: preset: stack glyphs
+ * y: preset: quick drop glyphs
+ */
+
 @TeleOp
 public class TeleOpMode extends LinearOpMode {
     DrivingLibrary drivingLibrary;

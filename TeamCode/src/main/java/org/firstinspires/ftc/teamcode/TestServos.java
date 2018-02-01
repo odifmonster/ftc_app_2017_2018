@@ -24,7 +24,7 @@ public class TestServos extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            if (gamepad2.b) {
+            if (gamepad1.b) {
                 if (liftState) {
                     lift.setPosition(.9);
                     liftState = !liftState;
@@ -33,7 +33,7 @@ public class TestServos extends LinearOpMode {
                 }
             }
 
-            if (gamepad2.a) {
+            if (gamepad1.x) {
                     if (clawState) {
                         claw.setPosition(.9);
                         clawState = !clawState;
@@ -42,7 +42,6 @@ public class TestServos extends LinearOpMode {
                         clawState = !clawState;
                     }
             }
-            sleep(3000);
         }
     }
 }

@@ -25,6 +25,7 @@ public class TestGetGlyphs extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
+
             autonMode.getGlyphs();
         }
     }

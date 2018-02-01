@@ -62,6 +62,16 @@ public class RelicArmLibrary {
         }
     }
 
+    public void relicLiftPreset() {
+        clawArm.setPosition(.1);
+        liftArm.setPosition(.9);
+    }
+
+    public void relicDropPreset() {
+        clawArm.setPosition(.9);
+        liftArm.setPosition(.1);
+    }
+
     public void outputInfo() {
         opMode.telemetry.addData("extendL", extendArmL.getPower());
         opMode.telemetry.addData("extendR", extendArmR.getPower());

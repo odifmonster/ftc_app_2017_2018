@@ -37,8 +37,9 @@ public class AutonModeLibrary {
     FTCPosition position;
 
     Servo colorArm;
-    ColorSensor colorSensor;
-    DistanceSensor distanceSensor;
+    ColorSensor jewelColorSensor;
+    ColorSensor cryptoColorSensor;
+    DistanceSensor cryptoDistanceSensor;
 
     private GlyphDetector glyphDetector;
 
@@ -51,8 +52,9 @@ public class AutonModeLibrary {
         this.drivingLibrary.setSpeed(0.75);
         glyphArm = new GlyphArmLibrary(opMode);
         this.colorArm = opMode.hardwareMap.get(Servo.class,"color_arm");
-        colorSensor = opMode.hardwareMap.get(ColorSensor.class, "color_sensor");
-        distanceSensor = opMode.hardwareMap.get(DistanceSensor.class, "color_sensor");
+        jewelColorSensor = opMode.hardwareMap.get(ColorSensor.class, "jewelColorSensor");
+        cryptoColorSensor = opMode.hardwareMap.get(ColorSensor.class, "cryptoColorSensor");
+        cryptoDistanceSensor = opMode.hardwareMap.get(DistanceSensor.class, "cryptoColorSensor");
         this.opMode = opMode;
         this.vuMarkIdentify = new VuMarkIdentifyLibrary(opMode);
         this.cryptobox = new boolean[3][4];
@@ -78,7 +80,7 @@ public class AutonModeLibrary {
 
         // convert the RGB values to HSV values.
         //SENSE COLOR
-        Color.RGBToHSV(colorSensor.red() * 8, colorSensor.green() * 8, colorSensor.blue() * 8, hsvValues);
+        Color.RGBToHSV(jewelColorSensor.red() * 8, jewelColorSensor.green() * 8, jewelColorSensor.blue() * 8, hsvValues);
         float hue = hsvValues[0];
         opMode.telemetry.addData("hue", hue);
         opMode.sleep(waitSenseColor);
@@ -113,7 +115,7 @@ public class AutonModeLibrary {
     public void senseCryotobox(int count) {
         //strafe slowly
         drivingLibrary.driveStraight (-.4f,0);
-        double dist = distanceSensor.getDistance(DistanceUnit.CM);
+        double dist = cryptoDistanceSensor.getDistance(DistanceUnit.CM);
         opMode.telemetry.addData("Sensing", dist != java.lang.Double.NaN);
         opMode.telemetry.addData("Dist", dist);
         opMode.telemetry.update();

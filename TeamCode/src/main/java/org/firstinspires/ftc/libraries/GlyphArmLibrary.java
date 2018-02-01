@@ -46,6 +46,18 @@ public class GlyphArmLibrary {
         pulleySpeed = 0.5;
     }
 
+    public void stackGlyphsPreset() {
+
+    }
+
+    public void readyGlyphsPreset() {
+
+    }
+
+    public void quickDropGlyphsPreset() {
+
+    }
+
     public void allArmsPreset(boolean lb, float lt) {
         if (lb) {
             leftTop.setPosition(closedTopPosition[0]);

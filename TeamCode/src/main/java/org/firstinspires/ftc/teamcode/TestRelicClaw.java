@@ -19,19 +19,29 @@ public class TestRelicClaw extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            if (gamepad2.dpad_right) {
+            if (gamepad1.dpad_right) {
                 relicArmLibrary.extendArm(true);
-            } else if (gamepad2.dpad_left) {
+            } else if (gamepad1.dpad_left) {
                 relicArmLibrary.extendArm(false);
             } else {
                 relicArmLibrary.stopArm();
             }
 
-            if (gamepad2.b) {
+            if (gamepad1.b) {
+                relicArmLibrary.relicLiftPreset();
+            }
+
+            if (gamepad1.x) {
+                relicArmLibrary.relicDropPreset();
+            } if (gamepad1.y) {
+
+            }
+
+            if (gamepad1.right_bumper) {
                 relicArmLibrary.activateLift();
             }
 
-            if (gamepad2.a) {
+            if (gamepad1.left_bumper) {
                 relicArmLibrary.activateClaw();
             }
             relicArmLibrary.outputInfo();
