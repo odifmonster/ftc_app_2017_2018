@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
+
 /**
  * Created by megankaye on 1/31/18.
  */
@@ -26,11 +27,13 @@ public class TestServos extends LinearOpMode {
         while (opModeIsActive()) {
             if (gamepad1.b) {
                 if (liftState) {
-                    lift.setPosition(.9);
+                    lift.setPosition(.001);
                     liftState = !liftState;
                 } else {
-                    lift.setPosition(.1);
+                    lift.setPosition(-.001);
+                    liftState = !liftState;
                 }
+                sleep(500);
             }
 
             if (gamepad1.x) {
@@ -41,7 +44,13 @@ public class TestServos extends LinearOpMode {
                         claw.setPosition(.1);
                         clawState = !clawState;
                     }
+                sleep(500);
             }
+            telemetry.addData("lift state", liftState);
+            telemetry.addData("lift pos", lift.getPosition());
+            telemetry.addData("claw state", clawState);
+            telemetry.addData("claw pos", claw.getPosition());
+            telemetry.update();
         }
     }
 }

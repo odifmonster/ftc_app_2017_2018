@@ -72,6 +72,9 @@ public class RelicArmLibrary {
         liftArm.setPosition(.1);
     }
 
+    //extend arm preset??
+    //nah
+
     public void outputInfo() {
         opMode.telemetry.addData("extendL", extendArmL.getPower());
         opMode.telemetry.addData("extendR", extendArmR.getPower());
