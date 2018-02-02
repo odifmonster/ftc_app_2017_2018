@@ -22,10 +22,19 @@ public class TestServos extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
+        int pos = 0;
+
         waitForStart();
 
         while (opModeIsActive()) {
             if (gamepad1.b) {
+                lift.setPosition(pos);
+
+                if (pos < 0.97) {
+                    pos += .05;
+                }
+            }
+            /*if (gamepad1.b) {
                 if (liftState) {
                     lift.setPosition(.001);
                     liftState = !liftState;
@@ -45,11 +54,11 @@ public class TestServos extends LinearOpMode {
                         clawState = !clawState;
                     }
                 sleep(500);
-            }
+            }*/
             telemetry.addData("lift state", liftState);
             telemetry.addData("lift pos", lift.getPosition());
-            telemetry.addData("claw state", clawState);
-            telemetry.addData("claw pos", claw.getPosition());
+            /*telemetry.addData("claw state", clawState);
+            telemetry.addData("claw pos", claw.getPosition());*/
             telemetry.update();
         }
     }

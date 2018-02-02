@@ -49,6 +49,7 @@ public class RelicArmLibrary {
             liftState = !liftState;
         } else {
             liftArm.setPosition(.1);
+            liftState = !liftState;
         }
     }
 
