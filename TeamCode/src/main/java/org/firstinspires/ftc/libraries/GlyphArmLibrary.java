@@ -1,14 +1,10 @@
 package org.firstinspires.ftc.libraries;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-
-import org.firstinspires.ftc.enums.Direction;
 
 /**
  * Created by lamanwyner on 1/11/18.
@@ -44,18 +40,6 @@ public class GlyphArmLibrary {
         increment = 0.1;
 
         pulleySpeed = 0.5;
-    }
-
-    public void stackGlyphsPreset() {
-
-    }
-
-    public void readyGlyphsPreset() {
-
-    }
-
-    public void quickDropGlyphsPreset() {
-
     }
 
     public void allArmsPreset(boolean lb, float lt) {
@@ -126,8 +110,8 @@ public class GlyphArmLibrary {
         }
     }
 
-    public void topArmsIncrement(boolean lb, float lt) {
-        if (lb) {
+    public void topArmsIncrement(boolean lb, float lt, boolean rb) {
+        if (lb && !rb) {
             if (leftTop.getPosition() + increment <= closedTopPosition[0]) {
                 leftTop.setPosition(leftTop.getPosition() + increment);
             }
@@ -145,8 +129,8 @@ public class GlyphArmLibrary {
         }
     }
 
-    public void bottomArmsIncrement(boolean rb, float rt) {
-        if (rb) {
+    public void bottomArmsIncrement(boolean rb, float rt, boolean lb) {
+        if (rb && !lb) {
             if (leftBottom.getPosition() + increment <= closedBottomPosition[0]) {
                 leftBottom.setPosition(leftBottom.getPosition() + increment);
             }
@@ -195,14 +179,19 @@ public class GlyphArmLibrary {
         return servos[servo].getPosition();
     }
 
+    public void setPulleyBottom() {
+        pulley.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+
     public void movePulley(Gamepad gamepad) {
         if (gamepad.dpad_up) {
             pulley.setPower(pulleySpeed);
-        } else if (gamepad.dpad_down) {
+        } else if (gamepad.dpad_down && pulley.getCurrentPosition() > 0) {
             pulley.setPower(-pulleySpeed);
         } else {
             pulley.setPower(0);
         }
+        opMode.telemetry.addData("Pulley Pos", pulley.getCurrentPosition());
     }
 
     public void movePulley(boolean direction) {
@@ -217,23 +206,21 @@ public class GlyphArmLibrary {
         }
     }
 
-    public void movePulley(int clicks, Direction direction) {
-        pulley.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        pulley.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    public void resetArmPosition() {
+        if (pulley.getCurrentPosition() > 0) {
+            pulley.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            pulley.setPower(pulleySpeed);
 
-        if (direction == Direction.FORWARD) {
-            pulley.setDirection(DcMotorSimple.Direction.FORWARD);
-        } else {
-            pulley.setDirection(DcMotorSimple.Direction.REVERSE);
+            while (pulley.getCurrentPosition() > 0) {
+                // continue
+            }
+
+            pulley.setPower(0);
         }
 
-        pulley.setTargetPosition(clicks);
-        pulley.setPower(pulleySpeed);
-
-        while (pulley.getCurrentPosition() < clicks) {
-            // continue
-        }
-
-        pulley.setPower(0);
+        leftBottom.setPosition(openBottomPosition[0]);
+        rightBottom.setPosition(openBottomPosition[1]);
+        leftTop.setPosition(openTopPosition[0]);
+        rightTop.setPosition(openTopPosition[1]);
     }
 }

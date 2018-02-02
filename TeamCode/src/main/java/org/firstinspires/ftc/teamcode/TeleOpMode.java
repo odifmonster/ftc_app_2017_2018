@@ -31,7 +31,7 @@ import org.firstinspires.ftc.libraries.GlyphArmLibrary;
  * rb: glyph arm
  * lt: glyph arm
  * lb: glyph arm
- * dpad: pully (x)
+ * dpad: pulley (x)
  * rjoy:
  * ljoy:
  * a: switch glyph arm modes
@@ -78,6 +78,11 @@ public class TeleOpMode extends LinearOpMode {
                 glyphArmInt %= GlyphArmMode.values().length;
                 glyphArmMode = GlyphArmMode.values()[glyphArmInt];
             }
+            if (gamepad2.b) glyphArmLibrary.resetArmPosition();
+
+            if (gamepad2.right_bumper && gamepad2.left_bumper) {
+                glyphArmLibrary.setPulleyBottom();
+            }
 
             switch (glyphArmMode) {
                 case ALL_MOVE:
@@ -89,8 +94,10 @@ public class TeleOpMode extends LinearOpMode {
                     glyphArmLibrary.bottomArmsPreset(gamepad2.right_bumper, gamepad2.right_trigger);
                     break;
                 case TOP_BOTTOM_INCREMENT:
-                    glyphArmLibrary.topArmsIncrement(gamepad2.left_bumper, gamepad2.left_trigger);
-                    glyphArmLibrary.bottomArmsIncrement(gamepad2.right_bumper, gamepad2.right_trigger);
+                    glyphArmLibrary.topArmsIncrement(gamepad2.left_bumper, gamepad2.left_trigger,
+                            gamepad2.right_bumper);
+                    glyphArmLibrary.bottomArmsIncrement(gamepad2.right_bumper,
+                            gamepad2.right_trigger, gamepad2.left_bumper);
                     break;
             }
 

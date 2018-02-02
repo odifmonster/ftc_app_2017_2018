@@ -27,10 +27,10 @@ public class TestServos extends LinearOpMode {
         while (opModeIsActive()) {
             if (gamepad1.b) {
                 if (liftState) {
-                    lift.setPosition(.001);
+                    lift.setPosition(.01);
                     liftState = !liftState;
                 } else {
-                    lift.setPosition(-.001);
+                    lift.setPosition(.02);
                     liftState = !liftState;
                 }
                 sleep(500);
