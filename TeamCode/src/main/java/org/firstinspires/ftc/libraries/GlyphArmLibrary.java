@@ -209,7 +209,8 @@ public class GlyphArmLibrary {
     public void resetArmPosition() {
         if (pulley.getCurrentPosition() > 0) {
             pulley.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            pulley.setPower(pulleySpeed);
+            pulley.setTargetPosition(0);
+            pulley.setPower(-pulleySpeed);
 
             while (pulley.getCurrentPosition() > 0) {
                 // continue
@@ -222,5 +223,29 @@ public class GlyphArmLibrary {
         rightBottom.setPosition(openBottomPosition[1]);
         leftTop.setPosition(openTopPosition[0]);
         rightTop.setPosition(openTopPosition[1]);
+    }
+
+    public void liftTwoGlyphs() {
+        leftBottom.setPosition(closedBottomPosition[0]);
+        rightBottom.setPosition(closedBottomPosition[1]);
+        leftTop.setPosition(closedTopPosition[0]);
+        rightTop.setPosition(closedTopPosition[1]);
+
+        pulley.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        pulley.setTargetPosition(10);
+        pulley.setPower(pulleySpeed);
+
+        while (pulley.getCurrentPosition() < 10) {
+            // continue
+        }
+
+        pulley.setPower(0);
+    }
+
+    public void dropGlyphs() {
+        leftTop.setPosition(openTopPosition[0]);
+        rightTop.setPosition(openTopPosition[1]);
+        leftBottom.setPosition(openBottomPosition[0]);
+        rightBottom.setPosition(openBottomPosition[1]);
     }
 }

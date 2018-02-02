@@ -79,6 +79,8 @@ public class TeleOpMode extends LinearOpMode {
                 glyphArmMode = GlyphArmMode.values()[glyphArmInt];
             }
             if (gamepad2.b) glyphArmLibrary.resetArmPosition();
+            if (gamepad2.x) glyphArmLibrary.liftTwoGlyphs();
+            if (gamepad2.y) glyphArmLibrary.dropGlyphs();
 
             if (gamepad2.right_bumper && gamepad2.left_bumper) {
                 glyphArmLibrary.setPulleyBottom();
