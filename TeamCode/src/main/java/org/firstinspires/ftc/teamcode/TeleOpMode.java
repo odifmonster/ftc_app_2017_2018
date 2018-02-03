@@ -108,6 +108,7 @@ public class TeleOpMode extends LinearOpMode {
             telemetry.addData("Status", "Running");
             telemetry.addData("Brake Mode", drivingLibrary.getMode());
             telemetry.addData("Glyph Arm Mode", glyphArmMode.getModeString());
+
             telemetry.update();
         }
     }

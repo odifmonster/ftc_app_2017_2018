@@ -36,7 +36,7 @@ public class AutonModeLibrary {
     ColorSensor cryptoColorSensor;
     DistanceSensor cryptoDistanceSensor;
 
-    private GlyphDetector glyphDetector;
+//    private GlyphDetector glyphDetector;
 
     boolean[][] cryptobox;
 
@@ -54,9 +54,9 @@ public class AutonModeLibrary {
         this.vuMarkIdentify = new VuMarkIdentifyLibrary(opMode);
         this.cryptobox = new boolean[3][4];
 
-        glyphDetector = new GlyphDetector();
-        glyphDetector.init(opMode.hardwareMap.appContext, CameraViewDisplay.getInstance());
-        glyphDetector.enable();
+//        glyphDetector = new GlyphDetector();
+//        glyphDetector.init(opMode.hardwareMap.appContext, CameraViewDisplay.getInstance());
+//        glyphDetector.enable();
     }
 
     //internal methods
@@ -323,23 +323,24 @@ public class AutonModeLibrary {
     }
 
     //sensing
-    public void getGlyphs() {
-        if (glyphDetector.isFoundRect()) {
-            double offset = glyphDetector.getChosenGlyphOffset();
-            Point pos = glyphDetector.getChosenGlyphPosition();
-
-            opMode.telemetry.addData("Offset", offset);
-            opMode.telemetry.addData("Pos X", pos.x);
-            opMode.telemetry.addData("Pos Y", pos.y);
-            opMode.telemetry.addData("Glyph Status", "Available");
-        }
-
-        opMode.telemetry.addData("Offset", "0");
-        opMode.telemetry.addData("Pos X", "0");
-        opMode.telemetry.addData("Pos Y", "0");
-        opMode.telemetry.addData("Glyph Status", "Unavailable");
-        opMode.telemetry.update();
-    }
+//    public void getGlyphs() {
+//        vuMarkIdentify.closeVuforia();
+//        if (glyphDetector.isFoundRect()) {
+//            double offset = glyphDetector.getChosenGlyphOffset();
+//            Point pos = glyphDetector.getChosenGlyphPosition();
+//
+//            opMode.telemetry.addData("Offset", offset);
+//            opMode.telemetry.addData("Pos X", pos.x);
+//            opMode.telemetry.addData("Pos Y", pos.y);
+//            opMode.telemetry.addData("Glyph Status", "Available");
+//        }
+//
+//        opMode.telemetry.addData("Offset", "0");
+//        opMode.telemetry.addData("Pos X", "0");
+//        opMode.telemetry.addData("Pos Y", "0");
+//        opMode.telemetry.addData("Glyph Status", "Unavailable");
+//        opMode.telemetry.update();
+//    }
 
     public void dropGlyph() {
         int waitTime = 500;
