@@ -25,6 +25,8 @@ public class TestStrafeBias extends LinearOpMode {
         drivingMode = 0;
         drivingLibrary.setMode(drivingMode);
 
+        int multiplier = -1;
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -32,23 +34,16 @@ public class TestStrafeBias extends LinearOpMode {
 
             while (opModeIsActive()) {
                 if (gamepad1.a) {
-                    //fl
-                    drivingLibrary.updateStrafeBias(0);
-
+                    drivingLibrary.updateStrafeBias(0, multiplier);
                 }
                 if (gamepad1.b) {
-                    //fr
-                    drivingLibrary.updateStrafeBias(1);
-
+                    drivingLibrary.updateStrafeBias(1, multiplier);
                 }
                 if (gamepad1.x) {
-                    //br
-                    drivingLibrary.updateStrafeBias(2);
-
+                    drivingLibrary.updateStrafeBias(2, multiplier);
                 }
                 if (gamepad1.y) {
-                    //bl
-                    drivingLibrary.updateStrafeBias(3);
+                    drivingLibrary.updateStrafeBias(3, multiplier);
                 }
 
                 if (gamepad1.right_bumper) {
@@ -57,12 +52,16 @@ public class TestStrafeBias extends LinearOpMode {
                     drivingLibrary.setMode(drivingMode);
                 }
 
+                if (gamepad1.left_bumper) multiplier *= -1;
+
                 drivingLibrary.driveStraight(gamepad1.left_stick_x, -gamepad1.left_stick_y);
                 drivingLibrary.turn(gamepad1.right_stick_x, -gamepad1.right_stick_y);
 
                 telemetry.addData("Status", "Running");
+                telemetry.addData("Multiplier", "" + multiplier);
                 drivingLibrary.printStrafeBias();
                 telemetry.addData("Brake Mode", drivingLibrary.getMode());
+
                 telemetry.update();
             }
 

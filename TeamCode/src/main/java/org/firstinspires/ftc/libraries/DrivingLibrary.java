@@ -61,22 +61,17 @@ public class DrivingLibrary {
         imu.initialize(parameters);
 
         allMotors = new DcMotor[] {leftFront, rightFront, leftRear, rightRear};
-        strafeBias = new double[] {0.0,0.0,0.0,0.0};
+        strafeBias = new double[] {1, 1, 1, 1};
     }
 
-    public void updateStrafeBias(int wheel) {
-        //0: fl
-        //1: fr
-        //2: br
-        //3: bl
-
-        strafeBias[wheel] += .01;
+    public void updateStrafeBias(int wheel, int multiplier) {
+        strafeBias[wheel] += (.01 * multiplier);
     }
     public void printStrafeBias() {
         opMode.telemetry.addData("fl", strafeBias[0]);
         opMode.telemetry.addData("fr", strafeBias[1]);
-        opMode.telemetry.addData("br", strafeBias[2]);
-        opMode.telemetry.addData("bl", strafeBias[3]);
+        opMode.telemetry.addData("rr", strafeBias[2]);
+        opMode.telemetry.addData("rl", strafeBias[3]);
     }
 
     public void driveStraight(float x, float y) {
@@ -101,10 +96,10 @@ public class DrivingLibrary {
             multiplier = 1 / maxSpeed;
         }
 
-        leftFront.setPower((y + x) * speedSetting * multiplier);
-        leftRear.setPower((y + x) * speedSetting * multiplier);
-        rightFront.setPower((y - x) * speedSetting * multiplier);
-        rightRear.setPower((y - x) * speedSetting * multiplier);
+        leftFront.setPower((y + x) * speedSetting * multiplier * strafeBias[0]);
+        leftRear.setPower((y + x) * speedSetting * multiplier * strafeBias[1]);
+        rightFront.setPower((y - x) * speedSetting * multiplier * strafeBias[2]);
+        rightRear.setPower((y - x) * speedSetting * multiplier * strafeBias[3]);
     }
 
     public void turnLeft(double radians) {
