@@ -233,7 +233,7 @@ public class GlyphArmLibrary {
         rightTop.setPosition(closedTopPosition[1]);
 
         pulley.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        pulley.setTargetPosition(10);
+        pulley.setTargetPosition(2000);
         pulley.setPower(pulleySpeed);
 
         while (pulley.getCurrentPosition() < 10) {
