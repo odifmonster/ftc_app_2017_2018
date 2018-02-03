@@ -286,7 +286,7 @@ public class AutonModeLibrary {
         else if (vuMark == RelicRecoveryVuMark.LEFT) {
             count = 3;
         } else {
-            count = 0                                                                              ;
+            count = 0;
         }
         opMode.telemetry.addData("count", count);
         return count;
@@ -324,7 +324,6 @@ public class AutonModeLibrary {
 
     //sensing
     public void getGlyphs() {
-        vuMarkIdentify.closeVuforia();
         if (glyphDetector.isFoundRect()) {
             double offset = glyphDetector.getChosenGlyphOffset();
             Point pos = glyphDetector.getChosenGlyphPosition();

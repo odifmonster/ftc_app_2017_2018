@@ -28,7 +28,7 @@ public class VuMarkIdentifyLibrary {
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
      * localization engine.
      */
-    ClosableVuforiaLocalizer vuforia;
+    VuforiaLocalizer vuforia;
     private HardwareMap hardwareMap;
     VuforiaTrackable relicTemplate;
 
@@ -45,9 +45,9 @@ public class VuMarkIdentifyLibrary {
          * for a competition robot, the front camera might be more convenient.
          */
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
-        //MIGHT FAIL
-        vuforia = new ClosableVuforiaLocalizer(parameters);
-        VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+        //ClosableVuforiaLocalizer vuforia = new ClosableVuforiaLocalizer(parameters);
+        vuforia = ClassFactory.createVuforiaLocalizer(parameters);
+        VuforiaTrackables relicTrackables = vuforia.loadTrackablesFromAsset("RelicVuMark");
         this.relicTemplate = relicTrackables.get(0);
         relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary
         relicTrackables.activate();
@@ -95,10 +95,6 @@ public class VuMarkIdentifyLibrary {
 
     String format(OpenGLMatrix transformationMatrix) {
         return (transformationMatrix != null) ? transformationMatrix.formatAsTransform() : "null";
-    }
-
-    public void closeVuforia() {
-        vuforia.close();
     }
 
 }
