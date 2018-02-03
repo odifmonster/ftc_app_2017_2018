@@ -181,6 +181,7 @@ public class GlyphArmLibrary {
 
     public void setPulleyBottom() {
         pulley.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        pulley.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void movePulley(Gamepad gamepad) {
