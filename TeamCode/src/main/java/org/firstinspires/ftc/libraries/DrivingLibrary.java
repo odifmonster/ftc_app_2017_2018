@@ -82,10 +82,10 @@ public class DrivingLibrary {
             multiplier = 1 / maxSpeed;
         }
 
-        leftFront.setPower((multiplier * speedSetting * (y + x)) + strafeBias[0]);
-        rightFront.setPower((multiplier * speedSetting * (y - x)) + strafeBias[1]);
-        rightRear.setPower((multiplier * speedSetting * (y + x)) + strafeBias[2]);
-        leftRear.setPower((multiplier * speedSetting * (y - x)) + strafeBias[3]);
+        leftFront.setPower(multiplier * speedSetting * (y + x) * strafeBias[0]);
+        rightFront.setPower(multiplier * speedSetting * (y - x) * strafeBias[1]);
+        rightRear.setPower(multiplier * speedSetting * (y + x) * strafeBias[2]);
+        leftRear.setPower(multiplier * speedSetting * (y - x) * strafeBias[3]);
     }
 
     public void turn(float x, float y) {
