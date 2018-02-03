@@ -110,8 +110,8 @@ public class GlyphArmLibrary {
         }
     }
 
-    public void topArmsIncrement(boolean lb, float lt, boolean rb) {
-        if (lb && !rb) {
+    public void topArmsIncrement(boolean lb, float lt) {
+        if (lb) {
             if (leftTop.getPosition() + increment <= closedTopPosition[0]) {
                 leftTop.setPosition(leftTop.getPosition() + increment);
             }
@@ -129,8 +129,8 @@ public class GlyphArmLibrary {
         }
     }
 
-    public void bottomArmsIncrement(boolean rb, float rt, boolean lb) {
-        if (rb && !lb) {
+    public void bottomArmsIncrement(boolean rb, float rt) {
+        if (rb) {
             if (leftBottom.getPosition() + increment <= closedBottomPosition[0]) {
                 leftBottom.setPosition(leftBottom.getPosition() + increment);
             }
@@ -241,6 +241,7 @@ public class GlyphArmLibrary {
         }
 
         pulley.setPower(0);
+        pulley.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void dropGlyphs() {

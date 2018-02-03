@@ -82,7 +82,7 @@ public class TeleOpMode extends LinearOpMode {
             if (gamepad2.x) glyphArmLibrary.liftTwoGlyphs();
             if (gamepad2.y) glyphArmLibrary.dropGlyphs();
 
-            if (gamepad2.right_bumper && gamepad2.left_bumper) {
+            if (gamepad2.left_stick_y < 0) {
                 glyphArmLibrary.setPulleyBottom();
             }
 
@@ -96,10 +96,9 @@ public class TeleOpMode extends LinearOpMode {
                     glyphArmLibrary.bottomArmsPreset(gamepad2.right_bumper, gamepad2.right_trigger);
                     break;
                 case TOP_BOTTOM_INCREMENT:
-                    glyphArmLibrary.topArmsIncrement(gamepad2.left_bumper, gamepad2.left_trigger,
-                            gamepad2.right_bumper);
+                    glyphArmLibrary.topArmsIncrement(gamepad2.left_bumper, gamepad2.left_trigger);
                     glyphArmLibrary.bottomArmsIncrement(gamepad2.right_bumper,
-                            gamepad2.right_trigger, gamepad2.left_bumper);
+                            gamepad2.right_trigger);
                     break;
             }
 
