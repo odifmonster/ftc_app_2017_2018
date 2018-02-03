@@ -241,6 +241,7 @@ public class GlyphArmLibrary {
         }
 
         pulley.setPower(0);
+        pulley.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void dropGlyphs() {
