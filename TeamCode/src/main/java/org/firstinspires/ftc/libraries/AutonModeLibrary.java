@@ -62,7 +62,7 @@ public class AutonModeLibrary {
     //internal methods
     private JewelColor senseColor() {
         //threshold variables
-        int redBThreshold = 20;
+        int redBThreshold = 60;
         int redTThreshold = 320;
         int blueBThreshold = 120;
         int blueTThreshold = 260;
@@ -70,9 +70,6 @@ public class AutonModeLibrary {
 
         // hsvValues is an array that will hold the hue, saturation, and value information.
         float hsvValues[] = {0F, 0F, 0F};
-        final float values[] = hsvValues;
-        final double SCALE_FACTOR = 255;
-
         // convert the RGB values to HSV values.
         //SENSE COLOR
         Color.RGBToHSV(jewelColorSensor.red() * 8, jewelColorSensor.green() * 8, jewelColorSensor.blue() * 8, hsvValues);
@@ -83,15 +80,15 @@ public class AutonModeLibrary {
         boolean seeingRedJewel = hue < redBThreshold || hue > redTThreshold;
         boolean seeingBlueJewel = hue > blueBThreshold && hue < blueTThreshold;
 
-        if (seeingBlueJewel && !seeingRedJewel) {
+        if (seeingBlueJewel) {
             opMode.telemetry.addData("Saw:", "Blue Jewel");
             opMode.telemetry.update();
-            return JewelColor.RED;
+            return JewelColor.BLUE;
         }
-        else if (!seeingBlueJewel && seeingRedJewel) {
+        else if (seeingRedJewel) {
             opMode.telemetry.addData("Saw:", "Red Jewel");
             opMode.telemetry.update();
-            return JewelColor.BLUE;
+            return JewelColor.RED;
         }
         else {
             opMode.telemetry.addData("Saw:", "Unknown");
@@ -100,47 +97,14 @@ public class AutonModeLibrary {
         }
     }
 
+    public void callSenseColor() {
+        senseColor();
+    }
+
     private RelicRecoveryVuMark identifyPictograph() {
         //pick up
         return vuMarkIdentify.identifyPictograph(opMode);
     }
-
-    //TODO:after testing, change to private
-    public void senseCryotobox(int count) {
-        //strafe slowly
-        drivingLibrary.driveStraight (-.4f,0);
-        double dist = cryptoDistanceSensor.getDistance(DistanceUnit.CM);
-        opMode.telemetry.addData("Sensing", dist != java.lang.Double.NaN);
-        opMode.telemetry.addData("Dist", dist);
-        opMode.telemetry.update();
-
-        /*
-        drivingLibrary.driveStraight(-4f,0);
-        opMode.sleep(1000);
-        while (count != 0) {
-            double dist = distanceSensor.getDistance(DistanceUnit.CM);
-            //or just use 10
-            //margin of error of 3 cm
-            if (dist < (distThreshold + 3))) {
-            }
-            opMode.telemetry.addData("Distance", dist);
-            opMode.telemetry.update();
-        }
-        drivingLibrary.brakeStop();
-        opMode.sleep(300);
-
-        //put glyph in
-        drivingLibrary.driveStraight(0,.5f);
-        dropGlyph();
-        opMode.sleep(300);
-        drivingLibrary.brakeStop();*/
-
-        //turns around 180 to face glyph pit
-        drivingLibrary.turnRight(Math.PI);
-        opMode.sleep(1000);
-        drivingLibrary.brakeStop();
-    }
-
 
     //external methods
     public void pickUpGlyph() {
@@ -153,7 +117,7 @@ public class AutonModeLibrary {
     public Direction knockOffJewel() {
         //test variables
         int waitMoveArm = 1000;
-        int waitDriveTime = 500;
+        int waitDriveTime = 300;
         int colorArmResetPos = 1;
         double colorArmDownPos = 0.1;
         float driveSpeed = .4f;
@@ -168,12 +132,12 @@ public class AutonModeLibrary {
 
         if (alliance == FTCAlliance.RED) {
             if (color == JewelColor.BLUE) {
-                drivingLibrary.driveStraight(0, -driveSpeed);
-                dir = Direction.BACKWARD;
-            }
-            else if (color == JewelColor.RED) {
                 drivingLibrary.driveStraight(0, driveSpeed);
                 dir = Direction.FORWARD;
+            }
+            else if (color == JewelColor.RED) {
+                drivingLibrary.driveStraight(0, -driveSpeed);
+                dir = Direction.BACKWARD;
             }
             else {
                 colorArm.setPosition(colorArmResetPos);
@@ -198,14 +162,13 @@ public class AutonModeLibrary {
             }
         }
         opMode.sleep(waitDriveTime);
-        drivingLibrary.stopDrivingMotors();
         colorArm.setPosition(colorArmResetPos);
         opMode.telemetry.update();
         return dir;
     }
 
     //TODO: fix lol
-    public int glyptograph(Direction direction) {
+    public int glyptograph(Direction dir) {
         float driveSpeedStone = .6f;
         float driveSpeedStrafe = 1f;
         float driveSpeed = .4f;
@@ -215,7 +178,32 @@ public class AutonModeLibrary {
         int waitLong = 2500;
         int waitSensePictograph = 500;
 
-        /*if (position == FTCPosition.LEFT) {
+        driveSpeed = .5f;
+        int drive1 = 850;
+        int drive2 = 500;
+        int drive3 = 500;
+        int drive4 = 500;
+        int drive5 = 500;
+        int drive6 = 300;
+
+        drivingLibrary.driveStraight(0,driveSpeed);
+        opMode.sleep(drive1);
+        drivingLibrary.driveStraight(-driveSpeed,0);
+        opMode.sleep(drive2);
+        drivingLibrary.turnRight(Math.PI / 2);
+       /* drivingLibrary.turn(driveSpeed,0);
+        opMode.sleep(drive3);
+        drivingLibrary.driveStraight (driveSpeed,0);
+        opMode.sleep(drive4);
+        drivingLibrary.turn(driveSpeed,0);
+        opMode.sleep(drive5);
+        drivingLibrary.driveStraight(0,-driveSpeed);
+        opMode.sleep(drive6);*/
+        drivingLibrary.brakeStop();
+
+        //red left forward
+        /*
+        if (position == FTCPosition.LEFT) {
             if (dir == Direction.BACKWARD) {
                 if (alliance == FTCAlliance.RED) {
                     //if red, on left side, and went backwards
@@ -233,12 +221,10 @@ public class AutonModeLibrary {
                     opMode.sleep(500);
                 }
             } else {
+                //TODO: LOOK ATTHIS ONE MEGAN
                 if (alliance == FTCAlliance.RED) {
                     //if red, on left side, and went forwards
-                    drivingLibrary.driveStraight(0, driveSpeed);
-                    opMode.sleep(750);
-                    drivingLibrary.driveStraight(driveSpeedStrafe, 0);
-                    opMode.sleep(250);
+
                 }
                 else {
                     //if blue, on left side, and went forwards
@@ -286,26 +272,6 @@ public class AutonModeLibrary {
                 }
             }
         }*/
-
-        driveSpeed = .5f;
-        int drive1 = 800;
-        int drive2 = 500;
-        int drive3 = 700;
-        int drive4 = 600;
-        int drive5 = 200;
-
-        drivingLibrary.driveStraight(0,driveSpeed);
-        opMode.sleep(drive1);
-        drivingLibrary.driveStraight(-driveSpeed,0);
-        opMode.sleep(drive2);
-        drivingLibrary.turn(driveSpeed,0);
-        opMode.sleep(drive3);
-        drivingLibrary.driveStraight (driveSpeed,0);
-        opMode.sleep(drive4);
-        drivingLibrary.turn(driveSpeed,0);
-        opMode.sleep(drive5);
-        drivingLibrary.brakeStop();
-
         //use vuforia to identify
         RelicRecoveryVuMark vuMark = identifyPictograph();
         opMode.sleep(waitSensePictograph);
@@ -324,6 +290,36 @@ public class AutonModeLibrary {
         }
         opMode.telemetry.addData("count", count);
         return count;
+    }
+
+    public void placeGlyphs(int count) {
+        //turn a little
+        drivingLibrary.turnRight(0.2617993878);
+        //strafe slowly
+        drivingLibrary.driveStraight(-.3f,0);
+        opMode.sleep(1000);
+        while (count != 0) {
+            double dist = cryptoDistanceSensor.getDistance(DistanceUnit.CM);
+            if (dist != java.lang.Double.NaN) {
+                count -= 1;
+            }
+            opMode.telemetry.addData("Distance", dist);
+            opMode.telemetry.update();
+        }
+        drivingLibrary.brakeStop();
+
+        /*
+
+        //put glyph in
+        drivingLibrary.driveStraight(0,.5f);
+        dropGlyph();
+        opMode.sleep(300);
+        drivingLibrary.brakeStop();
+
+        //turns around 180 to face glyph pit
+        drivingLibrary.turnRight(Math.PI);
+        opMode.sleep(1000);
+        drivingLibrary.brakeStop();*/
     }
 
     //sensing

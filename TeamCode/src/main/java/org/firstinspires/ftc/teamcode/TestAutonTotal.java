@@ -19,7 +19,7 @@ public class TestAutonTotal extends LinearOpMode {
     DrivingLibrary drivingLibrary;
 
     public void runOpMode() throws InterruptedException {
-        autonMode = new AutonModeLibrary(this, FTCAlliance.BLUE, FTCPosition.LEFT);
+        autonMode = new AutonModeLibrary(this, FTCAlliance.RED, FTCPosition.LEFT);
         drivingLibrary = new DrivingLibrary(this);
         drivingLibrary.setSpeed(1);
 
@@ -29,21 +29,25 @@ public class TestAutonTotal extends LinearOpMode {
         Direction direction;
 
         while (opModeIsActive()) {
+            //pick up glyph
+            autonMode.pickUpGlyph();
+
             //knock off jewel: 2 sec/1 sec
             direction = autonMode.knockOffJewel();
 
-            //pick up the glyph currently in the arms
-            autonMode.pickUpGlyph();
 
             //glyptograph
-            autonMode.glyptograph(direction);
+            int count = autonMode.glyptograph(direction);
 
+            autonMode.placeGlyphs(2);
+
+            /*
             //extra glyphs
             autonMode.getGlyphs();
 
             //drive to safe zone: 2 sec **NEEDS FIXING**
             autonMode.driveToSafeZone(direction);
-            /*drivingLibrary.turnRight(Math.PI / 2);
+            drivingLibrary.turnRight(Math.PI / 2);
             drivingLibrary.turnLeft(Math.PI / 2);*/
 
             sleep(30000);

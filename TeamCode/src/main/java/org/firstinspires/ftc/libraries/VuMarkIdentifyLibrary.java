@@ -46,7 +46,7 @@ public class VuMarkIdentifyLibrary {
          */
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
         //MIGHT FAIL
-        ClosableVuforiaLocalizer vuforia = new ClosableVuforiaLocalizer(parameters);
+        vuforia = new ClosableVuforiaLocalizer(parameters);
         VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
         this.relicTemplate = relicTrackables.get(0);
         relicTemplate.setName("relicVuMarkTemplate"); // can help in debugging; otherwise not necessary

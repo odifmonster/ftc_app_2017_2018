@@ -1,9 +1,9 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.whatever;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-import org.firstinspires.ftc.enums.Direction;
 import org.firstinspires.ftc.enums.FTCAlliance;
 import org.firstinspires.ftc.enums.FTCPosition;
 import org.firstinspires.ftc.libraries.AutonModeLibrary;
@@ -11,6 +11,7 @@ import org.firstinspires.ftc.libraries.AutonModeLibrary;
 /**
  * Created by megankaye on 1/23/18.
  */
+@Disabled
 @Autonomous
 public class TestDistSensor extends LinearOpMode {
     AutonModeLibrary autonMode;
@@ -23,7 +24,7 @@ public class TestDistSensor extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            autonMode.senseCryotobox(2);
+            autonMode.placeGlyphs(2);
         }
     }
 }

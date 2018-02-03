@@ -26,6 +26,7 @@ public class DrivingLibrary {
     private DcMotor rightRear;
     private DcMotor[] allMotors;
     private HardwareMap hardwareMap;
+    private double[] strafeBias;
 
     // sensor variables
     private BNO055IMU imu;
@@ -60,6 +61,22 @@ public class DrivingLibrary {
         imu.initialize(parameters);
 
         allMotors = new DcMotor[] {leftFront, rightFront, leftRear, rightRear};
+        strafeBias = new double[] {0.0,0.0,0.0,0.0};
+    }
+
+    public void updateStrafeBias(int wheel) {
+        //0: fl
+        //1: fr
+        //2: br
+        //3: bl
+
+        strafeBias[wheel] += .01;
+    }
+    public void printStrafeBias() {
+        opMode.telemetry.addData("fl", strafeBias[0]);
+        opMode.telemetry.addData("fr", strafeBias[1]);
+        opMode.telemetry.addData("br", strafeBias[2]);
+        opMode.telemetry.addData("bl", strafeBias[3]);
     }
 
     public void driveStraight(float x, float y) {
@@ -70,10 +87,10 @@ public class DrivingLibrary {
             multiplier = 1 / maxSpeed;
         }
 
-        leftFront.setPower(multiplier * speedSetting * (y + x));
-        rightFront.setPower(multiplier * speedSetting * (y - x));
-        leftRear.setPower(multiplier * speedSetting * (y - x));
-        rightRear.setPower(multiplier * speedSetting * (y + x));
+        leftFront.setPower((multiplier * speedSetting * (y + x)) + strafeBias[0]);
+        rightFront.setPower((multiplier * speedSetting * (y - x)) + strafeBias[1]);
+        rightRear.setPower((multiplier * speedSetting * (y + x)) + strafeBias[2]);
+        leftRear.setPower((multiplier * speedSetting * (y - x)) + strafeBias[3]);
     }
 
     public void turn(float x, float y) {
@@ -102,7 +119,7 @@ public class DrivingLibrary {
         }
 
         while (currentYaw - subtractYaw < targetYaw) {
-            turn(-0.2f, 0);
+            turn(-0.5f, 0);
             currentYaw = imu.getAngularOrientation(AxesReference.INTRINSIC,
                     AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
             opMode.telemetry.addData("Direction", "Right");
@@ -126,7 +143,7 @@ public class DrivingLibrary {
         }
 
         while (currentYaw + addYaw > targetYaw) {
-            turn(0.2f, 0);
+            turn(0.5f, 0);
             currentYaw = imu.getAngularOrientation(AxesReference.INTRINSIC,
                     AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
             opMode.telemetry.addData("Direction", "Left");
