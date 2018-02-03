@@ -35,16 +35,12 @@ public class TestAutonTotal extends LinearOpMode {
             //knock off jewel: 2 sec/1 sec
             direction = autonMode.knockOffJewel();
 
-
             //glyptograph
             int count = autonMode.glyptograph(direction);
 
             autonMode.placeGlyphs(2);
 
             /*
-            //extra glyphs
-            autonMode.getGlyphs();
-
             //drive to safe zone: 2 sec **NEEDS FIXING**
             autonMode.driveToSafeZone(direction);
             drivingLibrary.turnRight(Math.PI / 2);

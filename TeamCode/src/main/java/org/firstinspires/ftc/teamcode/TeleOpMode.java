@@ -31,7 +31,7 @@ import org.firstinspires.ftc.libraries.GlyphArmLibrary;
  * rb: glyph arm
  * lt: glyph arm
  * lb: glyph arm
- * dpad: pulley (x)
+ * dpad: pulley (y)
  * rjoy:
  * ljoy:
  * a: switch glyph arm modes
