@@ -38,7 +38,7 @@ public class TestAutonTotal extends LinearOpMode {
             //glyptograph
             int count = autonMode.glyptograph(direction);
 
-            autonMode.placeGlyphs(2);
+            autonMode.placeGlyphs(count);
 
             /*
             //drive to safe zone: 2 sec **NEEDS FIXING**
