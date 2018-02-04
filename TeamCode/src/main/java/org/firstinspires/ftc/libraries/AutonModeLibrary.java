@@ -336,25 +336,84 @@ public class AutonModeLibrary {
 
     public void placeGlyphs(int count) {
         //turn a little
-        drivingLibrary.turnLeft(0.2617993878);
-        drivingLibrary.driveStraight(0,.3f);
-        opMode.sleep(300);
-        //strafe slowly
-        drivingLibrary.driveStraight(-.3f,0);
-        opMode.sleep(1000);
-        while (count != 0) {
-            double dist = cryptoDistanceSensor.getDistance(DistanceUnit.CM);
-            if (dist != java.lang.Double.NaN) {
-                count -= 1;
-                opMode.telemetry.addData("Distance", dist);
-                opMode.telemetry.update();
+        if (alliance == FTCAlliance.RED) {
+            if (position == FTCPosition.LEFT) {
+                drivingLibrary.turnLeft(0.2617993878);
+                drivingLibrary.driveStraight(0,.3f);
                 opMode.sleep(300);
+                //strafe slowly
+                drivingLibrary.driveStraight(-.3f,0);
+                while (count != 0) {
+                    double dist = cryptoDistanceSensor.getDistance(DistanceUnit.CM);
+                    if (dist != java.lang.Double.NaN) {
+                        count -= 1;
+                        opMode.telemetry.addData("Distance", dist);
+                        opMode.telemetry.update();
+                        opMode.sleep(300);
+                    }
+                    opMode.telemetry.addData("Distance", dist);
+                    opMode.telemetry.update();
+                }
             }
-            opMode.telemetry.addData("Distance", dist);
-            opMode.telemetry.update();
-        }
-        drivingLibrary.brakeStop();
+            else {
+                drivingLibrary.turnLeft(Math.PI / 2);
+                drivingLibrary.driveStraight(0,.3f);
+                opMode.sleep(600);
+                //strafe slowly
+                drivingLibrary.driveStraight(-.3f,0);
+                while (count != 0) {
+                    double dist = cryptoDistanceSensor.getDistance(DistanceUnit.CM);
+                    if (dist != java.lang.Double.NaN) {
+                        count -= 1;
+                        opMode.telemetry.addData("Distance", dist);
+                        opMode.telemetry.update();
+                        opMode.sleep(300);
+                    }
+                    opMode.telemetry.addData("Distance", dist);
+                    opMode.telemetry.update();
+                }
+            }
+        } else {
+            if (position == FTCPosition.LEFT) {
+                drivingLibrary.turnRight(Math.PI / 2);
+                drivingLibrary.driveStraight(0,.3f);
+                opMode.sleep(600);
+                //strafe slowly
+                drivingLibrary.driveStraight(.3f,0);
+                while (count != 0) {
+                    double dist = cryptoDistanceSensor.getDistance(DistanceUnit.CM);
+                    if (dist != java.lang.Double.NaN) {
+                        count -= 1;
+                        opMode.telemetry.addData("Distance", dist);
+                        opMode.telemetry.update();
+                        opMode.sleep(300);
+                    }
+                    opMode.telemetry.addData("Distance", dist);
+                    opMode.telemetry.update();
+                }
 
+            } else {
+                drivingLibrary.turnRight(0.2617993878);
+                drivingLibrary.driveStraight(0,.3f);
+                opMode.sleep(300);
+                //strafe slowly
+                drivingLibrary.driveStraight(.3f,0);
+                while (count != 0) {
+                    double dist = cryptoDistanceSensor.getDistance(DistanceUnit.CM);
+                    if (dist != java.lang.Double.NaN) {
+                        count -= 1;
+                        opMode.telemetry.addData("Distance", dist);
+                        opMode.telemetry.update();
+                        opMode.sleep(300);
+                    }
+                    opMode.telemetry.addData("Distance", dist);
+                    opMode.telemetry.update();
+                }
+            }
+        }
+
+        drivingLibrary.brakeStop();
+        
         //put glyph in
         drivingLibrary.driveStraight(0,.5f);
         opMode.sleep(500);
