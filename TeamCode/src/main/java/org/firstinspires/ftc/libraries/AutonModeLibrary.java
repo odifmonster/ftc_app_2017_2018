@@ -326,6 +326,7 @@ public class AutonModeLibrary {
                 }
             } else { count = 0; }
             tries += 1;
+            opMode.sleep(100);
         }
         if (count == 0)  { count = 2;}
 
