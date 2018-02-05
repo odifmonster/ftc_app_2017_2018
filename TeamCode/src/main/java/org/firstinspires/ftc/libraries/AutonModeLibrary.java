@@ -320,8 +320,9 @@ public class AutonModeLibrary {
                 }
             } else { count = 0; }
             tries += 1;
-            if (count == 0 && tries >= 3)  { count = 2;}
+            opMode.sleep(100);
         }
+        if (count == 0)  { count = 2;}
 
 
         opMode.telemetry.addData("count", count);
@@ -407,7 +408,7 @@ public class AutonModeLibrary {
         }
 
         drivingLibrary.brakeStop();
-        
+
         //put glyph in
         drivingLibrary.driveStraight(0,.5f);
         opMode.sleep(500);
