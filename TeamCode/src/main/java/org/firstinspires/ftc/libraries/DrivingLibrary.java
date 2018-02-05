@@ -104,7 +104,7 @@ public class DrivingLibrary {
 
     public void turnLeft(double radians) {
         double currentYaw = imu.getAngularOrientation(AxesReference.INTRINSIC,
-                AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
+                AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle + Math.PI;
         double targetYaw = currentYaw + radians;
         double subtractYaw = 0;
 
@@ -128,7 +128,7 @@ public class DrivingLibrary {
 
     public void turnRight(double radians) {
         double currentYaw = imu.getAngularOrientation(AxesReference.INTRINSIC,
-                AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
+                AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle + Math.PI;
         double targetYaw = currentYaw - radians;
         double addYaw = 0;
 
