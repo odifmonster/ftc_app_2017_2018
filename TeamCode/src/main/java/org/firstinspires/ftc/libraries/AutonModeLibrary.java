@@ -97,10 +97,6 @@ public class AutonModeLibrary {
         }
     }
 
-    public void callSenseColor() {
-        senseColor();
-    }
-
     private RelicRecoveryVuMark identifyPictograph() {
         //pick up
         return vuMarkIdentify.identifyPictograph(opMode);
@@ -169,6 +165,7 @@ public class AutonModeLibrary {
         return dir;
     }
 
+    //TODO: Turn 180 deg after, implement directional compass, TESTING
     public int glyptograph(Direction dir) {
         float driveSpeed = .4f;
 
@@ -335,6 +332,7 @@ public class AutonModeLibrary {
         return count;
     }
 
+    //TODO: Turn 180 deg after, implement directional compass, TESTING
     public void placeGlyphs(int count) {
         //turn a little
         if (alliance == FTCAlliance.RED) {
@@ -533,6 +531,10 @@ public class AutonModeLibrary {
 
         opMode.telemetry.update();
         drivingLibrary.stopDrivingMotors();
+    }
+
+    public void callSenseColor() {
+        senseColor();
     }
 
 }
