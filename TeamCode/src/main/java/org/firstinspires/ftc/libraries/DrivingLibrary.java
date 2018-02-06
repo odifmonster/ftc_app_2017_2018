@@ -102,54 +102,6 @@ public class DrivingLibrary {
         rightRear.setPower((y - x) * speedSetting * multiplier * strafeBias[3]);
     }
 
-    public void turnLeft(double radians) {
-        double currentYaw = imu.getAngularOrientation(AxesReference.INTRINSIC,
-                AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle + Math.PI;
-        double targetYaw = currentYaw + radians;
-        double subtractYaw = 0;
-
-        if (targetYaw > 2 * Math.PI) {
-            targetYaw -= (2 * Math.PI);
-            subtractYaw = 2 * Math.PI;
-        }
-
-        while (currentYaw - subtractYaw < targetYaw) {
-            turn(-0.5f, 0);
-            currentYaw = imu.getAngularOrientation(AxesReference.INTRINSIC,
-                    AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
-            opMode.telemetry.addData("Direction", "Right");
-            opMode.telemetry.addData("Current Angle", currentYaw);
-            opMode.telemetry.addData("Target Angle", targetYaw);
-            opMode.telemetry.update();
-        }
-
-        brakeStop();
-    }
-
-    public void turnRight(double radians) {
-        double currentYaw = imu.getAngularOrientation(AxesReference.INTRINSIC,
-                AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle + Math.PI;
-        double targetYaw = currentYaw - radians;
-        double addYaw = 0;
-
-        if (targetYaw < 0) {
-            targetYaw += (2 * Math.PI);
-            addYaw = 2 * Math.PI;
-        }
-
-        while (currentYaw + addYaw > targetYaw) {
-            turn(0.5f, 0);
-            currentYaw = imu.getAngularOrientation(AxesReference.INTRINSIC,
-                    AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle;
-            opMode.telemetry.addData("Direction", "Left");
-            opMode.telemetry.addData("Current Angle", currentYaw);
-            opMode.telemetry.addData("Target Angle", targetYaw);
-            opMode.telemetry.update();
-        }
-
-        brakeStop();
-    }
-
     public void setSpeed(double speed) {
         speedSetting = speed;
     }

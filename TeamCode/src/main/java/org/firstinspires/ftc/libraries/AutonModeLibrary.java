@@ -4,6 +4,7 @@ import android.graphics.Color;
 
 import com.disnodeteam.dogecv.CameraViewDisplay;
 import com.disnodeteam.dogecv.detectors.GlyphDetector;
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -25,6 +26,7 @@ public class AutonModeLibrary {
     LinearOpMode opMode;
 
     DrivingLibrary drivingLibrary;
+    GyroSensorLibrary gyroSensorLibrary;
     VuMarkIdentifyLibrary vuMarkIdentify;
     GlyphArmLibrary glyphArm;
 
@@ -43,6 +45,8 @@ public class AutonModeLibrary {
         this.position = position;
         drivingLibrary = new DrivingLibrary(opMode);
         this.drivingLibrary.setSpeed(0.75);
+        gyroSensorLibrary = new GyroSensorLibrary(opMode, BNO055IMU.AngleUnit.RADIANS,
+                BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC, drivingLibrary);
         glyphArm = new GlyphArmLibrary(opMode);
         this.colorArm = opMode.hardwareMap.get(Servo.class,"color_arm");
         jewelColorSensor = opMode.hardwareMap.get(ColorSensor.class, "jewelColorSensor");
@@ -178,7 +182,7 @@ public class AutonModeLibrary {
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(-driveSpeed,0);
                     opMode.sleep(drive2);
-                    drivingLibrary.turnRight(Math.PI / 2);
+                    gyroSensorLibrary.turnRight(Math.PI / 2);
                     drivingLibrary.driveStraight(driveSpeed,0);
                     opMode.sleep(drive3);
                     drivingLibrary.brakeStop();
@@ -192,7 +196,7 @@ public class AutonModeLibrary {
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(driveSpeed,0);
                     opMode.sleep(drive2);
-                    drivingLibrary.turnLeft(Math.PI / 2);
+                    gyroSensorLibrary.turnLeft(Math.PI / 2);
                     drivingLibrary.driveStraight(-driveSpeed,0);
                     opMode.sleep(drive3);
                     drivingLibrary.brakeStop();
@@ -207,7 +211,7 @@ public class AutonModeLibrary {
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(-driveSpeed,0);
                     opMode.sleep(drive2);
-                    drivingLibrary.turnRight(Math.PI / 2);
+                    gyroSensorLibrary.turnRight(Math.PI / 2);
                     drivingLibrary.driveStraight(driveSpeed,0);
                     opMode.sleep(drive3);
                     drivingLibrary.brakeStop();
@@ -221,7 +225,7 @@ public class AutonModeLibrary {
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(driveSpeed,0);
                     opMode.sleep(drive2);
-                    drivingLibrary.turnLeft(Math.PI / 2);
+                    gyroSensorLibrary.turnLeft(Math.PI / 2);
                     drivingLibrary.driveStraight(-driveSpeed,0);
                     opMode.sleep(drive3);
                     drivingLibrary.brakeStop();
@@ -239,7 +243,7 @@ public class AutonModeLibrary {
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(-driveSpeed,0);
                     opMode.sleep(drive2);
-                    drivingLibrary.turnRight(Math.PI / 2);
+                    gyroSensorLibrary.turnRight(Math.PI / 2);
                     drivingLibrary.driveStraight(driveSpeed,0);
                     opMode.sleep(drive3);
                     drivingLibrary.brakeStop();
@@ -252,7 +256,7 @@ public class AutonModeLibrary {
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(driveSpeed,0);
                     opMode.sleep(drive2);
-                    drivingLibrary.turnLeft(Math.PI / 2);
+                    gyroSensorLibrary.turnLeft(Math.PI / 2);
                     drivingLibrary.driveStraight(-driveSpeed,0);
                     opMode.sleep(drive3);
                     drivingLibrary.brakeStop();
@@ -267,7 +271,7 @@ public class AutonModeLibrary {
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(-driveSpeed,0);
                     opMode.sleep(drive2);
-                    drivingLibrary.turnRight(Math.PI / 2);
+                    gyroSensorLibrary.turnRight(Math.PI / 2);
                     drivingLibrary.driveStraight(driveSpeed,0);
                     opMode.sleep(drive3);
                     drivingLibrary.brakeStop();
@@ -281,7 +285,7 @@ public class AutonModeLibrary {
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(driveSpeed,0);
                     opMode.sleep(drive2);
-                    drivingLibrary.turnLeft(Math.PI / 2);
+                    gyroSensorLibrary.turnLeft(Math.PI / 2);
                     drivingLibrary.driveStraight(-driveSpeed,0);
                     opMode.sleep(drive3);
                     drivingLibrary.brakeStop();
@@ -331,7 +335,7 @@ public class AutonModeLibrary {
         //turn a little
         if (alliance == FTCAlliance.RED) {
             if (position == FTCPosition.LEFT) {
-                drivingLibrary.turnLeft(0.2617993878);
+                gyroSensorLibrary.turnLeft(0.2617993878);
                 drivingLibrary.driveStraight(0,.3f);
                 opMode.sleep(300);
                 //strafe slowly
@@ -349,7 +353,7 @@ public class AutonModeLibrary {
                 }
             }
             else {
-                drivingLibrary.turnLeft(Math.PI / 2);
+                gyroSensorLibrary.turnLeft(Math.PI / 2);
                 drivingLibrary.driveStraight(0,.3f);
                 opMode.sleep(600);
                 //strafe slowly
@@ -368,7 +372,7 @@ public class AutonModeLibrary {
             }
         } else {
             if (position == FTCPosition.LEFT) {
-                drivingLibrary.turnRight(Math.PI / 2);
+                gyroSensorLibrary.turnRight(Math.PI / 2);
                 drivingLibrary.driveStraight(0,.3f);
                 opMode.sleep(600);
                 //strafe slowly
@@ -386,7 +390,7 @@ public class AutonModeLibrary {
                 }
 
             } else {
-                drivingLibrary.turnRight(0.2617993878);
+                gyroSensorLibrary.turnRight(0.2617993878);
                 drivingLibrary.driveStraight(0,.3f);
                 opMode.sleep(300);
                 //strafe slowly
