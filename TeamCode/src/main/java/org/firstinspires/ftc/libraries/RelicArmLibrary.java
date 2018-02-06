@@ -31,10 +31,10 @@ public class RelicArmLibrary {
     public void extendArm(boolean direction) {
         if (direction) {
             extendArmL.setPower(.3);
-            extendArmR.setPower(-.3);
+            extendArmR.setPower(.3);
         } else {
             extendArmL.setPower(-.3);
-            extendArmR.setPower(.3);
+            extendArmR.setPower(-.3);
         }
     }
 
