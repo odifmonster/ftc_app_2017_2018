@@ -13,6 +13,7 @@ public class RelicArmLibrary {
     OpMode opMode;
     DcMotor extendArmL;
     DcMotor extendArmR;
+    //DcMotor pullInArm;
     Servo liftArm;
     Servo clawArm;
 
@@ -24,6 +25,7 @@ public class RelicArmLibrary {
         this.opMode = opMode;
         extendArmL = opMode.hardwareMap.get(DcMotor.class,"extendArmL");
         extendArmR = opMode.hardwareMap.get(DcMotor.class,"extendArmR");
+        //pullInArm = opMode.hardwareMap.get(DcMotor.class,"pullInArm");
         liftArm = opMode.hardwareMap.get(Servo.class, "liftArm");
         clawArm = opMode.hardwareMap.get(Servo.class, "clawArm");
     }
@@ -33,6 +35,7 @@ public class RelicArmLibrary {
             extendArmL.setPower(.3);
             extendArmR.setPower(.3);
         } else {
+            //pullInArm.setPower(-.3)
             extendArmL.setPower(-.3);
             extendArmR.setPower(-.3);
         }
