@@ -13,6 +13,7 @@ public class RelicArmLibrary {
     OpMode opMode;
     DcMotor extendArmL;
     DcMotor extendArmR;
+    //DcMotor pullInArm;
     Servo liftArm;
     Servo clawArm;
 
@@ -31,10 +32,12 @@ public class RelicArmLibrary {
     public void extendArm(boolean direction) {
         if (direction) {
             extendArmL.setPower(.3);
-            extendArmR.setPower(-.3);
-        } else {
-            extendArmL.setPower(-.3);
             extendArmR.setPower(.3);
+            //pullInArm.setPower(.3)
+        } else {
+            //pullInArm.setPower(-.3)
+            extendArmL.setPower(-.3);
+            extendArmR.setPower(-.3);
         }
     }
 
