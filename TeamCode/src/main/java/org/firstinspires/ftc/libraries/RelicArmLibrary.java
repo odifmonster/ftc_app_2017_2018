@@ -25,6 +25,7 @@ public class RelicArmLibrary {
         this.opMode = opMode;
         extendArmL = opMode.hardwareMap.get(DcMotor.class,"extendArmL");
         extendArmR = opMode.hardwareMap.get(DcMotor.class,"extendArmR");
+        //pullInArm = opMode.hardwareMap.get(DcMotor.class,"pullInArm");
         liftArm = opMode.hardwareMap.get(Servo.class, "liftArm");
         clawArm = opMode.hardwareMap.get(Servo.class, "clawArm");
     }
