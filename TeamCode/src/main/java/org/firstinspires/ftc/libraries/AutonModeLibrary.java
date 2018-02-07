@@ -182,7 +182,7 @@ public class AutonModeLibrary {
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(-driveSpeed,0);
                     opMode.sleep(drive2);
-                    gyroSensorLibrary.turnRight(Math.PI / 2);
+                    gyroSensorLibrary.rightToAngle(-Math.PI / 2);
                     drivingLibrary.driveStraight(driveSpeed,0);
                     opMode.sleep(drive3);
                     drivingLibrary.brakeStop();
@@ -196,7 +196,7 @@ public class AutonModeLibrary {
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(driveSpeed,0);
                     opMode.sleep(drive2);
-                    gyroSensorLibrary.turnLeft(Math.PI / 2);
+                    gyroSensorLibrary.rightToAngle(-Math.PI / 2);
                     drivingLibrary.driveStraight(-driveSpeed,0);
                     opMode.sleep(drive3);
                     drivingLibrary.brakeStop();
@@ -211,7 +211,7 @@ public class AutonModeLibrary {
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(-driveSpeed,0);
                     opMode.sleep(drive2);
-                    gyroSensorLibrary.turnRight(Math.PI / 2);
+                    gyroSensorLibrary.rightToAngle(-Math.PI / 2);
                     drivingLibrary.driveStraight(driveSpeed,0);
                     opMode.sleep(drive3);
                     drivingLibrary.brakeStop();
@@ -225,7 +225,7 @@ public class AutonModeLibrary {
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(driveSpeed,0);
                     opMode.sleep(drive2);
-                    gyroSensorLibrary.turnLeft(Math.PI / 2);
+                    gyroSensorLibrary.rightToAngle(-Math.PI / 2);
                     drivingLibrary.driveStraight(-driveSpeed,0);
                     opMode.sleep(drive3);
                     drivingLibrary.brakeStop();
@@ -243,7 +243,7 @@ public class AutonModeLibrary {
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(-driveSpeed,0);
                     opMode.sleep(drive2);
-                    gyroSensorLibrary.turnRight(Math.PI / 2);
+                    gyroSensorLibrary.rightToAngle(-Math.PI / 2);
                     drivingLibrary.driveStraight(driveSpeed,0);
                     opMode.sleep(drive3);
                     drivingLibrary.brakeStop();
@@ -256,7 +256,7 @@ public class AutonModeLibrary {
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(driveSpeed,0);
                     opMode.sleep(drive2);
-                    gyroSensorLibrary.turnLeft(Math.PI / 2);
+                    gyroSensorLibrary.rightToAngle(-Math.PI / 2);
                     drivingLibrary.driveStraight(-driveSpeed,0);
                     opMode.sleep(drive3);
                     drivingLibrary.brakeStop();
@@ -271,7 +271,7 @@ public class AutonModeLibrary {
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(-driveSpeed,0);
                     opMode.sleep(drive2);
-                    gyroSensorLibrary.turnRight(Math.PI / 2);
+                    gyroSensorLibrary.rightToAngle(-Math.PI / 2);
                     drivingLibrary.driveStraight(driveSpeed,0);
                     opMode.sleep(drive3);
                     drivingLibrary.brakeStop();
@@ -285,7 +285,7 @@ public class AutonModeLibrary {
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(driveSpeed,0);
                     opMode.sleep(drive2);
-                    gyroSensorLibrary.turnLeft(Math.PI / 2);
+                    gyroSensorLibrary.rightToAngle(-Math.PI / 2);
                     drivingLibrary.driveStraight(-driveSpeed,0);
                     opMode.sleep(drive3);
                     drivingLibrary.brakeStop();
@@ -330,7 +330,7 @@ public class AutonModeLibrary {
         return count;
     }
 
-    //TODO: Turn 180 deg after, implement directional compass, TESTING
+    //TODO: TESTING
     public void placeGlyphs(int count) {
         //turn a little
         if (alliance == FTCAlliance.RED) {
@@ -420,7 +420,7 @@ public class AutonModeLibrary {
         opMode.sleep(200);
 
         //turns around 180 to face glyph pit
-        //drivingLibrary.turnRight(Math.PI);
+        gyroSensorLibrary.turnRight(Math.PI);
         drivingLibrary.brakeStop();
     }
 
@@ -429,10 +429,6 @@ public class AutonModeLibrary {
         float driveSpeedStone = .6f;
         float driveSpeedStrafe = 1f;
         float driveSpeed = .4f;
-
-        int waitShort = 500;
-        int waitMed = 1000;
-        int waitLong = 2500;
 
 
         if (position == FTCPosition.LEFT) {
