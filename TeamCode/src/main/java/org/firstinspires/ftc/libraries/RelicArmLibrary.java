@@ -32,12 +32,12 @@ public class RelicArmLibrary {
 
     public void extendArm(boolean direction) {
         if (direction) {
-            extendArmL.setPower(.3);
-            extendArmR.setPower(.3);
+            extendArmL.setPower(.5);
+            extendArmR.setPower(.5);
         } else {
             //pullInArm.setPower(-.3)
-            extendArmL.setPower(-.3);
-            extendArmR.setPower(-.3);
+            extendArmL.setPower(-.5);
+            extendArmR.setPower(-.5);
         }
     }
 
@@ -81,7 +81,7 @@ public class RelicArmLibrary {
         opMode.telemetry.addData("extendR", extendArmR.getPower());
         opMode.telemetry.addData("lift", liftArm.getPosition());
         opMode.telemetry.addData("claw", clawArm.getPosition());
-        opMode.telemetry.update();
+        //opMode.telemetry.update();
     }
 
 }

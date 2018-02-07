@@ -25,9 +25,23 @@ public class AutonRedLeft extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
+            autonMode.pickUpGlyph();
+
             Direction dir = autonMode.knockOffJewel();
-            autonMode.driveToSafeZone(dir);
+            //autonMode.driveToSafeZone(dir);
+
+            //glyptograph
+            int count = autonMode.glyptograph(dir);
+
+            autonMode.placeGlyphs(count);
+
+            /*
+            //drive to safe zone: 2 sec **NEEDS FIXING**
+            autonMode.driveToSafeZone(direction);
+            drivingLibrary.turnRight(Math.PI / 2);
+            drivingLibrary.turnLeft(Math.PI / 2);*/
             sleep(30000);
+
         }
     }
 }

@@ -37,9 +37,9 @@ public class GlyphArmLibrary {
         openBottomPosition = new double[] {0.1, 0.9};
         openTopPosition = new double[] {0, 1};
         servos = new Servo[] {leftTop, leftBottom, rightTop, rightBottom};
-        increment = 0.1;
+        increment = 0.05;
 
-        pulleySpeed = 0.5;
+        pulleySpeed = 1;
     }
 
     public void allArmsPreset(boolean lb, float lt) {
@@ -213,7 +213,7 @@ public class GlyphArmLibrary {
             pulley.setTargetPosition(0);
             pulley.setPower(-pulleySpeed);
 
-            while (pulley.getCurrentPosition() > 0) {
+            while (pulley.getCurrentPosition() > 200) {
                 // continue
             }
 

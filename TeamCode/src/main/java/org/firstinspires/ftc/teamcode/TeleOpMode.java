@@ -7,6 +7,7 @@ import org.firstinspires.ftc.enums.DrivingMode;
 import org.firstinspires.ftc.enums.GlyphArmMode;
 import org.firstinspires.ftc.libraries.DrivingLibrary;
 import org.firstinspires.ftc.libraries.GlyphArmLibrary;
+import org.firstinspires.ftc.libraries.RelicArmLibrary;
 
 /**
  * Created by lamanwyner on 12/30/17.
@@ -44,6 +45,7 @@ import org.firstinspires.ftc.libraries.GlyphArmLibrary;
 public class TeleOpMode extends LinearOpMode {
     DrivingLibrary drivingLibrary;
     GlyphArmLibrary glyphArmLibrary;
+    RelicArmLibrary relicArmLibrary;
     int drivingMode;
     GlyphArmMode glyphArmMode;
     int glyphArmInt;
@@ -58,12 +60,40 @@ public class TeleOpMode extends LinearOpMode {
         glyphArmInt = 0;
         glyphArmMode = GlyphArmMode.values()[0];
 
+        relicArmLibrary = new RelicArmLibrary(this);
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
         waitForStart();
 
         while (opModeIsActive()) {
+            if (gamepad1.dpad_right) {
+                relicArmLibrary.extendArm(true);
+            } else if (gamepad1.dpad_left) {
+                relicArmLibrary.extendArm(false);
+            } else {
+                relicArmLibrary.stopArm();
+            }
+
+            if (gamepad1.b) {
+                relicArmLibrary.relicLiftPreset();
+            }
+
+            if (gamepad1.x) {
+                relicArmLibrary.relicDropPreset();
+            } if (gamepad1.y) {
+
+            }
+
+            if (gamepad1.right_bumper) {
+                relicArmLibrary.activateLift();
+            }
+
+            if (gamepad1.left_bumper) {
+                relicArmLibrary.activateClaw();
+            }
+
             if (gamepad1.a) {
                 drivingMode++;
                 drivingMode %= DrivingMode.values().length;
@@ -104,6 +134,7 @@ public class TeleOpMode extends LinearOpMode {
 
             glyphArmLibrary.movePulley(gamepad2);
 
+            relicArmLibrary.outputInfo();
             telemetry.addData("Status", "Running");
             telemetry.addData("Brake Mode", drivingLibrary.getMode());
             telemetry.addData("Glyph Arm Mode", glyphArmMode.getModeString());

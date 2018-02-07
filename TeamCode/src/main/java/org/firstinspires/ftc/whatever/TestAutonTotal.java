@@ -1,8 +1,8 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.whatever;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import org.firstinspires.ftc.enums.Direction;
 import org.firstinspires.ftc.enums.FTCAlliance;
 import org.firstinspires.ftc.enums.FTCPosition;
@@ -13,6 +13,7 @@ import org.firstinspires.ftc.libraries.DrivingLibrary;
  * Created by megankaye on 1/12/18.
  */
 
+@Disabled
 @Autonomous
 public class TestAutonTotal extends LinearOpMode {
     AutonModeLibrary autonMode;
@@ -33,12 +34,12 @@ public class TestAutonTotal extends LinearOpMode {
             autonMode.pickUpGlyph();
 
             //knock off jewel: 2 sec/1 sec
-            direction = autonMode.knockOffJewel();
+            //direction = autonMode.knockOffJewel();
 
             //glyptograph
-            int count = autonMode.glyptograph(direction);
+            //int count = autonMode.glyptograph(direction);
 
-            autonMode.placeGlyphs(count);
+            //autonMode.placeGlyphs(count);
 
             /*
             //drive to safe zone: 2 sec **NEEDS FIXING**

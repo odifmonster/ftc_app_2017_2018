@@ -104,7 +104,7 @@ public class AutonModeLibrary {
     public void pickUpGlyph() {
         int waitTime = 500;
         glyphArm.allArmsPreset(true, 0);
-        opMode.sleep(waitTime);
+        opMode.sleep(1500);
         glyphArm.movePulley(true);
     }
 
