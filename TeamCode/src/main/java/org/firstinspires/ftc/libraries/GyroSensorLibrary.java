@@ -11,6 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
+import org.opencv.core.Mat;
 
 /**
  * Created by lamanwyner on 2/5/18.
@@ -50,15 +51,12 @@ public class GyroSensorLibrary {
 
     public void leftToAngle(double targetYaw) {
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, angleUnit);
-        currentYaw = angles.firstAngle + Math.PI;
-        targetYaw += (Math.PI);
+        currentYaw = angles.firstAngle;
 
-        if (targetYaw < currentYaw) targetYaw += (2 * Math.PI);
-
-        while (currentYaw < targetYaw) {
+        while (counterClockwiseDist(currentYaw, targetYaw) > 0) {
             drivingLibrary.turn(-0.5f, 0);
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, angleUnit);
-            currentYaw = angles.firstAngle + Math.PI;
+            currentYaw = angles.firstAngle;
         }
 
         drivingLibrary.brakeStop();
@@ -66,15 +64,12 @@ public class GyroSensorLibrary {
 
     public void rightToAngle(double targetYaw) {
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, angleUnit);
-        currentYaw = angles.firstAngle + Math.PI;
-        targetYaw += (Math.PI);
+        currentYaw = angles.firstAngle;
 
-        if (targetYaw > currentYaw) targetYaw -= (2 * Math.PI);
-
-        while (currentYaw > targetYaw) {
+        while (clockwiseDist(currentYaw, targetYaw) > 0) {
             drivingLibrary.turn(0.5f, 0);
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, angleUnit);
-            currentYaw = angles.firstAngle + Math.PI;
+            currentYaw = angles.firstAngle;
         }
 
         drivingLibrary.brakeStop();
@@ -82,19 +77,17 @@ public class GyroSensorLibrary {
 
     public void turnLeft(double radians) {
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, angleUnit);
-        currentYaw = angles.firstAngle + Math.PI;
-        double targetYaw = currentYaw + radians + Math.PI;
-        double subtractYaw = 0;
+        currentYaw = angles.firstAngle;
+        double targetYaw = currentYaw + radians;
 
-        if (targetYaw > 2 * Math.PI) {
+        if (targetYaw > Math.PI) {
             targetYaw -= (2 * Math.PI);
-            subtractYaw = 2 * Math.PI;
         }
 
-        while (currentYaw - subtractYaw < targetYaw) {
+        while (counterClockwiseDist(currentYaw, targetYaw) > 0) {
             drivingLibrary.turn(-0.5f, 0);
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, angleUnit);
-            currentYaw = angles.firstAngle + Math.PI;
+            currentYaw = angles.firstAngle;
         }
 
         drivingLibrary.brakeStop();
@@ -102,21 +95,33 @@ public class GyroSensorLibrary {
 
     public void turnRight(double radians) {
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, angleUnit);
-        currentYaw = angles.firstAngle + Math.PI;
-        double targetYaw = currentYaw + radians + Math.PI;
-        double addYaw = 0;
+        currentYaw = angles.firstAngle;
+        double targetYaw = currentYaw - radians;
 
-        if (targetYaw < 0) {
+        if (targetYaw < -Math.PI) {
             targetYaw += (2 * Math.PI);
-            addYaw = 2 * Math.PI;
         }
 
-        while (currentYaw + addYaw > targetYaw) {
+        while (clockwiseDist(currentYaw, targetYaw) > 0) {
             drivingLibrary.turn(0.5f, 0);
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, angleUnit);
-            currentYaw = angles.firstAngle + Math.PI;
+            currentYaw = angles.firstAngle;
         }
 
         drivingLibrary.brakeStop();
+    }
+
+    private double clockwiseDist(double startAngle, double endAngle) {
+        if (startAngle > endAngle) {
+            return startAngle - endAngle;
+        }
+        return Math.PI + startAngle + Math.PI - endAngle;
+    }
+
+    private double counterClockwiseDist(double startAngle, double endAngle) {
+        if (endAngle >= startAngle) {
+            return endAngle - startAngle;
+        }
+        return Math.PI - startAngle + Math.PI + endAngle;
     }
 }
