@@ -53,7 +53,7 @@ public class GyroSensorLibrary {
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, angleUnit);
         currentYaw = angles.firstAngle;
 
-        while (counterClockwiseDist(currentYaw, targetYaw) > 0) {
+        while (counterClockwiseDist(currentYaw, targetYaw) > 0.1) {
             drivingLibrary.turn(-0.5f, 0);
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, angleUnit);
             currentYaw = angles.firstAngle;
@@ -66,7 +66,7 @@ public class GyroSensorLibrary {
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, angleUnit);
         currentYaw = angles.firstAngle;
 
-        while (clockwiseDist(currentYaw, targetYaw) > 0) {
+        while (clockwiseDist(currentYaw, targetYaw) > 0.1) {
             opMode.telemetry.addData("Distance", clockwiseDist(currentYaw, targetYaw));
             opMode.telemetry.addData("Current Angle", currentYaw);
             opMode.telemetry.addData("Target Angle", targetYaw);
@@ -89,7 +89,7 @@ public class GyroSensorLibrary {
             targetYaw -= (2 * Math.PI);
         }
 
-        while (counterClockwiseDist(currentYaw, targetYaw) > 0) {
+        while (counterClockwiseDist(currentYaw, targetYaw) > 0.1) {
             opMode.telemetry.addData("Distance", counterClockwiseDist(currentYaw, targetYaw));
             opMode.telemetry.addData("Current Angle", currentYaw);
             opMode.telemetry.addData("Target Angle", targetYaw);
@@ -112,7 +112,7 @@ public class GyroSensorLibrary {
             targetYaw += (2 * Math.PI);
         }
 
-        while (clockwiseDist(currentYaw, targetYaw) > 0) {
+        while (clockwiseDist(currentYaw, targetYaw) > 0.1) {
             opMode.telemetry.addData("Distance", clockwiseDist(currentYaw, targetYaw));
             opMode.telemetry.addData("Current Angle", currentYaw);
             opMode.telemetry.addData("Target Angle", targetYaw);

@@ -24,8 +24,8 @@ public class TestJewelArm extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            autonMode.callSenseColor();
-            sleep(1000);
+            autonMode.turnLeft();
+            sleep(30000);
         }
     }
 }

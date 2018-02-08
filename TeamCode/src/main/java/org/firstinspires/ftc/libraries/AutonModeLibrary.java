@@ -2,8 +2,6 @@ package org.firstinspires.ftc.libraries;
 
 import android.graphics.Color;
 
-import com.disnodeteam.dogecv.CameraViewDisplay;
-import com.disnodeteam.dogecv.detectors.GlyphDetector;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -16,7 +14,6 @@ import org.firstinspires.ftc.enums.FTCPosition;
 import org.firstinspires.ftc.enums.JewelColor;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-import org.opencv.core.Point;
 
 /**
  * Created by megankaye on 1/3/18.
@@ -95,6 +92,10 @@ public class AutonModeLibrary {
         }
     }
 
+    public void turnLeft() {
+        gyroSensorLibrary.turnLeft(Math.PI / 2);
+    }
+
     private RelicRecoveryVuMark identifyPictograph() {
         //pick up
         return vuMarkIdentify.identifyPictograph(opMode);
@@ -102,7 +103,6 @@ public class AutonModeLibrary {
 
     //external methods
     public void pickUpGlyph() {
-        int waitTime = 500;
         glyphArm.allArmsPreset(true, 0);
         opMode.sleep(1500);
         glyphArm.movePulley(true);
@@ -163,12 +163,12 @@ public class AutonModeLibrary {
         return dir;
     }
 
-    //TODO: Turn 180 deg after, implement directional compass, TESTING
+    //TODO: blue side
     public int glyptograph(Direction dir) {
         float driveSpeed = .4f;
 
         int waitSensePictograph = 500;
-        int drive1, drive2, drive3;
+        int drive1, drive2, drive3, drive4;
 
         if (position == FTCPosition.LEFT) {
             if (dir == Direction.BACKWARD) {
@@ -177,7 +177,8 @@ public class AutonModeLibrary {
                     //DONE
                     drive1 = 1150;
                     drive2 = 500;
-                    drive3 = 800;
+                    drive3 = 1200;
+                    drive4 = 500;
                     drivingLibrary.driveStraight(0,driveSpeed);
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(-driveSpeed,0);
@@ -185,13 +186,16 @@ public class AutonModeLibrary {
                     gyroSensorLibrary.rightToAngle(-Math.PI / 2);
                     drivingLibrary.driveStraight(driveSpeed,0);
                     opMode.sleep(drive3);
+                    drivingLibrary.driveStraight(0,-driveSpeed);
+                    opMode.sleep(drive4);
                     drivingLibrary.brakeStop();
 
                 } else {
                     //if blue, on left side, and went backwards
                     drive1 = 1150;
                     drive2 = 500;
-                    drive3 = 800;
+                    drive3 = 1200;
+                    drive4 = 500;
                     drivingLibrary.driveStraight(0,-driveSpeed);
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(driveSpeed,0);
@@ -199,6 +203,8 @@ public class AutonModeLibrary {
                     gyroSensorLibrary.rightToAngle(-Math.PI / 2);
                     drivingLibrary.driveStraight(-driveSpeed,0);
                     opMode.sleep(drive3);
+                    drivingLibrary.driveStraight(0,-driveSpeed);
+                    opMode.sleep(drive4);
                     drivingLibrary.brakeStop();
                 }
             } else {
@@ -206,7 +212,8 @@ public class AutonModeLibrary {
                     //if red, on left side, and went forwards
                     drive1 = 950;
                     drive2 = 500;
-                    drive3 = 900;
+                    drive3 = 1300;
+                    drive4 = 500;
                     drivingLibrary.driveStraight(0,driveSpeed);
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(-driveSpeed,0);
@@ -214,20 +221,25 @@ public class AutonModeLibrary {
                     gyroSensorLibrary.rightToAngle(-Math.PI / 2);
                     drivingLibrary.driveStraight(driveSpeed,0);
                     opMode.sleep(drive3);
+                    drivingLibrary.driveStraight(0,-driveSpeed);
+                    opMode.sleep(drive4);
                     drivingLibrary.brakeStop();
                 }
                 else {
                     //if blue, on left side, and went forwards
                     drive1 = 950;
                     drive2 = 500;
-                    drive3 = 900;
+                    drive3 = 1300;
+                    drive4 = 500;
                     drivingLibrary.driveStraight(0,-driveSpeed);
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(driveSpeed,0);
                     opMode.sleep(drive2);
-                    gyroSensorLibrary.rightToAngle(-Math.PI / 2);
+                    gyroSensorLibrary.leftToAngle(Math.PI / 2);
                     drivingLibrary.driveStraight(-driveSpeed,0);
                     opMode.sleep(drive3);
+                    drivingLibrary.driveStraight(0,-driveSpeed);
+                    opMode.sleep(drive4);
                     drivingLibrary.brakeStop();
                 }
             }
@@ -238,7 +250,8 @@ public class AutonModeLibrary {
                     //if red, on right side, and went backwards
                     drive1 = 1150;
                     drive2 = 500;
-                    drive3 = 800;
+                    drive3 = 1200;
+                    drive4 = 500;
                     drivingLibrary.driveStraight(0,driveSpeed);
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(-driveSpeed,0);
@@ -246,12 +259,15 @@ public class AutonModeLibrary {
                     gyroSensorLibrary.rightToAngle(-Math.PI / 2);
                     drivingLibrary.driveStraight(driveSpeed,0);
                     opMode.sleep(drive3);
+                    drivingLibrary.driveStraight(0,-driveSpeed);
+                    opMode.sleep(drive4);
                     drivingLibrary.brakeStop();
                 } else {
                     //if blue, on right side, and went backwards
                     drive1 = 1150;
                     drive2 = 500;
-                    drive3 = 800;
+                    drive3 = 1200;
+                    drive4 = 500;
                     drivingLibrary.driveStraight(0,-driveSpeed);
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(driveSpeed,0);
@@ -259,6 +275,8 @@ public class AutonModeLibrary {
                     gyroSensorLibrary.rightToAngle(-Math.PI / 2);
                     drivingLibrary.driveStraight(-driveSpeed,0);
                     opMode.sleep(drive3);
+                    drivingLibrary.driveStraight(0,-driveSpeed);
+                    opMode.sleep(drive4);
                     drivingLibrary.brakeStop();
                 }
             } else {
@@ -266,7 +284,8 @@ public class AutonModeLibrary {
                     //if red, on right side, and went forwards
                     drive1 = 950;
                     drive2 = 500;
-                    drive3 = 900;
+                    drive3 = 1300;
+                    drive4 = 500;
                     drivingLibrary.driveStraight(0,driveSpeed);
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(-driveSpeed,0);
@@ -274,13 +293,16 @@ public class AutonModeLibrary {
                     gyroSensorLibrary.rightToAngle(-Math.PI / 2);
                     drivingLibrary.driveStraight(driveSpeed,0);
                     opMode.sleep(drive3);
+                    drivingLibrary.driveStraight(0,-driveSpeed);
+                    opMode.sleep(drive4);
                     drivingLibrary.brakeStop();
                 } else {
                     //if blue, on right side, and went forwards
                     //if blue, on left side, and went forwards
                     drive1 = 950;
                     drive2 = 500;
-                    drive3 = 900;
+                    drive3 = 1300;
+                    drive4 = 500;
                     drivingLibrary.driveStraight(0,-driveSpeed);
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(driveSpeed,0);
@@ -288,6 +310,8 @@ public class AutonModeLibrary {
                     gyroSensorLibrary.rightToAngle(-Math.PI / 2);
                     drivingLibrary.driveStraight(-driveSpeed,0);
                     opMode.sleep(drive3);
+                    drivingLibrary.driveStraight(0,-driveSpeed);
+                    opMode.sleep(drive4);
                     drivingLibrary.brakeStop();
                 }
             }
@@ -296,15 +320,15 @@ public class AutonModeLibrary {
         opMode.sleep(waitSensePictograph);
         int tries = 0;
         int count = 0;
-        RelicRecoveryVuMark vuMark;
+        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.UNKNOWN;
         while (tries < 3) {
             vuMark = identifyPictograph();
             if (vuMark == RelicRecoveryVuMark.LEFT) {
                 if (alliance == FTCAlliance.BLUE) {
-                    count = 3;
+                    count = 1;
                     tries += 3;
                 } else {
-                    count = 1;
+                    count = 3;
                     tries += 3;
                 }
             } else if (vuMark == RelicRecoveryVuMark.CENTER) {
@@ -313,10 +337,10 @@ public class AutonModeLibrary {
             }
             else if (vuMark == RelicRecoveryVuMark.RIGHT) {
                 if (alliance == FTCAlliance.BLUE) {
-                    count = 1;
+                    count = 3;
                     tries += 3;
                 } else {
-                    count = 3;
+                    count = 1;
                     tries += 3;
                 }
             } else { count = 0; }
@@ -328,100 +352,238 @@ public class AutonModeLibrary {
 
         opMode.telemetry.addData("count", count);
         return count;
+        //return vuMark;
     }
 
-    //TODO: TESTING
     public void placeGlyphs(int count) {
-        //turn a little
+
+        int strafeTime = 590;
+
+        if (count == 1) {
+            strafeTime = 820;
+        } else if (count == 2) {
+            strafeTime = 700;
+        }
+
         if (alliance == FTCAlliance.RED) {
             if (position == FTCPosition.LEFT) {
-                gyroSensorLibrary.turnLeft(0.2617993878);
-                drivingLibrary.driveStraight(0,.3f);
-                opMode.sleep(300);
-                //strafe slowly
-                drivingLibrary.driveStraight(-.3f,0);
+                drivingLibrary.driveStraight(-.5f,0);
                 while (count != 0) {
                     double dist = cryptoDistanceSensor.getDistance(DistanceUnit.CM);
                     if (dist != java.lang.Double.NaN) {
                         count -= 1;
-                        opMode.telemetry.addData("Distance", dist);
-                        opMode.telemetry.update();
-                        opMode.sleep(300);
+                        drivingLibrary.driveStraight(-.5f,0);
+                        opMode.sleep(strafeTime);
                     }
-                    opMode.telemetry.addData("Distance", dist);
-                    opMode.telemetry.update();
                 }
             }
             else {
-                gyroSensorLibrary.turnLeft(Math.PI / 2);
-                drivingLibrary.driveStraight(0,.3f);
+                drivingLibrary.driveStraight(0,.5f);
+                opMode.sleep(300);
+
+                drivingLibrary.driveStraight(-.5f,0);
                 opMode.sleep(600);
-                //strafe slowly
-                drivingLibrary.driveStraight(-.3f,0);
+
+                gyroSensorLibrary.turnLeft(Math.PI / 2);
+                drivingLibrary.driveStraight(0,-.5f);
+                opMode.sleep(500);
+
+                drivingLibrary.driveStraight(-.5f,0);
                 while (count != 0) {
                     double dist = cryptoDistanceSensor.getDistance(DistanceUnit.CM);
                     if (dist != java.lang.Double.NaN) {
                         count -= 1;
-                        opMode.telemetry.addData("Distance", dist);
-                        opMode.telemetry.update();
-                        opMode.sleep(300);
+                        drivingLibrary.driveStraight(-.5f,0);
+                        opMode.sleep(strafeTime);
                     }
-                    opMode.telemetry.addData("Distance", dist);
-                    opMode.telemetry.update();
                 }
             }
         } else {
             if (position == FTCPosition.LEFT) {
-                gyroSensorLibrary.turnRight(Math.PI / 2);
-                drivingLibrary.driveStraight(0,.3f);
+                drivingLibrary.driveStraight(0,.5f);
+                opMode.sleep(300);
+
+                drivingLibrary.driveStraight(-.5f,0);
                 opMode.sleep(600);
-                //strafe slowly
-                drivingLibrary.driveStraight(.3f,0);
+
+                gyroSensorLibrary.turnLeft(Math.PI / 2);
+                drivingLibrary.driveStraight(0,-.5f);
+                opMode.sleep(500);
+
+                drivingLibrary.driveStraight(-.5f,0);
                 while (count != 0) {
                     double dist = cryptoDistanceSensor.getDistance(DistanceUnit.CM);
                     if (dist != java.lang.Double.NaN) {
                         count -= 1;
-                        opMode.telemetry.addData("Distance", dist);
-                        opMode.telemetry.update();
-                        opMode.sleep(300);
+                        drivingLibrary.driveStraight(.5f,0);
+                        opMode.sleep(strafeTime);
                     }
-                    opMode.telemetry.addData("Distance", dist);
-                    opMode.telemetry.update();
                 }
 
             } else {
-                gyroSensorLibrary.turnRight(0.2617993878);
-                drivingLibrary.driveStraight(0,.3f);
-                opMode.sleep(300);
-                //strafe slowly
-                drivingLibrary.driveStraight(.3f,0);
+                drivingLibrary.driveStraight(.5f,0);
                 while (count != 0) {
                     double dist = cryptoDistanceSensor.getDistance(DistanceUnit.CM);
                     if (dist != java.lang.Double.NaN) {
                         count -= 1;
-                        opMode.telemetry.addData("Distance", dist);
-                        opMode.telemetry.update();
-                        opMode.sleep(300);
+                        drivingLibrary.driveStraight(.5f,0);
+                        opMode.sleep(strafeTime);
                     }
-                    opMode.telemetry.addData("Distance", dist);
-                    opMode.telemetry.update();
                 }
             }
         }
-
         drivingLibrary.brakeStop();
-
-        //put glyph in
         drivingLibrary.driveStraight(0,.5f);
-        opMode.sleep(500);
+        opMode.sleep(800);
         drivingLibrary.brakeStop();
         glyphArm.dropGlyphs();
         drivingLibrary.driveStraight(0,-.5f);
         opMode.sleep(200);
+        drivingLibrary.driveStraight(0,.5f);
+        opMode.sleep(300);
+        drivingLibrary.driveStraight(0,-.5f);
+        opMode.sleep(200);
+        drivingLibrary.brakeStop();
 
         //turns around 180 to face glyph pit
         gyroSensorLibrary.turnRight(Math.PI);
         drivingLibrary.brakeStop();
+    }
+
+    public void goToBlue() {
+        //if blue, on left side, and went forwards
+        int drive1, drive2;
+        float driveSpeed = .4f;
+        drive1 = 950;
+        drive2 = 500;
+        drivingLibrary.driveStraight(0,-driveSpeed);
+        opMode.sleep(drive1);
+        drivingLibrary.driveStraight(driveSpeed,0);
+        opMode.sleep(drive2);
+        gyroSensorLibrary.leftToAngle(Math.PI / 2);
+        drivingLibrary.brakeStop();
+
+        RelicRecoveryVuMark vuMark = identifyPictograph();
+    }
+
+    public void senseCryptobox() {
+        int count = 0;
+        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.UNKNOWN;
+        vuMark = identifyPictograph();
+        if (vuMark == RelicRecoveryVuMark.LEFT) {
+            if (alliance == FTCAlliance.BLUE) {
+                count = 1;
+            } else {
+                count = 3;
+            }
+        } else if (vuMark == RelicRecoveryVuMark.CENTER) {
+            count = 2;
+        }
+        else if (vuMark == RelicRecoveryVuMark.RIGHT) {
+            if (alliance == FTCAlliance.BLUE) {
+                count = 3;
+            } else {
+                count = 1;
+            }
+        } else { count = 2; }
+
+        drivingLibrary.driveStraight(-.5f,0);
+        int strafeTime = 590;
+
+        if (count == 1) {
+            strafeTime = 820;
+        } else if (count == 2) {
+            strafeTime = 700;
+        }
+        while (count != 0) {
+            double dist = cryptoDistanceSensor.getDistance(DistanceUnit.CM);
+            if (dist != java.lang.Double.NaN) {
+                count -= 1;
+                opMode.telemetry.addData("Distance", dist);
+                opMode.telemetry.update();
+                drivingLibrary.driveStraight(-.5f,0);
+                opMode.sleep(strafeTime);
+            }
+
+        }
+        drivingLibrary.brakeStop();
+        drivingLibrary.driveStraight(0,.5f);
+        opMode.sleep(800);
+        drivingLibrary.brakeStop();
+        glyphArm.dropGlyphs();
+        drivingLibrary.driveStraight(0,-.5f);
+        opMode.sleep(200);
+        drivingLibrary.driveStraight(0,.5f);
+        opMode.sleep(500);
+        drivingLibrary.driveStraight(0,-.5f);
+        opMode.sleep(200);
+        drivingLibrary.brakeStop();
+
+    }
+
+    public void senseCryptoboxFar() {
+            int count = 0;
+            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.UNKNOWN;
+            vuMark = identifyPictograph();
+            if (vuMark == RelicRecoveryVuMark.LEFT) {
+                if (alliance == FTCAlliance.BLUE) {
+                    count = 1;
+                } else {
+                    count = 3;
+                }
+            } else if (vuMark == RelicRecoveryVuMark.CENTER) {
+                count = 2;
+            }
+            else if (vuMark == RelicRecoveryVuMark.RIGHT) {
+                if (alliance == FTCAlliance.BLUE) {
+                    count = 3;
+                } else {
+                    count = 1;
+                }
+            } else { count = 2; }
+
+            drivingLibrary.driveStraight(0,.5f);
+            opMode.sleep(300);
+
+            drivingLibrary.driveStraight(-.5f,0);
+            opMode.sleep(600);
+
+            gyroSensorLibrary.turnLeft(Math.PI / 2);
+            drivingLibrary.driveStraight(0,-.5f);
+            opMode.sleep(500);
+
+            drivingLibrary.driveStraight(-.5f,0);
+            int strafeTime = 590;
+
+            if (count == 1) {
+                strafeTime = 820;
+            } else if (count == 2) {
+                strafeTime = 700;
+            }
+            while (count != 0) {
+                double dist = cryptoDistanceSensor.getDistance(DistanceUnit.CM);
+                if (dist != java.lang.Double.NaN) {
+                    count -= 1;
+                    opMode.telemetry.addData("Distance", dist);
+                    opMode.telemetry.update();
+                    drivingLibrary.driveStraight(-.5f,0);
+                    opMode.sleep(strafeTime);
+                }
+
+            }
+            drivingLibrary.brakeStop();
+            drivingLibrary.driveStraight(0,.5f);
+            opMode.sleep(800);
+            drivingLibrary.brakeStop();
+            glyphArm.dropGlyphs();
+            drivingLibrary.driveStraight(0,-.5f);
+            opMode.sleep(200);
+            drivingLibrary.driveStraight(0,.5f);
+            opMode.sleep(300);
+            drivingLibrary.driveStraight(0,-.5f);
+            opMode.sleep(200);
+            drivingLibrary.brakeStop();
+
     }
 
     //EXCLUSIVELY for Jewel Only Run

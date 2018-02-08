@@ -7,6 +7,7 @@ import org.firstinspires.ftc.enums.Direction;
 import org.firstinspires.ftc.enums.FTCAlliance;
 import org.firstinspires.ftc.enums.FTCPosition;
 import org.firstinspires.ftc.libraries.AutonModeLibrary;
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 /**
  * Created by megankaye on 1/4/18.
@@ -28,18 +29,13 @@ public class AutonRedLeft extends LinearOpMode {
             autonMode.pickUpGlyph();
 
             Direction dir = autonMode.knockOffJewel();
-            //autonMode.driveToSafeZone(dir);
 
             //glyptograph
             int count = autonMode.glyptograph(dir);
 
+
             autonMode.placeGlyphs(count);
 
-            /*
-            //drive to safe zone: 2 sec **NEEDS FIXING**
-            autonMode.driveToSafeZone(direction);
-            drivingLibrary.turnRight(Math.PI / 2);
-            drivingLibrary.turnLeft(Math.PI / 2);*/
             sleep(30000);
 
         }
