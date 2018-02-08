@@ -7,6 +7,7 @@ import org.firstinspires.ftc.enums.Direction;
 import org.firstinspires.ftc.enums.FTCAlliance;
 import org.firstinspires.ftc.enums.FTCPosition;
 import org.firstinspires.ftc.libraries.AutonModeLibrary;
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 /**
  * Created by megankaye on 1/5/18.
@@ -14,6 +15,11 @@ import org.firstinspires.ftc.libraries.AutonModeLibrary;
 
 @Autonomous
 public class AutonBlueLeft extends LinearOpMode {
+
+
+
+
+
     AutonModeLibrary autonMode;
 
     public void runOpMode() throws InterruptedException {
@@ -25,8 +31,16 @@ public class AutonBlueLeft extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
+            autonMode.pickUpGlyph();
+
             Direction dir = autonMode.knockOffJewel();
-            autonMode.driveToSafeZone(dir);
+
+            //glyptograph
+            //RelicRecoveryVuMark rvu = autonMode.glyptograph(dir);
+
+            int count = autonMode.glyptograph(dir);
+            autonMode.placeGlyphs(count);
+
             sleep(30000);
         }
     }
