@@ -117,7 +117,6 @@ public class GyroSensorLibrary {
             opMode.telemetry.addData("Current Angle", currentYaw);
             opMode.telemetry.addData("Target Angle", targetYaw);
             opMode.telemetry.update();
-            
             drivingLibrary.turn(0.5f, 0);
             angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, angleUnit);
             currentYaw = angles.firstAngle;
