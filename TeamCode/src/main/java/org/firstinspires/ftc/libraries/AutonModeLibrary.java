@@ -450,20 +450,35 @@ public class AutonModeLibrary {
         drivingLibrary.brakeStop();
     }
 
+    //TODO: LAMAN TEST THIS THANKS
     public void goToBlue() {
         //if blue, on left side, and went forwards
         int drive1, drive2;
         float driveSpeed = .4f;
         drive1 = 950;
         drive2 = 500;
-        drivingLibrary.driveStraight(0,-driveSpeed);
+        drivingLibrary.driveStraight(0,driveSpeed);
         opMode.sleep(drive1);
-        drivingLibrary.driveStraight(driveSpeed,0);
+        drivingLibrary.driveStraight(-driveSpeed,0);
         opMode.sleep(drive2);
-        gyroSensorLibrary.leftToAngle(Math.PI / 2);
+        gyroSensorLibrary.rightToAngle(-Math.PI / 2);
+        drivingLibrary.driveStraight(driveSpeed,0);
+        opMode.sleep(500);
         drivingLibrary.brakeStop();
 
         RelicRecoveryVuMark vuMark = identifyPictograph();
+
+        opMode.sleep(500);
+
+        drivingLibrary.driveStraight(0,-driveSpeed);
+        opMode.sleep(700);
+        gyroSensorLibrary.rightToAngle(-Math.PI);
+        drivingLibrary.driveStraight(0,driveSpeed);
+        opMode.sleep(2000);
+        drivingLibrary.driveStraight(driveSpeed,0);
+        opMode.sleep(600);
+        drivingLibrary.brakeStop();
+
     }
 
     public void senseCryptobox() {
