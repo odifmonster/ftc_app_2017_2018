@@ -18,16 +18,17 @@ public class RelicArmLibrary {
     Servo clawArm;
 
     boolean clawState = true;
-    boolean liftState = true;
+    boolean hoverState = true;
+    boolean manualSwitch = false;
 
 
     public RelicArmLibrary(LinearOpMode opMode) {
         this.opMode = opMode;
         extendArmL = opMode.hardwareMap.get(DcMotor.class,"extendArmL");
         extendArmR = opMode.hardwareMap.get(DcMotor.class,"extendArmR");
-        //pullInArm = opMode.hardwareMap.get(DcMotor.class,"pullInArm");
         liftArm = opMode.hardwareMap.get(Servo.class, "liftArm");
         clawArm = opMode.hardwareMap.get(Servo.class, "clawArm");
+        //liftArm.getController().pwmDisable();
     }
 
     public void extendArm(boolean direction) {
@@ -35,7 +36,6 @@ public class RelicArmLibrary {
             extendArmL.setPower(.5);
             extendArmR.setPower(.5);
         } else {
-            //pullInArm.setPower(-.3)
             extendArmL.setPower(-.5);
             extendArmR.setPower(-.5);
         }
@@ -46,19 +46,17 @@ public class RelicArmLibrary {
         extendArmR.setPower(0);
     }
 
-    public void activateLift() {
-        if (liftState) {
-            liftArm.setPosition(.9);
-            liftState = !liftState;
-        } else {
-            liftArm.setPosition(.1);
-            liftState = !liftState;
-        }
+    public void activatePWM() {
+        liftArm.getController().pwmEnable();
     }
+    public void disablePWM() {
+        liftArm.getController().pwmDisable();
+    }
+
 
     public void activateClaw() {
         if (clawState) {
-            clawArm.setPosition(.9);
+            clawArm.setPosition(.5);
             clawState = !clawState;
         } else {
             clawArm.setPosition(.1);
@@ -66,20 +64,10 @@ public class RelicArmLibrary {
         }
     }
 
-    public void relicLiftPreset() {
-        clawArm.setPosition(.1);
-        liftArm.setPosition(.9);
-    }
-
-    public void relicDropPreset() {
-        clawArm.setPosition(.9);
-        liftArm.setPosition(.1);
-    }
-
     public void outputInfo() {
         opMode.telemetry.addData("extendL", extendArmL.getPower());
         opMode.telemetry.addData("extendR", extendArmR.getPower());
-        opMode.telemetry.addData("lift", liftArm.getPosition());
+        //opMode.telemetry.addData("lift", liftArm.getController().getPwmStatus());
         opMode.telemetry.addData("claw", clawArm.getPosition());
         //opMode.telemetry.update();
     }

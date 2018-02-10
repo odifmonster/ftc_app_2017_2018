@@ -69,29 +69,27 @@ public class TeleOpMode extends LinearOpMode {
 
         while (opModeIsActive()) {
             if (gamepad1.dpad_right) {
+                telemetry.addData("dPadRight", "right");
                 relicArmLibrary.extendArm(true);
+                sleep(300);
             } else if (gamepad1.dpad_left) {
                 relicArmLibrary.extendArm(false);
+                telemetry.addData("dPadRight", "Pressed");
+                sleep(300);
             } else {
                 relicArmLibrary.stopArm();
             }
 
-            if (gamepad1.b) {
-                relicArmLibrary.relicLiftPreset();
-            }
-
-            if (gamepad1.x) {
-                relicArmLibrary.relicDropPreset();
-            } if (gamepad1.y) {
-
-            }
-
             if (gamepad1.right_bumper) {
-                relicArmLibrary.activateLift();
+                relicArmLibrary.activatePWM();
+            } else {
+                relicArmLibrary.disablePWM();
             }
 
             if (gamepad1.left_bumper) {
                 relicArmLibrary.activateClaw();
+                telemetry.addData("left bumper", "pressed");
+                sleep(300);
             }
 
             if (gamepad1.a) {
