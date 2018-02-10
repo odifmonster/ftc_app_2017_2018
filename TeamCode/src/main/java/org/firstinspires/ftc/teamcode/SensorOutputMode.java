@@ -6,6 +6,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -28,6 +29,7 @@ import java.util.Locale;
  * Created by lamanwyner on 1/18/18.
  */
 
+@Disabled
 @TeleOp
 public class SensorOutputMode extends LinearOpMode {
     private DcMotor leftFront, rightFront, leftRear, rightRear; // TODO: Add other motors

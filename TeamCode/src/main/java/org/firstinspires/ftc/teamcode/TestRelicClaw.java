@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -8,6 +9,7 @@ import org.firstinspires.ftc.libraries.RelicArmLibrary;
 /**
  * Created by megankaye on 1/26/18.
  */
+@Disabled
 @TeleOp
 public class TestRelicClaw extends LinearOpMode {
     RelicArmLibrary relicArmLibrary;

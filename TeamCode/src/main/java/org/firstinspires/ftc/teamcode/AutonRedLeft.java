@@ -36,6 +36,8 @@ public class AutonRedLeft extends LinearOpMode {
 
             autonMode.placeGlyphs(count);
 
+            //p
+
             sleep(30000);
 
         }

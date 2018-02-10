@@ -1,5 +1,6 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.whatever;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -11,7 +12,7 @@ import org.firstinspires.ftc.libraries.GlyphArmLibrary;
 /**
  * Created by megankaye on 2/3/18.
  */
-
+@Disabled
 @TeleOp
 
 public class TestStrafeBias extends LinearOpMode {

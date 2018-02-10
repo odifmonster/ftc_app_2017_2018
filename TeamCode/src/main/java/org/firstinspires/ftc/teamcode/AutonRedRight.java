@@ -8,11 +8,11 @@ import org.firstinspires.ftc.enums.FTCAlliance;
 import org.firstinspires.ftc.enums.FTCPosition;
 import org.firstinspires.ftc.libraries.AutonModeLibrary;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 /**
  * Created by megankaye on 1/5/18.
  */
-
+//@Disabled
 @Autonomous
 public class AutonRedRight extends LinearOpMode {
     AutonModeLibrary autonMode;
