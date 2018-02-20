@@ -12,8 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 public class RelicArmLibrary {
     OpMode opMode;
-    DcMotor extendArmL;
-    DcMotor extendArmR;
+    DcMotor extendArm;
     //DcMotor pullInArm;
     Servo liftArm;
     Servo clawArm;
@@ -25,8 +24,7 @@ public class RelicArmLibrary {
 
     public RelicArmLibrary(LinearOpMode opMode) {
         this.opMode = opMode;
-        extendArmL = opMode.hardwareMap.get(DcMotor.class,"extendArmL");
-        extendArmR = opMode.hardwareMap.get(DcMotor.class,"extendArmR");
+        extendArm = opMode.hardwareMap.get(DcMotor.class,"extendArm");
         liftArm = opMode.hardwareMap.get(Servo.class, "liftArm");
         clawArm = opMode.hardwareMap.get(Servo.class, "clawArm");
         //liftArm.getController().pwmDisable();
@@ -34,25 +32,22 @@ public class RelicArmLibrary {
 
     public void extendArm(boolean direction) {
         if (direction) {
-            extendArmL.setPower(.5);
-            extendArmR.setPower(.5);
+            extendArm.setPower(.5);
         } else {
-            extendArmL.setPower(-.5);
-            extendArmR.setPower(-.5);
+            extendArm.setPower(-.5);
         }
     }
 
     public void stopArm() {
-        extendArmL.setPower(0);
-        extendArmR.setPower(0);
+        extendArm.setPower(0);
     }
 
-    public void activatePWM() {
+    /*public void activatePWM() {
         liftArm.getController().pwmEnable();
     }
     public void disablePWM() {
         liftArm.getController().pwmDisable();
-    }
+    }*/
 
 
     public void activateClaw() {
@@ -66,8 +61,7 @@ public class RelicArmLibrary {
     }
 
     public void outputInfo() {
-        opMode.telemetry.addData("extendL", extendArmL.getPower());
-        opMode.telemetry.addData("extendR", extendArmR.getPower());
+        opMode.telemetry.addData("extend", extendArm.getPower());
         //opMode.telemetry.addData("lift", liftArm.getController().getPwmStatus());
         opMode.telemetry.addData("claw", clawArm.getPosition());
         //opMode.telemetry.update();

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.whatever;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -35,11 +35,11 @@ public class TestRelicClaw extends LinearOpMode {
                 relicArmLibrary.stopArm();
             }
 
-            if (gamepad1.right_bumper) {
+            /*if (gamepad1.right_bumper) {
                 relicArmLibrary.activatePWM();
             } else {
                 relicArmLibrary.disablePWM();
-            }
+            }*/
 
             if (gamepad1.left_bumper) {
                 relicArmLibrary.activateClaw();

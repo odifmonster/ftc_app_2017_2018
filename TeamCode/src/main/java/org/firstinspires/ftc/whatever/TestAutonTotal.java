@@ -20,7 +20,7 @@ public class TestAutonTotal extends LinearOpMode {
     DrivingLibrary drivingLibrary;
 
     public void runOpMode() throws InterruptedException {
-        autonMode = new AutonModeLibrary(this, FTCAlliance.RED, FTCPosition.LEFT);
+        autonMode = new AutonModeLibrary(this, FTCAlliance.RED, FTCPosition.LEFT, true);
         drivingLibrary = new DrivingLibrary(this);
         drivingLibrary.setSpeed(1);
 

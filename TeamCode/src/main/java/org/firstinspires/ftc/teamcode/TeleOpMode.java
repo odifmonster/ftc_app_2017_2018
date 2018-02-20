@@ -2,13 +2,11 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.enums.DrivingMode;
 import org.firstinspires.ftc.enums.GlyphArmMode;
 import org.firstinspires.ftc.libraries.DrivingLibrary;
 import org.firstinspires.ftc.libraries.GlyphArmLibrary;
-import org.firstinspires.ftc.libraries.RelicArmLibrary;
 
 /**
  * Created by lamanwyner on 12/30/17.
@@ -47,7 +45,6 @@ import org.firstinspires.ftc.libraries.RelicArmLibrary;
 public class TeleOpMode extends LinearOpMode {
     DrivingLibrary drivingLibrary;
     GlyphArmLibrary glyphArmLibrary;
-    //RelicArmLibrary relicArmLibrary;
     int drivingMode;
     GlyphArmMode glyphArmMode;
     int glyphArmInt;
@@ -62,37 +59,12 @@ public class TeleOpMode extends LinearOpMode {
         glyphArmInt = 0;
         glyphArmMode = GlyphArmMode.values()[0];
 
-        //relicArmLibrary = new RelicArmLibrary(this);
-
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
         waitForStart();
 
         while (opModeIsActive()) {
-            /*if (gamepad1.dpad_right) {
-                telemetry.addData("dPadRight", "right");
-                relicArmLibrary.extendArm(true);
-                sleep(300);
-            } else if (gamepad1.dpad_left) {
-                relicArmLibrary.extendArm(false);
-                telemetry.addData("dPadRight", "Pressed");
-                sleep(300);
-            } else {
-                relicArmLibrary.stopArm();
-            }
-
-            if (gamepad1.right_bumper) {
-                relicArmLibrary.activatePWM();
-            } else {
-                relicArmLibrary.disablePWM();
-            }
-
-            if (gamepad1.left_bumper) {
-                relicArmLibrary.activateClaw();
-                telemetry.addData("left bumper", "pressed");
-                sleep(300);
-            }*/
 
             if (gamepad1.a) {
                 drivingMode++;

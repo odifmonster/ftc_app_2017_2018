@@ -18,7 +18,7 @@ public class AutonRedLeft extends LinearOpMode {
     AutonModeLibrary autonMode;
 
     public void runOpMode() throws InterruptedException {
-        autonMode = new AutonModeLibrary(this, FTCAlliance.RED, FTCPosition.LEFT);
+        autonMode = new AutonModeLibrary(this, FTCAlliance.RED, FTCPosition.LEFT, true);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();

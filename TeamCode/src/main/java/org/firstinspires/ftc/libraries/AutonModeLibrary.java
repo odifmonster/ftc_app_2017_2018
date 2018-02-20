@@ -35,18 +35,21 @@ public class AutonModeLibrary {
     ColorSensor cryptoColorSensor;
     DistanceSensor cryptoDistanceSensor;
 
-    int strafeTime = 0;
+    int safetyTime = 0;
 
     boolean[][] cryptobox;
 
-    public AutonModeLibrary(LinearOpMode opMode, FTCAlliance alliance, FTCPosition position) {
+    public AutonModeLibrary(LinearOpMode opMode, FTCAlliance alliance, FTCPosition position, boolean glyphLib) {
         this.alliance = alliance;
-        this.position = position;
         drivingLibrary = new DrivingLibrary(opMode);
         this.drivingLibrary.setSpeed(0.75);
+        this.position = position;
+        if (glyphLib) {
+            glyphArm = new GlyphArmLibrary(opMode);
+
+        }
         gyroSensorLibrary = new GyroSensorLibrary(opMode, BNO055IMU.AngleUnit.RADIANS,
                 BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC, drivingLibrary);
-        glyphArm = new GlyphArmLibrary(opMode);
         this.colorArm = opMode.hardwareMap.get(Servo.class,"color_arm");
         jewelColorSensor = opMode.hardwareMap.get(ColorSensor.class, "jewelColorSensor");
         cryptoColorSensor = opMode.hardwareMap.get(ColorSensor.class, "cryptoColorSensor");
@@ -113,7 +116,7 @@ public class AutonModeLibrary {
     public Direction knockOffJewel() {
         //test variables
         int waitMoveArm = 1000;
-        int waitDriveTime = 100;
+        int waitDriveTime = 300;
         int colorArmResetPos = 1;
         double colorArmDownPos = 0.1;
         float driveSpeed = .4f;
@@ -165,7 +168,6 @@ public class AutonModeLibrary {
         return dir;
     }
 
-    //TODO: blue side
     public int glyptograph(Direction dir) {
         float driveSpeed = .4f;
 
@@ -317,28 +319,24 @@ public class AutonModeLibrary {
         while (tries < 3) {
             vuMark = identifyPictograph();
             if (vuMark == RelicRecoveryVuMark.LEFT) {
+                count = 3;
+                tries += 3;
                 if (alliance == FTCAlliance.BLUE) {
-                    count = 1;
-                    tries += 3;
-                    strafeTime = 300;
+                    safetyTime = 200;
                 } else {
-                    count = 3;
-                    tries += 3;
-                    strafeTime = -300;
+                    safetyTime = -200;
                 }
             } else if (vuMark == RelicRecoveryVuMark.CENTER) {
                 count = 2;
                 tries += 3;
             }
             else if (vuMark == RelicRecoveryVuMark.RIGHT) {
+                count = 1;
+                tries += 3;
                 if (alliance == FTCAlliance.BLUE) {
-                    count = 3;
-                    tries += 3;
-                    strafeTime = -300;
+                    safetyTime = -200;
                 } else {
-                    count = 1;
-                    tries += 3;
-                    strafeTime = 300;
+                    safetyTime = 200;
                 }
             } else { count = 0; }
             tries += 1;
@@ -349,7 +347,6 @@ public class AutonModeLibrary {
 
         opMode.telemetry.addData("count", count);
         return count;
-        //return vuMark;
     }
 
     public void placeGlyphs(int count) {
@@ -437,7 +434,7 @@ public class AutonModeLibrary {
         drivingLibrary.driveStraight(0,.5f);
         opMode.sleep(1500);
         drivingLibrary.driveStraight(0,-.5f);
-        opMode.sleep(300);
+        opMode.sleep(100);
 
         if (strafeTime > 0) {
             drivingLibrary.driveStraight(.5f, 0);
@@ -452,157 +449,6 @@ public class AutonModeLibrary {
         //turns around 180 to face glyph pit
         gyroSensorLibrary.turnRight(Math.PI);
         drivingLibrary.brakeStop();
-    }
-
-    //TODO: LAMAN TEST THIS THANKS
-    public void goToBlue() {
-        //if blue, on left side, and went forwards
-        int drive1, drive2;
-        float driveSpeed = .4f;
-        drive1 = 950;
-        drive2 = 500;
-        drivingLibrary.driveStraight(0,driveSpeed);
-        opMode.sleep(drive1);
-        drivingLibrary.driveStraight(-driveSpeed,0);
-        opMode.sleep(drive2);
-        gyroSensorLibrary.rightToAngle(-Math.PI / 2);
-        drivingLibrary.driveStraight(driveSpeed,0);
-        opMode.sleep(500);
-        drivingLibrary.brakeStop();
-
-        RelicRecoveryVuMark vuMark = identifyPictograph();
-
-        opMode.sleep(500);
-
-        drivingLibrary.driveStraight(0,-driveSpeed);
-        opMode.sleep(700);
-        gyroSensorLibrary.rightToAngle(-Math.PI);
-        drivingLibrary.driveStraight(0,driveSpeed);
-        opMode.sleep(1200);
-        drivingLibrary.driveStraight(driveSpeed,0);
-        opMode.sleep(700);
-        drivingLibrary.brakeStop();
-
-    }
-
-    public void senseCryptobox() {
-        int count = 0;
-        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.UNKNOWN;
-        vuMark = identifyPictograph();
-        if (vuMark == RelicRecoveryVuMark.LEFT) {
-            if (alliance == FTCAlliance.BLUE) {
-                count = 1;
-            } else {
-                count = 3;
-            }
-        } else if (vuMark == RelicRecoveryVuMark.CENTER) {
-            count = 2;
-        }
-        else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-            if (alliance == FTCAlliance.BLUE) {
-                count = 3;
-            } else {
-                count = 1;
-            }
-        } else { count = 2; }
-
-        drivingLibrary.driveStraight(-.5f,0);
-        int strafeTime = 590;
-
-        if (count == 1) {
-            strafeTime = 820;
-        } else if (count == 2) {
-            strafeTime = 700;
-        }
-        while (count != 0) {
-            double dist = cryptoDistanceSensor.getDistance(DistanceUnit.CM);
-            if (dist != java.lang.Double.NaN) {
-                count -= 1;
-                opMode.telemetry.addData("Distance", dist);
-                opMode.telemetry.update();
-                drivingLibrary.driveStraight(-.5f,0);
-                opMode.sleep(strafeTime);
-            }
-
-        }
-        drivingLibrary.brakeStop();
-        drivingLibrary.driveStraight(0,.5f);
-        opMode.sleep(800);
-        drivingLibrary.brakeStop();
-        glyphArm.dropGlyphs();
-        drivingLibrary.driveStraight(0,-.5f);
-        opMode.sleep(200);
-        drivingLibrary.driveStraight(0,.5f);
-        opMode.sleep(500);
-        drivingLibrary.driveStraight(0,-.5f);
-        opMode.sleep(200);
-        drivingLibrary.brakeStop();
-
-    }
-
-    public void senseCryptoboxFar() {
-            int count = 0;
-            RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.UNKNOWN;
-            vuMark = identifyPictograph();
-            if (vuMark == RelicRecoveryVuMark.LEFT) {
-                if (alliance == FTCAlliance.BLUE) {
-                    count = 1;
-                } else {
-                    count = 3;
-                }
-            } else if (vuMark == RelicRecoveryVuMark.CENTER) {
-                count = 2;
-            }
-            else if (vuMark == RelicRecoveryVuMark.RIGHT) {
-                if (alliance == FTCAlliance.BLUE) {
-                    count = 3;
-                } else {
-                    count = 1;
-                }
-            } else { count = 2; }
-
-            drivingLibrary.driveStraight(0,.5f);
-            opMode.sleep(300);
-
-            drivingLibrary.driveStraight(-.5f,0);
-            opMode.sleep(600);
-
-            gyroSensorLibrary.turnLeft(Math.PI / 2);
-            drivingLibrary.driveStraight(0,-.5f);
-            opMode.sleep(500);
-
-            drivingLibrary.driveStraight(-.5f,0);
-            int strafeTime = 590;
-
-            if (count == 1) {
-                strafeTime = 820;
-            } else if (count == 2) {
-                strafeTime = 700;
-            }
-            while (count != 0) {
-                double dist = cryptoDistanceSensor.getDistance(DistanceUnit.CM);
-                if (dist != java.lang.Double.NaN) {
-                    count -= 1;
-                    opMode.telemetry.addData("Distance", dist);
-                    opMode.telemetry.update();
-                    drivingLibrary.driveStraight(-.5f,0);
-                    opMode.sleep(strafeTime);
-                }
-
-            }
-            drivingLibrary.brakeStop();
-            drivingLibrary.driveStraight(0,.5f);
-            opMode.sleep(800);
-            drivingLibrary.brakeStop();
-            glyphArm.dropGlyphs();
-            drivingLibrary.driveStraight(0,-.5f);
-            opMode.sleep(200);
-            drivingLibrary.driveStraight(0,.5f);
-            opMode.sleep(300);
-            drivingLibrary.driveStraight(0,-.5f);
-            opMode.sleep(200);
-            drivingLibrary.brakeStop();
-
     }
 
     //EXCLUSIVELY for Jewel Only Run
@@ -686,10 +532,6 @@ public class AutonModeLibrary {
 
         opMode.telemetry.update();
         drivingLibrary.stopDrivingMotors();
-    }
-
-    public void callSenseColor() {
-        senseColor();
     }
 
 }

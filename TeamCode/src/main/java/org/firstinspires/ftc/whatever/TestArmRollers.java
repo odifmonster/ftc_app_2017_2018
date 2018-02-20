@@ -20,7 +20,7 @@ public class TestArmRollers extends LinearOpMode {
     CRServo servoArmR;
 
     public void runOpMode() throws InterruptedException {
-        autonMode = new AutonModeLibrary(this, FTCAlliance.BLUE, FTCPosition.LEFT);
+        autonMode = new AutonModeLibrary(this, FTCAlliance.BLUE, FTCPosition.LEFT, true);
         servoArmL = hardwareMap.get(CRServo.class, "servoArmL");
         servoArmR = hardwareMap.get(CRServo.class, "servoArmR");
 

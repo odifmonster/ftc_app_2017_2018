@@ -1,8 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.enums.Direction;
 import org.firstinspires.ftc.enums.FTCAlliance;
@@ -10,14 +9,14 @@ import org.firstinspires.ftc.enums.FTCPosition;
 import org.firstinspires.ftc.libraries.AutonModeLibrary;
 
 /**
- * Created by megankaye on 2/8/18.
+ * Created by megankaye on 2/10/18.
  */
 @Autonomous
-public class TestSenseCryptobox extends LinearOpMode {
+public class AutonBlueLeftJEWEL extends LinearOpMode {
     AutonModeLibrary autonMode;
 
     public void runOpMode() throws InterruptedException {
-        autonMode = new AutonModeLibrary(this, FTCAlliance.RED, FTCPosition.LEFT);
+        autonMode = new AutonModeLibrary(this, FTCAlliance.BLUE, FTCPosition.LEFT, false);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -26,13 +25,12 @@ public class TestSenseCryptobox extends LinearOpMode {
 
         while (opModeIsActive()) {
             autonMode.pickUpGlyph();
-            sleep(1000);
 
-           //autonMode.senseCryptoboxFar();
-            autonMode.goToBlue();
+            Direction dir = autonMode.knockOffJewel();
+
+            autonMode.driveToSafeZone(dir);
 
             sleep(30000);
-
         }
     }
 }
