@@ -88,8 +88,13 @@ public class DrivingLibrary {
         leftRear.setPower(multiplier * speedSetting * (y - x) * strafeBias[3]);
     }
 
-    public void driveStraight(double theta, int clicks) { // takes in a direction and clicks, moves
-                                                          // the fastest motor that many clicks
+    public void driveStraightClicks(double theta, int clicks) {
+        /**
+         * This function takes in an angle and a number of clicks and moves the fastest motor that
+         * many clicks
+         **/
+
+        // TODO: accept values that make the robot move backwards (right now you have to put the motors in reverse)
         resetEncoders();
 
         double x = Math.cos(theta);
@@ -112,7 +117,7 @@ public class DrivingLibrary {
 
             leftFront.setPower(0);
             rightRear.setPower(0);
-        } else if (theta == Math.PI*3/4 || theta == Math.PI*7/4) {
+        } else if (theta == Math.PI*3/4 || theta == Math.PI*7/4) { // special case for when x == -y
             multiplier = 1 / (y - x);
 
             rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -126,56 +131,6 @@ public class DrivingLibrary {
                 // continue
             }
 
-            rightFront.setPower(0);
-            leftRear.setPower(0);
-        } else if (y + x > y - x) {
-            multiplier = 1 / (y + x);
-            int clicks2 = (int) (clicks * (y - x)/(y + x)); // smaller clicks value for slower motor
-
-            leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            leftFront.setTargetPosition(clicks);
-            rightRear.setTargetPosition(clicks);
-            rightFront.setTargetPosition(clicks2);
-            leftRear.setTargetPosition(clicks2);
-            leftFront.setPower(multiplier * speedSetting * (y + x));
-            rightRear.setPower(multiplier * speedSetting * (y + x));
-            rightFront.setPower(multiplier * speedSetting * (y - x));
-            leftRear.setPower(multiplier * speedSetting * (y - x));
-
-            while (leftFront.getCurrentPosition() < clicks) {
-                // continue
-            }
-
-            leftFront.setPower(0);
-            rightRear.setPower(0);
-            rightFront.setPower(0);
-            leftRear.setPower(0);
-        } else if (y - x > y + x) {
-            multiplier = 1 / (y - x);
-            int clicks2 = (int) (clicks * (y + x)/(y - x)); // smaller clicks value for slower motor
-
-            leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            leftFront.setTargetPosition(clicks2);
-            rightRear.setTargetPosition(clicks2);
-            rightFront.setTargetPosition(clicks);
-            leftRear.setTargetPosition(clicks);
-            leftFront.setPower(multiplier * speedSetting * (y + x));
-            rightRear.setPower(multiplier * speedSetting * (y + x));
-            rightFront.setPower(multiplier * speedSetting * (y - x));
-            leftRear.setPower(multiplier * speedSetting * (y - x));
-
-            while (rightFront.getCurrentPosition() < clicks) {
-                // continue
-            }
-
-            leftFront.setPower(0);
-            rightRear.setPower(0);
             rightFront.setPower(0);
             leftRear.setPower(0);
         }
