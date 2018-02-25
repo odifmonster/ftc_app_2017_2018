@@ -37,8 +37,6 @@ public class AutonModeLibrary {
     ColorSensor cryptoColorSensor;
     DistanceSensor cryptoDistanceSensor;
 
-    int safetyTime = 0;
-
     boolean[][] cryptobox;
 
     public AutonModeLibrary(LinearOpMode opMode, FTCAlliance alliance, FTCPosition position, boolean glyphLib) {
@@ -115,13 +113,29 @@ public class AutonModeLibrary {
         glyphArm.movePulley(true);
     }
 
+    public void testMoveServo() {
+        int waitMoveArm = 1000;
+        double colorArmDownPos = 0.1;
+        float driveSpeed = .4f;
+        drivingLibrary.setSpeed(driveSpeed);
+
+        //other variables
+        Direction dir;
+
+        //MOVE SERVO
+        colorArm.setPosition(colorArmDownPos);
+        opMode.sleep(waitMoveArm);
+
+    }
+
     public Direction knockOffJewel() {
         //test variables
         int waitMoveArm = 1000;
-        int waitDriveTime = 300;
+        int knockOffClicks = 1000;
         int colorArmResetPos = 1;
         double colorArmDownPos = 0.1;
         float driveSpeed = .4f;
+        drivingLibrary.setSpeed(driveSpeed);
 
         //other variables
         Direction dir;
@@ -133,39 +147,38 @@ public class AutonModeLibrary {
 
         if (alliance == FTCAlliance.RED) {
             if (color == JewelColor.BLUE) {
-                drivingLibrary.driveStraight(0, -driveSpeed);
+                drivingLibrary.driveStraightClicks(3* Math.PI / 2,knockOffClicks);
                 dir = Direction.BACKWARD;
             }
             else if (color == JewelColor.RED) {
-                drivingLibrary.driveStraight(0, driveSpeed);
+                drivingLibrary.driveStraightClicks(Math.PI / 2,knockOffClicks);
                 dir = Direction.FORWARD;
             }
             else {
                 colorArm.setPosition(colorArmResetPos);
                 opMode.sleep(waitMoveArm);
-                drivingLibrary.driveStraight(0, driveSpeed);
+                drivingLibrary.driveStraightClicks(Math.PI / 2,knockOffClicks);
                 dir = Direction.FORWARD;
             }
         } else {
             if (color == JewelColor.RED) {
-                drivingLibrary.driveStraight(0, -driveSpeed);
+                drivingLibrary.driveStraightClicks(3* Math.PI / 2,knockOffClicks);
                 dir = Direction.BACKWARD;
             }
             else if (color == JewelColor.BLUE){
-                drivingLibrary.driveStraight(0, driveSpeed);
+                drivingLibrary.driveStraightClicks(Math.PI / 2,knockOffClicks);
                 dir = Direction.FORWARD;
             }
             else {
                 colorArm.setPosition(colorArmResetPos);
                 opMode.sleep(waitMoveArm);
-                drivingLibrary.driveStraight(0, driveSpeed);
+                drivingLibrary.driveStraightClicks( Math.PI / 2,knockOffClicks);
                 dir = Direction.FORWARD;
             }
         }
-        opMode.sleep(waitDriveTime);
         colorArm.setPosition(colorArmResetPos);
         drivingLibrary.brakeStop();
-        opMode.sleep(1000);
+        opMode.sleep(100);
         opMode.telemetry.update();
         return dir;
     }
@@ -322,11 +335,6 @@ public class AutonModeLibrary {
             if (vuMark == RelicRecoveryVuMark.LEFT) {
                 count = 3;
                 tries += 3;
-                if (alliance == FTCAlliance.BLUE) {
-                    safetyTime = 200;
-                } else {
-                    safetyTime = -200;
-                }
             } else if (vuMark == RelicRecoveryVuMark.CENTER) {
                 count = 2;
                 tries += 3;
@@ -334,11 +342,6 @@ public class AutonModeLibrary {
             else if (vuMark == RelicRecoveryVuMark.RIGHT) {
                 count = 1;
                 tries += 3;
-                if (alliance == FTCAlliance.BLUE) {
-                    safetyTime = -200;
-                } else {
-                    safetyTime = 200;
-                }
             } else { count = 0; }
             tries += 1;
             opMode.sleep(100);
