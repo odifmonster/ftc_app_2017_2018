@@ -8,7 +8,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.enums.DrivingMode;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
@@ -33,9 +33,9 @@ public class DrivingLibrary {
     // other variables
     private double speedSetting;
     private DrivingMode drivingMode;
-    private OpMode opMode;
+    private LinearOpMode opMode;
 
-    public DrivingLibrary(OpMode opMode) {
+    public DrivingLibrary(LinearOpMode opMode) {
         this.opMode = opMode;
         hardwareMap = opMode.hardwareMap;
 
@@ -114,6 +114,12 @@ public class DrivingLibrary {
             rightRear.setPower(multiplier * speedSetting * (y + x));
             rightFront.setPower(multiplier * speedSetting * (y - x));
             leftRear.setPower(multiplier * speedSetting * (y - x));
+
+            while (leftFront.isBusy() && opMode.opModeIsActive()) {
+                continue;
+            }
+
+            stopDrivingMotors();
         } else if (theta >= Math.PI / 2 && theta < Math.PI) {
             multiplier = 1 / (y - x);
             int clicksSmall = (int) (clicks * (y + x)/(y - x));
@@ -127,6 +133,12 @@ public class DrivingLibrary {
             leftRear.setPower(multiplier * speedSetting * (y - x));
             leftFront.setPower(multiplier * speedSetting * (y + x));
             rightRear.setPower(multiplier * speedSetting * (y + x));
+
+            while (rightFront.isBusy() && opMode.opModeIsActive()) {
+                continue;
+            }
+
+            stopDrivingMotors();
         } else if (theta >= Math.PI && theta < 3*Math.PI/2) {
             multiplier = -1 / (y + x); // keeps multiplier positive
             int clicksSmall = (int) (clicks * (y - x)/(y + x));
@@ -140,6 +152,12 @@ public class DrivingLibrary {
             rightRear.setPower(multiplier * speedSetting * (y + x));
             rightFront.setPower(multiplier * speedSetting * (y - x));
             leftRear.setPower(multiplier * speedSetting * (y - x));
+
+            while (leftFront.isBusy() && opMode.opModeIsActive()) {
+                continue;
+            }
+
+            stopDrivingMotors();
         } else if (theta >= 3*Math.PI/2 && theta < 2*Math.PI) {
             multiplier = -1 / (y - x);
             int clicksSmall = (int) (clicks * (y + x)/(y - x));
@@ -153,6 +171,12 @@ public class DrivingLibrary {
             leftRear.setPower(multiplier * speedSetting * (y - x));
             leftFront.setPower(multiplier * speedSetting * (y + x));
             rightRear.setPower(multiplier * speedSetting * (y + x));
+
+            while (rightFront.isBusy() && opMode.opModeIsActive()) {
+                continue;
+            }
+
+            stopDrivingMotors();
         }
 
         resetEncoders(); // this really stresses me out so I added another one just in case
