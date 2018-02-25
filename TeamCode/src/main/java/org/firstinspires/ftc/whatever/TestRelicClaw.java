@@ -42,7 +42,7 @@ public class TestRelicClaw extends LinearOpMode {
             }*/
 
             if (gamepad1.left_bumper) {
-                relicArmLibrary.activateClaw();
+                //relicArmLibrary.activateClaw();
                 telemetry.addData("left bumper", "pressed");
                 sleep(sleeptime);
             }

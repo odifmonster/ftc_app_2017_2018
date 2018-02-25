@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -9,6 +10,7 @@ import org.firstinspires.ftc.libraries.GlyphArmLibrary;
 /**
  * Created by megankaye on 2/20/18.
  */
+@Disabled
 @TeleOp
 public class TestServoMode extends LinearOpMode {
     GlyphArmLibrary glyphArmLibrary;
