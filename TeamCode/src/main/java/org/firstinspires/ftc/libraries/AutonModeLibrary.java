@@ -32,7 +32,7 @@ public class AutonModeLibrary {
     FTCAlliance alliance;
     FTCPosition position;
 
-    Servo colorArm;
+    public Servo colorArm;
     ColorSensor jewelColorSensor;
     ColorSensor cryptoColorSensor;
     DistanceSensor cryptoDistanceSensor;
@@ -111,21 +111,6 @@ public class AutonModeLibrary {
         glyphArm.allArmsPreset(true, 0);
         opMode.sleep(1500);
         glyphArm.movePulley(true);
-    }
-
-    public void testMoveServo() {
-        int waitMoveArm = 1000;
-        double colorArmDownPos = 0.1;
-        float driveSpeed = .4f;
-        drivingLibrary.setSpeed(driveSpeed);
-
-        //other variables
-        Direction dir;
-
-        //MOVE SERVO
-        colorArm.setPosition(colorArmDownPos);
-        opMode.sleep(waitMoveArm);
-
     }
 
     public Direction knockOffJewel() {

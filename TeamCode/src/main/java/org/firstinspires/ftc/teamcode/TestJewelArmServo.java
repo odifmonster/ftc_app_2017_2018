@@ -23,9 +23,10 @@ public class TestJewelArmServo extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            autonMode.testMoveServo();
-
-            sleep(30000);
+            autonMode.colorArm.setPosition(.1);
+            sleep(1000);
+            autonMode.colorArm.setPosition(1);
+            sleep(1000);
         }
     }
 }
