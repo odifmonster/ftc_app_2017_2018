@@ -16,21 +16,24 @@ public class RelicArmLibrary {
     CRServo cont1;
     CRServo cont2;
     CRServo cont3;
-    Servo lift;
-    Servo claw;
-    boolean clawState = false;
-    boolean liftState = false;
+    //Servo lift;
+    //Servo claw;
+    //boolean clawState = false;
+    //boolean liftState = false;
 
     double liftBottom =  0.585;
     double liftTop =    0.66;
     double clawBottom =  0.05;
     double clawTop = 0.45;
 
+    boolean cont12Locked = false;
+    boolean cont3locked = false;
+
     public RelicArmLibrary(LinearOpMode opMode) {
         this.opMode = opMode;
-        lift = opMode.hardwareMap.get(Servo.class, "lift");
-        lift.setDirection(Servo.Direction.REVERSE);
-        claw = opMode.hardwareMap.get(Servo.class, "claw");
+        //lift = opMode.hardwareMap.get(Servo.class, "lift");
+        //lift.setDirection(Servo.Direction.REVERSE);
+        //claw = opMode.hardwareMap.get(Servo.class, "claw");
         cont1 = opMode.hardwareMap.get(CRServo.class, "cont1");
         cont2 = opMode.hardwareMap.get(CRServo.class, "cont2");
         cont3 = opMode.hardwareMap.get(CRServo.class, "cont3");
@@ -38,19 +41,20 @@ public class RelicArmLibrary {
 
     public void extendArm() {
         cont1.setPower(1);
-        cont2.setPower(1);
+        cont2.setPower(-1);
         cont3.setPower(1);
     }
 
     public void retractArm() {
         cont1.setPower(-1);
-        cont2.setPower(-1);
+        cont2.setPower(1);
         cont3.setPower(-1);
     }
 
     public void firstServoForward() {
         cont1.setPower(1);
     }
+
     public void firstServoBackward() {
         cont1.setPower(-1);
     }
@@ -78,21 +82,21 @@ public class RelicArmLibrary {
     }
 
     public void liftClaw() {
-       if (clawState) {
+       /*if (clawState) {
             claw.setPosition(clawBottom);
         } else {
             claw.setPosition(clawTop);
         }
-        clawState = !clawState;
+        clawState = !clawState;*/
     }
 
     public void liftLift() {
-        if (liftState) {
+        /*if (liftState) {
             lift.setPosition(liftBottom);
         } else {
             lift.setPosition(liftTop);
         }
-        liftState = !liftState;
+        liftState = !liftState;*/
     }
 
     public void outputInfo() {

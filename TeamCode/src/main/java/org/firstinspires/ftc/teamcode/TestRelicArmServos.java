@@ -36,10 +36,12 @@ public class TestRelicArmServos extends LinearOpMode {
 
             if (gamepad1.left_bumper) {
                 telemetry.addData("lbumper", "Pressed");
-                relicArmLibrary.liftClaw();
+                //relicArmLibrary.liftClaw();
+                relicArmLibrary.extendArm();
             } if (gamepad1.right_bumper) {
                 telemetry.addData("rbumper", "Pressed");
-                relicArmLibrary.liftLift();
+                //relicArmLibrary.liftLift();
+                relicArmLibrary.retractArm();
             }
             //relic lift presets
             relicArmLibrary.outputInfo();
