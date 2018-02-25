@@ -182,11 +182,13 @@ public class GlyphArmLibrary {
     }
 
     public void alignArms(Gamepad gamepad) {
-        if (gamepad.right_stick_x < 0) {
+        if (gamepad.right_stick_x < 0 && gamepad.right_stick_y < 0.1 &&
+                gamepad.right_stick_y > -0.1) {
             leftTop.setPosition(leftTop.getPosition() - increment);
             rightTop.setPosition(rightTop.getPosition() - increment);
         }
-        if (gamepad.right_stick_x > 0) {
+        if (gamepad.right_stick_x > 0 && gamepad.right_stick_y < 0.1 &&
+                gamepad.right_stick_y > -0.1) {
             leftTop.setPosition(leftTop.getPosition() + increment);
             rightTop.setPosition(rightTop.getPosition() + increment);
         }
@@ -210,11 +212,13 @@ public class GlyphArmLibrary {
             pulley.setPower(-pulleySpeed);
             pulleyStopped = false;
             lastDir = Direction.BACKWARD;
-        } else if (gamepad.right_stick_y > 0) {
+        } else if (gamepad.right_stick_y > 0 && gamepad.right_stick_x < 0.1 &&
+                gamepad.right_stick_x > -0.1) {
             pulley.setPower(-pulleySpeed);
             pulleyStopped = false;
             lastDir = Direction.BACKWARD;
-        } else if (gamepad.right_stick_y < 0) {
+        } else if (gamepad.right_stick_y < 0 && gamepad.right_stick_x < 0.1 &&
+                gamepad.right_stick_x > -0.1) {
             pulley.setPower(-pulleySpeed);
             pulleyStopped = false;
             lastDir = Direction.BACKWARD;
