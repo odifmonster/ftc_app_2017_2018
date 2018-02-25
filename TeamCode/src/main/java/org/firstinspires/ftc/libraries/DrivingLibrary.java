@@ -182,8 +182,6 @@ public class DrivingLibrary {
             }
 
             stopDrivingMotors();
-        } else { // if you mess up, everything stops but it also tells you why
-            throw new InvalidAngleException();
         }
 
         resetEncoders(); // this really stresses me out so I added another one just in case
