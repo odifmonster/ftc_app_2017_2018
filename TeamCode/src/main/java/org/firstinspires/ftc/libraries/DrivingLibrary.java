@@ -114,12 +114,6 @@ public class DrivingLibrary {
             rightRear.setPower(multiplier * speedSetting * (y + x));
             rightFront.setPower(multiplier * speedSetting * (y - x));
             leftRear.setPower(multiplier * speedSetting * (y - x));
-
-            while (leftFront.getCurrentPosition() < clicks) {
-                continue;
-            }
-
-            stopDrivingMotors();
         } else if (theta >= Math.PI / 2 && theta < Math.PI) {
             multiplier = 1 / (y - x);
             int clicksSmall = (int) (clicks * (y + x)/(y - x));
@@ -133,12 +127,6 @@ public class DrivingLibrary {
             leftRear.setPower(multiplier * speedSetting * (y - x));
             leftFront.setPower(multiplier * speedSetting * (y + x));
             rightRear.setPower(multiplier * speedSetting * (y + x));
-
-            while (rightFront.getCurrentPosition() < clicks) {
-                continue;
-            }
-
-            stopDrivingMotors();
         } else if (theta >= Math.PI && theta < 3*Math.PI/2) {
             multiplier = -1 / (y + x); // keeps multiplier positive
             int clicksSmall = (int) (clicks * (y - x)/(y + x));
@@ -152,12 +140,6 @@ public class DrivingLibrary {
             rightRear.setPower(multiplier * speedSetting * (y + x));
             rightFront.setPower(multiplier * speedSetting * (y - x));
             leftRear.setPower(multiplier * speedSetting * (y - x));
-
-            while (leftFront.getCurrentPosition() > clicks) {
-                continue;
-            }
-
-            stopDrivingMotors();
         } else if (theta >= 3*Math.PI/2 && theta < 2*Math.PI) {
             multiplier = -1 / (y - x);
             int clicksSmall = (int) (clicks * (y + x)/(y - x));
@@ -171,12 +153,6 @@ public class DrivingLibrary {
             leftRear.setPower(multiplier * speedSetting * (y - x));
             leftFront.setPower(multiplier * speedSetting * (y + x));
             rightRear.setPower(multiplier * speedSetting * (y + x));
-
-            while (rightFront.getCurrentPosition() > clicks) {
-                continue;
-            }
-
-            stopDrivingMotors();
         }
 
         resetEncoders(); // this really stresses me out so I added another one just in case
