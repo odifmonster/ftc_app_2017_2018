@@ -65,7 +65,6 @@ public class TeleOpMode extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-
             if (gamepad1.a) {
                 drivingMode++;
                 drivingMode %= DrivingMode.values().length;

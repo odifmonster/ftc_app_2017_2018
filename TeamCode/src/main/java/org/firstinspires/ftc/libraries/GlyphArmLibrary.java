@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.enums.Direction;
+
 /**
  * Created by lamanwyner on 1/11/18.
  */
@@ -22,6 +24,8 @@ public class GlyphArmLibrary {
     private double increment;
 
     double pulleySpeed;
+    boolean pulleyStopped;
+    Direction lastDir;
 
     public GlyphArmLibrary(LinearOpMode opMode) {
         this.opMode = opMode;
@@ -40,6 +44,8 @@ public class GlyphArmLibrary {
         increment = 0.05;
 
         pulleySpeed = 1;
+        pulleyStopped = true;
+        lastDir = null;
     }
 
     public void allArmsPreset(boolean lb, float lt) {
@@ -185,13 +191,34 @@ public class GlyphArmLibrary {
     }
 
     public void movePulley(Gamepad gamepad) {
-        if (gamepad.dpad_up) {
+        if (gamepad.dpad_up && pulley.getCurrentPosition() < 3400) {
             pulley.setPower(pulleySpeed);
-        } else if (gamepad.dpad_down && pulley.getCurrentPosition() > 0) {
+            pulleyStopped = false;
+            lastDir = Direction.FORWARD;
+        } else if (gamepad.dpad_down && pulley.getCurrentPosition() > 100) {
             pulley.setPower(-pulleySpeed);
-        } else {
+            pulleyStopped = false;
+            lastDir = Direction.BACKWARD;
+        } else if (gamepad.right_stick_y > 0) {
+            pulley.setPower(-pulleySpeed);
+            pulleyStopped = false;
+            lastDir = Direction.BACKWARD;
+        } else if (gamepad.right_stick_y < 0) {
+            pulley.setPower(-pulleySpeed);
+            pulleyStopped = false;
+            lastDir = Direction.BACKWARD;
+        } else if (!pulleyStopped) {
+            if (lastDir == Direction.FORWARD) {
+                pulley.setPower(-pulleySpeed);
+            } else if (lastDir == Direction.BACKWARD) {
+                pulley.setPower(pulleySpeed);
+            }
+            opMode.sleep(10);
             pulley.setPower(0);
-        }
+            pulleyStopped = true;
+        } //else {
+//            pulley.setPower(0);
+//        }
         opMode.telemetry.addData("Pulley Pos", pulley.getCurrentPosition());
     }
 
