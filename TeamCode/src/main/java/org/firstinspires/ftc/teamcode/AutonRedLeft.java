@@ -28,13 +28,13 @@ public class AutonRedLeft extends LinearOpMode {
         while (opModeIsActive()) {
             autonMode.pickUpGlyph();
 
-            Direction dir = autonMode.knockOffJewel();
+            Direction dir = autonMode.knockOffJewelSleep();
 
             //glyptograph
-            int count = autonMode.glyptograph(dir);
+            int count = autonMode.glyptographSleep(dir);
 
 
-            autonMode.placeGlyphs(count);
+            autonMode.placeGlyphsSleep(count);
 
             //p
 

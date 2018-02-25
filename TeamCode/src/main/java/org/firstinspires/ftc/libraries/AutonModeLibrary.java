@@ -35,8 +35,6 @@ public class AutonModeLibrary {
     ColorSensor cryptoColorSensor;
     DistanceSensor cryptoDistanceSensor;
 
-    int safetyTime = 0;
-
     boolean[][] cryptobox;
 
     public AutonModeLibrary(LinearOpMode opMode, FTCAlliance alliance, FTCPosition position, boolean glyphLib) {
@@ -113,7 +111,7 @@ public class AutonModeLibrary {
         glyphArm.movePulley(true);
     }
 
-    public Direction knockOffJewel() {
+    public Direction knockOffJewelSleep() {
         //test variables
         int waitMoveArm = 1000;
         int waitDriveTime = 300;
@@ -168,7 +166,7 @@ public class AutonModeLibrary {
         return dir;
     }
 
-    public int glyptograph(Direction dir) {
+    public int glyptographSleep(Direction dir) {
         float driveSpeed = .4f;
 
         int waitSensePictograph = 500;
@@ -242,12 +240,12 @@ public class AutonModeLibrary {
 
         } else {
             if (dir == Direction.BACKWARD) {
+                drive1 = 1150;
+                drive2 = 500;
+                drive3 = 1200;
+                drive4 = 500;
                 if (alliance == FTCAlliance.RED) {
                     //if red, on right side, and went backwards
-                    drive1 = 1150;
-                    drive2 = 500;
-                    drive3 = 1200;
-                    drive4 = 500;
                     drivingLibrary.driveStraight(0,driveSpeed);
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(-driveSpeed,0);
@@ -260,10 +258,6 @@ public class AutonModeLibrary {
                     drivingLibrary.brakeStop();
                 } else {
                     //if blue, on right side, and went backwards
-                    drive1 = 1150;
-                    drive2 = 500;
-                    drive3 = 1200;
-                    drive4 = 500;
                     drivingLibrary.driveStraight(0,-driveSpeed);
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(driveSpeed,0);
@@ -276,12 +270,12 @@ public class AutonModeLibrary {
                     drivingLibrary.brakeStop();
                 }
             } else {
+                drive1 = 950;
+                drive2 = 500;
+                drive3 = 1300;
+                drive4 = 500;
                 if (alliance == FTCAlliance.RED) {
                     //if red, on right side, and went forwards
-                    drive1 = 950;
-                    drive2 = 500;
-                    drive3 = 1300;
-                    drive4 = 500;
                     drivingLibrary.driveStraight(0,driveSpeed);
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(-driveSpeed,0);
@@ -294,10 +288,6 @@ public class AutonModeLibrary {
                     drivingLibrary.brakeStop();
                 } else {
                     //if blue, on right side, and went forwards
-                    drive1 = 950;
-                    drive2 = 500;
-                    drive3 = 1300;
-                    drive4 = 500;
                     drivingLibrary.driveStraight(0,-driveSpeed);
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(driveSpeed,0);
@@ -321,11 +311,6 @@ public class AutonModeLibrary {
             if (vuMark == RelicRecoveryVuMark.LEFT) {
                 count = 3;
                 tries += 3;
-                if (alliance == FTCAlliance.BLUE) {
-                    safetyTime = 200;
-                } else {
-                    safetyTime = -200;
-                }
             } else if (vuMark == RelicRecoveryVuMark.CENTER) {
                 count = 2;
                 tries += 3;
@@ -333,24 +318,16 @@ public class AutonModeLibrary {
             else if (vuMark == RelicRecoveryVuMark.RIGHT) {
                 count = 1;
                 tries += 3;
-                if (alliance == FTCAlliance.BLUE) {
-                    safetyTime = -200;
-                } else {
-                    safetyTime = 200;
-                }
             } else { count = 0; }
             tries += 1;
             opMode.sleep(100);
         }
         if (count == 0)  { count = 2; }
-
-
         opMode.telemetry.addData("count", count);
         return count;
     }
 
-    public void placeGlyphs(int count) {
-
+    public void placeGlyphsSleep(int count) {
         int strafeTime = 590;
 
         if (count == 1) {

@@ -28,7 +28,7 @@ public class AutonBlueRight extends LinearOpMode {
         while (opModeIsActive()) {
             autonMode.pickUpGlyph();
 
-            Direction dir = autonMode.knockOffJewel();
+            Direction dir = autonMode.knockOffJewelSleep();
 
             autonMode.driveToSafeZone(dir);
 

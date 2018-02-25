@@ -29,10 +29,10 @@ public class AutonBlueLeft extends LinearOpMode {
         while (opModeIsActive()) {
             autonMode.pickUpGlyph();
 
-            Direction dir = autonMode.knockOffJewel();
-            int count = autonMode.glyptograph(dir);
+            Direction dir = autonMode.knockOffJewelSleep();
+            int count = autonMode.glyptographSleep(dir);
 
-            autonMode.placeGlyphs(count);
+            autonMode.placeGlyphsSleep(count);
 
             //glyptograph
             //RelicRecoveryVuMark rvu = autonMode.glyptograph(dir);

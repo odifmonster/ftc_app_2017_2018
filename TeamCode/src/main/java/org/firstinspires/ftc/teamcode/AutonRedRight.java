@@ -28,12 +28,12 @@ public class AutonRedRight extends LinearOpMode {
         while (opModeIsActive()) {
             autonMode.pickUpGlyph();
 
-            Direction dir = autonMode.knockOffJewel();
+            Direction dir = autonMode.knockOffJewelSleep();
 
             //glyptograph
             //RelicRecoveryVuMark rvu = autonMode.glyptograph(dir);
-            int count = autonMode.glyptograph(dir);
-            autonMode.placeGlyphs(count);
+            int count = autonMode.glyptographSleep(dir);
+            autonMode.placeGlyphsSleep(count);
 
             sleep(30000);
         }
