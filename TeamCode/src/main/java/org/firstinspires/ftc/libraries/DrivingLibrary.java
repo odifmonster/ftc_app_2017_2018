@@ -90,7 +90,7 @@ public class DrivingLibrary {
         leftRear.setPower(multiplier * speedSetting * (y - x) * strafeBias[3]);
     }
 
-    public void driveStraightClicks(double theta, int clicks) throws InvalidAngleException {
+    public void driveStraightClicks(double theta, int clicks) {
         /**
          * This function takes in an angle and a number of clicks and moves the fastest motor that
          * many clicks

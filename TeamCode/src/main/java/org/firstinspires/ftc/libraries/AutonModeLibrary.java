@@ -171,7 +171,7 @@ public class AutonModeLibrary {
         return dir;
     }
 
-    public int glyptograph(Direction dir) throws InvalidAngleException {
+    public int glyptograph(Direction dir) {
         float driveSpeed = .4f;
 
         int waitSensePictograph = 500;
