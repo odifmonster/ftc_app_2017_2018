@@ -181,6 +181,17 @@ public class GlyphArmLibrary {
         }
     }
 
+    public void alignArms(Gamepad gamepad) {
+        if (gamepad.right_stick_x < 0) {
+            leftTop.setPosition(leftTop.getPosition() - increment);
+            rightTop.setPosition(rightTop.getPosition() - increment);
+        }
+        if (gamepad.right_stick_x > 0) {
+            leftTop.setPosition(leftTop.getPosition() + increment);
+            rightTop.setPosition(rightTop.getPosition() + increment);
+        }
+    }
+
     public double getServoPos(int servo) {
         return servos[servo].getPosition();
     }

@@ -104,6 +104,7 @@ public class TeleOpMode extends LinearOpMode {
             }
 
             glyphArmLibrary.movePulley(gamepad2);
+            glyphArmLibrary.alignArms(gamepad2);
 
             //relicArmLibrary.outputInfo();
             telemetry.addData("Status", "Running");
