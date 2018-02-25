@@ -351,7 +351,6 @@ public class AutonModeLibrary {
     }
 
     public void placeGlyphs(int count) {
-
         int strafeTime = 590;
 
         if (count == 1) {
@@ -457,8 +456,6 @@ public class AutonModeLibrary {
         float driveSpeedStone = .6f;
         float driveSpeedStrafe = 1f;
         float driveSpeed = .4f;
-
-
         if (position == FTCPosition.LEFT) {
             if (dir == Direction.BACKWARD) {
                 if (alliance == FTCAlliance.RED) {
