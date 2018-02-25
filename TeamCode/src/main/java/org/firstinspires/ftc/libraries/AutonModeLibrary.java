@@ -13,7 +13,6 @@ import org.firstinspires.ftc.enums.DrivingMode;
 import org.firstinspires.ftc.enums.FTCAlliance;
 import org.firstinspires.ftc.enums.FTCPosition;
 import org.firstinspires.ftc.enums.JewelColor;
-import org.firstinspires.ftc.exceptions.InvalidAngleException;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
