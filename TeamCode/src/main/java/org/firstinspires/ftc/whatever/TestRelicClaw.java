@@ -25,14 +25,14 @@ public class TestRelicClaw extends LinearOpMode {
             //pulley extension
             if (gamepad1.dpad_right) {
                 telemetry.addData("dPadRight", "right");
-                relicArmLibrary.extendArm(true);
+                //relicArmLibrary.extendArm(true);
                 sleep(sleeptime);
             } else if (gamepad1.dpad_left) {
-                relicArmLibrary.extendArm(false);
+                //relicArmLibrary.extendArm(false);
                 telemetry.addData("dPadRight", "Pressed");
                 sleep(sleeptime);
             } else {
-                relicArmLibrary.stopArm();
+                //relicArmLibrary.stopArm();
             }
 
             /*if (gamepad1.right_bumper) {
