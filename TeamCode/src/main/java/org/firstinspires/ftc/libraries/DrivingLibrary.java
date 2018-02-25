@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.enums.DrivingMode;
+import org.firstinspires.ftc.exceptions.InvalidAngleException;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -89,97 +90,103 @@ public class DrivingLibrary {
         leftRear.setPower(multiplier * speedSetting * (y - x) * strafeBias[3]);
     }
 
-    public void driveStraight(double theta, int clicks) { // takes in a direction and clicks, moves
-                                                          // the fastest motor that many clicks
+    public void driveStraightClicks(double theta, int clicks) throws InvalidAngleException {
+        /**
+         * This function takes in an angle and a number of clicks and moves the fastest motor that
+         * many clicks
+         **/
+
+        // TODO: everything
         resetEncoders();
 
         double x = Math.cos(theta);
         double y = Math.sin(theta);
         double multiplier;           // accounts for values > 1
 
-        if (theta == Math.PI/4 || theta == Math.PI*5/4) {  // special case for when x == y
-            multiplier = 1 / (y + x);
+        startEncoders();
 
-            leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        // broken into quadrants for the motors that are turning the fastest and then negative values
+        if (theta >= 0 && theta < Math.PI/2) {
+            multiplier = 1 / (y + x);
+            int clicksSmall = (int) (clicks * (y - x)/(y + x)); // fewer clicks for slower motor
+
             leftFront.setTargetPosition(clicks);
             rightRear.setTargetPosition(clicks);
-            leftFront.setPower(multiplier * speedSetting * (y + x));
-            rightRear.setPower(multiplier * speedSetting * (y + x));
+            rightFront.setTargetPosition(clicksSmall);
+            leftRear.setTargetPosition(clicksSmall);
 
-            while (leftFront.getCurrentPosition() < clicks) {
-                // continue
-            }
-
-            leftFront.setPower(0);
-            rightRear.setPower(0);
-        } else if (theta == Math.PI*3/4 || theta == Math.PI*7/4) {
-            multiplier = 1 / (y - x);
-
-            rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightFront.setTargetPosition(clicks);
-            leftRear.setTargetPosition(clicks);
-            rightFront.setPower(multiplier * speedSetting * (y - x));
-            leftRear.setPower(multiplier * speedSetting * (y - x));
-
-            while (rightFront.getCurrentPosition() < clicks) {
-                // continue
-            }
-
-            rightFront.setPower(0);
-            leftRear.setPower(0);
-        } else if (y + x > y - x) {
-            multiplier = 1 / (y + x);
-            int clicks2 = (int) (clicks * (y - x)/(y + x)); // smaller clicks value for slower motor
-
-            leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            leftFront.setTargetPosition(clicks);
-            rightRear.setTargetPosition(clicks);
-            rightFront.setTargetPosition(clicks2);
-            leftRear.setTargetPosition(clicks2);
             leftFront.setPower(multiplier * speedSetting * (y + x));
             rightRear.setPower(multiplier * speedSetting * (y + x));
             rightFront.setPower(multiplier * speedSetting * (y - x));
             leftRear.setPower(multiplier * speedSetting * (y - x));
 
             while (leftFront.getCurrentPosition() < clicks) {
-                // continue
+                continue;
             }
 
-            leftFront.setPower(0);
-            rightRear.setPower(0);
-            rightFront.setPower(0);
-            leftRear.setPower(0);
-        } else if (y - x > y + x) {
+            stopDrivingMotors();
+        } else if (theta >= Math.PI / 2 && theta < Math.PI) {
             multiplier = 1 / (y - x);
-            int clicks2 = (int) (clicks * (y + x)/(y - x)); // smaller clicks value for slower motor
+            int clicksSmall = (int) (clicks * (y + x)/(y - x));
 
-            leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            leftFront.setTargetPosition(clicks2);
-            rightRear.setTargetPosition(clicks2);
             rightFront.setTargetPosition(clicks);
             leftRear.setTargetPosition(clicks);
+            leftFront.setTargetPosition(clicksSmall);
+            rightRear.setTargetPosition(clicksSmall);
+
+            rightFront.setPower(multiplier * speedSetting * (y - x));
+            leftRear.setPower(multiplier * speedSetting * (y - x));
+            leftFront.setPower(multiplier * speedSetting * (y + x));
+            rightRear.setPower(multiplier * speedSetting * (y + x));
+
+            while (rightFront.getCurrentPosition() < clicks) {
+                continue;
+            }
+
+            stopDrivingMotors();
+        } else if (theta >= Math.PI && theta < 3*Math.PI/2) {
+            multiplier = -1 / (y + x); // keeps multiplier positive
+            int clicksSmall = (int) (clicks * (y - x)/(y + x));
+
+            leftFront.setTargetPosition(-clicks);
+            rightRear.setTargetPosition(-clicks);
+            rightFront.setTargetPosition(-clicksSmall);
+            leftRear.setTargetPosition(-clicksSmall);
+
             leftFront.setPower(multiplier * speedSetting * (y + x));
             rightRear.setPower(multiplier * speedSetting * (y + x));
             rightFront.setPower(multiplier * speedSetting * (y - x));
             leftRear.setPower(multiplier * speedSetting * (y - x));
 
-            while (rightFront.getCurrentPosition() < clicks) {
-                // continue
+            while (leftFront.getCurrentPosition() > clicks) {
+                continue;
             }
 
-            leftFront.setPower(0);
-            rightRear.setPower(0);
-            rightFront.setPower(0);
-            leftRear.setPower(0);
+            stopDrivingMotors();
+        } else if (theta >= 3*Math.PI/2 && theta < 2*Math.PI) {
+            multiplier = -1 / (y - x);
+            int clicksSmall = (int) (clicks * (y + x)/(y - x));
+
+            rightFront.setTargetPosition(-clicks);
+            leftRear.setTargetPosition(-clicks);
+            leftFront.setTargetPosition(-clicksSmall);
+            rightRear.setTargetPosition(-clicksSmall);
+
+            rightFront.setPower(multiplier * speedSetting * (y - x));
+            leftRear.setPower(multiplier * speedSetting * (y - x));
+            leftFront.setPower(multiplier * speedSetting * (y + x));
+            rightRear.setPower(multiplier * speedSetting * (y + x));
+
+            while (rightFront.getCurrentPosition() > clicks) {
+                continue;
+            }
+
+            stopDrivingMotors();
+        } else { // if you mess up, everything stops but it also tells you why
+            throw new InvalidAngleException();
         }
+
+        resetEncoders(); // this really stresses me out so I added another one just in case
     }
 
     public void turn(float x, float y) {
@@ -268,6 +275,12 @@ public class DrivingLibrary {
     private void resetEncoders() {
         for (DcMotor motor : allMotors) {
             if (motor != null) motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        }
+    }
+
+    private void startEncoders() {
+        for (DcMotor motor : allMotors) {
+            if (motor != null) motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
     }
 }

@@ -9,9 +9,11 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.enums.Direction;
+import org.firstinspires.ftc.enums.DrivingMode;
 import org.firstinspires.ftc.enums.FTCAlliance;
 import org.firstinspires.ftc.enums.FTCPosition;
 import org.firstinspires.ftc.enums.JewelColor;
+import org.firstinspires.ftc.exceptions.InvalidAngleException;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
@@ -169,11 +171,13 @@ public class AutonModeLibrary {
         return dir;
     }
 
-    public int glyptograph(Direction dir) {
+    public int glyptograph(Direction dir) throws InvalidAngleException {
         float driveSpeed = .4f;
 
         int waitSensePictograph = 500;
         int drive1, drive2, drive3, drive4;
+
+        drivingLibrary.setMode(DrivingMode.BRAKE_STOP);
 
         if (position == FTCPosition.LEFT) {
             if (dir == Direction.BACKWARD) {
@@ -184,13 +188,10 @@ public class AutonModeLibrary {
                     drive2 = 500;
                     drive3 = 1200;
                     drive4 = 500;
-                    drivingLibrary.driveStraight(0,driveSpeed);
-                    opMode.sleep(drive1);
-                    drivingLibrary.driveStraight(-driveSpeed,0);
-                    opMode.sleep(drive2);
+                    drivingLibrary.driveStraightClicks(Math.PI/2, drive1);
+                    drivingLibrary.driveStraightClicks(Math.PI, drive2);
                     gyroSensorLibrary.rightToAngle(-Math.PI / 2);
-                    drivingLibrary.driveStraight(driveSpeed,0);
-                    opMode.sleep(drive3);
+                    drivingLibrary.driveStraightClicks(0, drive3);
                     drivingLibrary.driveStraight(0,-driveSpeed);
                     opMode.sleep(drive4);
                     drivingLibrary.brakeStop();
@@ -534,5 +535,4 @@ public class AutonModeLibrary {
         opMode.telemetry.update();
         drivingLibrary.stopDrivingMotors();
     }
-
 }
