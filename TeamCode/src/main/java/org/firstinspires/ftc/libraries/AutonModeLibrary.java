@@ -13,6 +13,7 @@ import org.firstinspires.ftc.enums.DrivingMode;
 import org.firstinspires.ftc.enums.FTCAlliance;
 import org.firstinspires.ftc.enums.FTCPosition;
 import org.firstinspires.ftc.enums.JewelColor;
+import org.firstinspires.ftc.exceptions.InvalidAngleException;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
@@ -169,7 +170,7 @@ public class AutonModeLibrary {
         return dir;
     }
 
-    public int glyptograph(Direction dir) {
+    public int glyptograph(Direction dir) throws InvalidAngleException {
         float driveSpeed = .4f;
 
         int waitSensePictograph = 500;
