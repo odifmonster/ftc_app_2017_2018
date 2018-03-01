@@ -154,33 +154,6 @@ public class GlyphArmLibrary {
         }
     }
 
-    public void moveAllArms(Gamepad g1, Gamepad g2) {
-        if (g1.left_bumper) {
-            leftTop.setPosition(leftTop.getPosition() - increment);
-        }
-        if (g1.left_trigger > 0.5) {
-            leftBottom.setPosition(leftBottom.getPosition() - increment);
-        }
-        if (g1.right_bumper) {
-            leftTop.setPosition(leftTop.getPosition() + increment);
-        }
-        if (g1.right_trigger > 0.5) {
-            leftBottom.setPosition(leftBottom.getPosition() + increment);
-        }
-        if (g2.left_bumper) {
-            rightTop.setPosition(rightTop.getPosition() + increment);
-        }
-        if (g2.left_trigger > 0.5) {
-            rightBottom.setPosition(rightBottom.getPosition() + increment);
-        }
-        if (g2.right_bumper) {
-            rightTop.setPosition(rightTop.getPosition() - increment);
-        }
-        if (g2.right_trigger > 0.5) {
-            rightBottom.setPosition(rightBottom.getPosition() - increment);
-        }
-    }
-
     public void alignArms(Gamepad gamepad) {
         if (gamepad.right_stick_x < 0) {
             leftTop.setPosition(leftTop.getPosition() - increment);
@@ -192,8 +165,8 @@ public class GlyphArmLibrary {
         }
     }
 
-    public double getServoPos(int servo) {
-        return servos[servo].getPosition();
+    public void presetPos(Gamepad gamepad) {
+
     }
 
     public void setPulleyBottom() {
@@ -202,7 +175,7 @@ public class GlyphArmLibrary {
     }
 
     public void movePulley(Gamepad gamepad) {
-        if (gamepad.dpad_up && pulley.getCurrentPosition() < 3400) {
+        if (gamepad.dpad_up && pulley.getCurrentPosition() < 3500) {
             pulley.setPower(pulleySpeed);
             pulleyStopped = false;
             lastDir = Direction.FORWARD;
@@ -219,17 +192,13 @@ public class GlyphArmLibrary {
             pulleyStopped = false;
             lastDir = Direction.BACKWARD;
         } else if (!pulleyStopped) {
-            if (lastDir == Direction.FORWARD) {
-                pulley.setPower(-pulleySpeed);
-            } else if (lastDir == Direction.BACKWARD) {
+            if (lastDir == Direction.BACKWARD) {
                 pulley.setPower(pulleySpeed);
+                opMode.sleep(10);
             }
-            opMode.sleep(10);
             pulley.setPower(0);
             pulleyStopped = true;
-        } //else {
-//            pulley.setPower(0);
-//        }
+        }
         opMode.telemetry.addData("Pulley Pos", pulley.getCurrentPosition());
     }
 
@@ -243,44 +212,6 @@ public class GlyphArmLibrary {
             opMode.sleep(500);
             pulley.setPower(0);
         }
-    }
-
-    public void resetArmPosition() {
-        if (pulley.getCurrentPosition() > 0) {
-            pulley.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            pulley.setTargetPosition(0);
-            pulley.setPower(-pulleySpeed);
-
-            while (pulley.getCurrentPosition() > 200) {
-                // continue
-            }
-
-            pulley.setPower(0);
-            pulley.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        }
-
-        leftBottom.setPosition(openBottomPosition[0]);
-        rightBottom.setPosition(openBottomPosition[1]);
-        leftTop.setPosition(openTopPosition[0]);
-        rightTop.setPosition(openTopPosition[1]);
-    }
-
-    public void liftTwoGlyphs() {
-        leftBottom.setPosition(closedBottomPosition[0]);
-        rightBottom.setPosition(closedBottomPosition[1]);
-        leftTop.setPosition(closedTopPosition[0]);
-        rightTop.setPosition(closedTopPosition[1]);
-
-        pulley.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        pulley.setTargetPosition(2000);
-        pulley.setPower(pulleySpeed);
-
-        while (pulley.getCurrentPosition() < 2000) {
-            // continue
-        }
-
-        pulley.setPower(0);
-        pulley.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void dropGlyphs() {

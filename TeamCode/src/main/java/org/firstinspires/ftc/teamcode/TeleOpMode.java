@@ -41,7 +41,6 @@ import org.firstinspires.ftc.libraries.RelicArmLibrary;
  * y: preset: quick drop glyphs
  */
 
-//@Disabled
 @TeleOp
 public class TeleOpMode extends LinearOpMode {
     DrivingLibrary drivingLibrary;
