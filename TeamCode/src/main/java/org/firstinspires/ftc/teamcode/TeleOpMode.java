@@ -7,6 +7,7 @@ import org.firstinspires.ftc.enums.DrivingMode;
 import org.firstinspires.ftc.enums.GlyphArmMode;
 import org.firstinspires.ftc.libraries.DrivingLibrary;
 import org.firstinspires.ftc.libraries.GlyphArmLibrary;
+import org.firstinspires.ftc.libraries.RelicArmLibrary;
 
 /**
  * Created by lamanwyner on 12/30/17.
@@ -21,8 +22,8 @@ import org.firstinspires.ftc.libraries.GlyphArmLibrary;
  * dpad: relic extend (x)
  * rjoy: move (y) turn (x)
  * ljoy: move (y) strafe (x)
- * a: switch driving modes
- * b: relic lift preset
+ * a: relic lift preset
+ * b: switch driving modes
  * x: relic drop preset
  * y: relic preset
 
@@ -47,6 +48,7 @@ public class TeleOpMode extends LinearOpMode {
     GlyphArmLibrary glyphArmLibrary;
     int drivingMode;
     GlyphArmMode glyphArmMode;
+    RelicArmLibrary relicArmLibrary;
     int glyphArmInt;
 
     public void runOpMode() throws InterruptedException {
@@ -56,6 +58,7 @@ public class TeleOpMode extends LinearOpMode {
         drivingLibrary.setMode(drivingMode);
 
         glyphArmLibrary = new GlyphArmLibrary(this);
+        relicArmLibrary = new RelicArmLibrary(this);
         glyphArmInt = 0;
         glyphArmMode = GlyphArmMode.values()[0];
 
@@ -65,7 +68,18 @@ public class TeleOpMode extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            if (gamepad1.a) {
+            if (gamepad2.b) {
+                telemetry.addData("pushed", "b");
+                relicArmLibrary.extendArm();
+            } if (gamepad2.x) {
+                telemetry.addData("pushed", "x");
+                relicArmLibrary.retractArm();
+            } if (gamepad2.y) {
+                telemetry.addData("pushed", "y");
+                relicArmLibrary.liftClaw();
+            }
+
+            if (gamepad1.b) {
                 drivingMode++;
                 drivingMode %= DrivingMode.values().length;
                 drivingLibrary.setMode(drivingMode);
@@ -79,9 +93,10 @@ public class TeleOpMode extends LinearOpMode {
                 glyphArmInt %= GlyphArmMode.values().length;
                 glyphArmMode = GlyphArmMode.values()[glyphArmInt];
             }
-            if (gamepad2.b) glyphArmLibrary.resetArmPosition();
+
+            /*if (gamepad2.b) glyphArmLibrary.resetArmPosition();
             if (gamepad2.x) glyphArmLibrary.liftTwoGlyphs();
-            if (gamepad2.y) glyphArmLibrary.dropGlyphs();
+            if (gamepad2.y) glyphArmLibrary.dropGlyphs();*/
 
             if (gamepad2.left_stick_y < 0) {
                 glyphArmLibrary.setPulleyBottom();
@@ -106,7 +121,7 @@ public class TeleOpMode extends LinearOpMode {
             glyphArmLibrary.movePulley(gamepad2);
             glyphArmLibrary.alignArms(gamepad2);
 
-            //relicArmLibrary.outputInfo();
+            relicArmLibrary.outputInfo();
             telemetry.addData("Status", "Running");
             telemetry.addData("Brake Mode", drivingLibrary.getMode());
             telemetry.addData("Glyph Arm Mode", glyphArmMode.getModeString());

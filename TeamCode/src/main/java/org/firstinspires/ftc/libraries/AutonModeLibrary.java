@@ -114,7 +114,7 @@ public class AutonModeLibrary {
     public Direction knockOffJewelSleep() {
         //test variables
         int waitMoveArm = 1000;
-        int waitDriveTime = 300;
+        int waitDriveTime = 150;
         int colorArmResetPos = 1;
         double colorArmDownPos = 0.1;
         float driveSpeed = .4f;
@@ -124,6 +124,8 @@ public class AutonModeLibrary {
 
         //MOVE SERVO
         colorArm.setPosition(colorArmDownPos);
+        opMode.telemetry.addData("pos", colorArm.getPosition());
+        opMode.telemetry.update();
         opMode.sleep(waitMoveArm);
         JewelColor color = senseColor();
 
@@ -177,10 +179,10 @@ public class AutonModeLibrary {
                 if (alliance == FTCAlliance.RED) {
                     //if red, on left side, and went backwards
                     //DONE
-                    drive1 = 1150;
-                    drive2 = 500;
-                    drive3 = 1200;
-                    drive4 = 500;
+                    drive1 = 1150 / 2;
+                    drive2 = 500 / 2;
+                    drive3 = 1200 / 2;
+                    drive4 = 500 / 2;
                     drivingLibrary.driveStraight(0,driveSpeed);
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(-driveSpeed,0);
@@ -191,11 +193,12 @@ public class AutonModeLibrary {
                     drivingLibrary.driveStraight(0,-driveSpeed);
                     opMode.sleep(drive4);
                     drivingLibrary.brakeStop();
+                    gyroSensorLibrary.turnLeft(Math.PI/6);
 
                 } else {
                     //if blue, on left side, and went backwards
-                    drive1 = 950;
-                    drive2 = 500;
+                    drive1 = 950 / 2;
+                    drive2 = 500 / 2;
                     drivingLibrary.driveStraight(0,driveSpeed);
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(-driveSpeed,0);
@@ -208,10 +211,10 @@ public class AutonModeLibrary {
             } else {
                 if (alliance == FTCAlliance.RED) {
                     //if red, on left side, and went forwards
-                    drive1 = 950;
-                    drive2 = 500;
-                    drive3 = 1300;
-                    drive4 = 500;
+                    drive1 = 950/ 2;
+                    drive2 = 500 / 2;
+                    drive3 = 1300/2;
+                    drive4 = 500/2;
                     drivingLibrary.driveStraight(0,driveSpeed);
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(-driveSpeed,0);
@@ -222,11 +225,12 @@ public class AutonModeLibrary {
                     drivingLibrary.driveStraight(0,-driveSpeed);
                     opMode.sleep(drive4);
                     drivingLibrary.brakeStop();
+                    gyroSensorLibrary.turnLeft(Math.PI/6);
                 }
                 else {
                     //if blue, on left side, and went forwards
-                    drive1 = 950;
-                    drive2 = 500;
+                    drive1 = 950/2;
+                    drive2 = 500/2;
                     drivingLibrary.driveStraight(0,driveSpeed);
                     opMode.sleep(drive1);
                     drivingLibrary.driveStraight(-driveSpeed,0);
@@ -240,10 +244,10 @@ public class AutonModeLibrary {
 
         } else {
             if (dir == Direction.BACKWARD) {
-                drive1 = 1150;
-                drive2 = 500;
-                drive3 = 1200;
-                drive4 = 500;
+                drive1 = 1150/2;
+                drive2 = 500/2;
+                drive3 = 1200/2;
+                drive4 = 500/2;
                 if (alliance == FTCAlliance.RED) {
                     //if red, on right side, and went backwards
                     drivingLibrary.driveStraight(0,driveSpeed);
@@ -256,6 +260,7 @@ public class AutonModeLibrary {
                     drivingLibrary.driveStraight(0,-driveSpeed);
                     opMode.sleep(drive4);
                     drivingLibrary.brakeStop();
+                    gyroSensorLibrary.turnLeft(Math.PI/6);
                 } else {
                     //if blue, on right side, and went backwards
                     drivingLibrary.driveStraight(0,-driveSpeed);
@@ -270,10 +275,10 @@ public class AutonModeLibrary {
                     drivingLibrary.brakeStop();
                 }
             } else {
-                drive1 = 950;
-                drive2 = 500;
-                drive3 = 1300;
-                drive4 = 500;
+                drive1 = 950/2;
+                drive2 = 500/2;
+                drive3 = 1300/2;
+                drive4 = 500/2;
                 if (alliance == FTCAlliance.RED) {
                     //if red, on right side, and went forwards
                     drivingLibrary.driveStraight(0,driveSpeed);
@@ -286,6 +291,7 @@ public class AutonModeLibrary {
                     drivingLibrary.driveStraight(0,-driveSpeed);
                     opMode.sleep(drive4);
                     drivingLibrary.brakeStop();
+                    gyroSensorLibrary.turnLeft(Math.PI/6);
                 } else {
                     //if blue, on right side, and went forwards
                     drivingLibrary.driveStraight(0,-driveSpeed);
@@ -301,6 +307,7 @@ public class AutonModeLibrary {
                 }
             }
         }
+
         //use vuforia to identify
         opMode.sleep(waitSensePictograph);
         int tries = 0;
@@ -328,13 +335,10 @@ public class AutonModeLibrary {
     }
 
     public void placeGlyphsSleep(int count) {
-        int strafeTime = 590;
+        int strafeTime = 590/2;
 
-        if (count == 1) {
-            strafeTime = 820;
-        } else if (count == 2) {
-            strafeTime = 700;
-        }
+        drivingLibrary.driveStraight(0,.5f);
+        opMode.sleep(strafeTime);
 
         if (alliance == FTCAlliance.RED) {
             if (position == FTCPosition.LEFT) {
@@ -350,14 +354,14 @@ public class AutonModeLibrary {
             }
             else {
                 drivingLibrary.driveStraight(0,.5f);
-                opMode.sleep(300);
+                opMode.sleep(300/2);
 
                 drivingLibrary.driveStraight(-.5f,0);
-                opMode.sleep(600);
+                opMode.sleep(600/2);
 
                 gyroSensorLibrary.turnLeft(Math.PI / 2);
                 drivingLibrary.driveStraight(0,-.5f);
-                opMode.sleep(500);
+                opMode.sleep(500/2);
 
                 drivingLibrary.driveStraight(-.5f,0);
                 while (count != 0) {
@@ -373,12 +377,12 @@ public class AutonModeLibrary {
             if (position == FTCPosition.LEFT) {
                 float driveSpeed = .4f;
                 drivingLibrary.driveStraight(0,-driveSpeed);
-                opMode.sleep(700);
+                opMode.sleep(700/2);
                 gyroSensorLibrary.rightToAngle(-Math.PI);
                 drivingLibrary.driveStraight(0,driveSpeed);
-                opMode.sleep(1200);
+                opMode.sleep(1200/2);
                 drivingLibrary.driveStraight(driveSpeed,0);
-                opMode.sleep(700);
+                opMode.sleep(700/2);
                 drivingLibrary.brakeStop();
                 while (count != 0) {
                     double dist = cryptoDistanceSensor.getDistance(DistanceUnit.CM);
@@ -403,15 +407,15 @@ public class AutonModeLibrary {
         }
         drivingLibrary.brakeStop();
         drivingLibrary.driveStraight(0,.5f);
-        opMode.sleep(500);
+        opMode.sleep(500/2);
         drivingLibrary.brakeStop();
         glyphArm.dropGlyphs();
         drivingLibrary.driveStraight(0,-.5f);
-        opMode.sleep(200);
+        opMode.sleep(200/2);
         drivingLibrary.driveStraight(0,.5f);
-        opMode.sleep(1500);
+        opMode.sleep(1500/2);
         drivingLibrary.driveStraight(0,-.5f);
-        opMode.sleep(100);
+        opMode.sleep(100/2);
 
         if (strafeTime > 0) {
             drivingLibrary.driveStraight(.5f, 0);
@@ -421,8 +425,6 @@ public class AutonModeLibrary {
             drivingLibrary.driveStraight(-.5f, 0);
             opMode.sleep(strafeTime);
         }
-        drivingLibrary.brakeStop();
-
         //turns around 180 to face glyph pit
         gyroSensorLibrary.turnRight(Math.PI);
         drivingLibrary.brakeStop();
