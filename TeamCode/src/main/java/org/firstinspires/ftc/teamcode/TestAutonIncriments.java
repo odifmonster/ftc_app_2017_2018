@@ -7,14 +7,12 @@ import org.firstinspires.ftc.enums.Direction;
 import org.firstinspires.ftc.enums.FTCAlliance;
 import org.firstinspires.ftc.enums.FTCPosition;
 import org.firstinspires.ftc.libraries.AutonModeLibrary;
-import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 /**
- * Created by megankaye on 1/4/18.
+ * Created by megankaye on 2/28/18.
  */
-
 @Autonomous
-public class AutonRedLeft extends LinearOpMode {
+public class TestAutonIncriments extends LinearOpMode {
     AutonModeLibrary autonMode;
 
     public void runOpMode() throws InterruptedException {
@@ -27,19 +25,14 @@ public class AutonRedLeft extends LinearOpMode {
 
         while (opModeIsActive()) {
             autonMode.pickUpGlyph();
+            Direction dir = Direction.FORWARD;
 
-            Direction dir = autonMode.knockOffJewelSleep();
+            //Direction dir = autonMode.knockOffJewelSleep();
+            //int count = autonMode.glyptographSleep(dir);
 
-            //glyptograph
-            int count = autonMode.glyptographSleep(dir);
-
-            //place gluphs
-            autonMode.placeGlyphsSleep(count);
-
-            //p
+            autonMode.placeGlyphsSleep(2);
 
             sleep(30000);
-
         }
     }
 }

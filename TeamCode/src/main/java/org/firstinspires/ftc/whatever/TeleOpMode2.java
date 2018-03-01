@@ -17,11 +17,11 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @TeleOp
 public class TeleOpMode2 extends LinearOpMode {
     DrivingLibrary drivingLibrary;
-    //GlyphArmLibrary glyphArmLibrary;
+    GlyphArmLibrary glyphArmLibrary;
     RelicArmLibrary relicArmLibrary;
     int drivingMode;
-    //GlyphArmMode glyphArmMode;
-    //int glyphArmInt;
+    GlyphArmMode glyphArmMode;
+    int glyphArmInt;
 
     public void runOpMode() throws InterruptedException {
         drivingLibrary = new DrivingLibrary(this);
@@ -29,9 +29,9 @@ public class TeleOpMode2 extends LinearOpMode {
         drivingMode = 0;
         drivingLibrary.setMode(drivingMode);
 
-        /*glyphArmLibrary = new GlyphArmLibrary(this);
+        glyphArmLibrary = new GlyphArmLibrary(this);
         glyphArmInt = 0;
-        glyphArmMode = GlyphArmMode.values()[0];*/
+        glyphArmMode = GlyphArmMode.values()[0];
 
         relicArmLibrary = new RelicArmLibrary(this);
 
@@ -41,7 +41,7 @@ public class TeleOpMode2 extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            if (gamepad1.dpad_right) {
+           /* if (gamepad1.dpad_right) {
                 telemetry.addData("dPadRight", "right");
                 relicArmLibrary.extendArm(true);
                 sleep(300);
@@ -50,17 +50,11 @@ public class TeleOpMode2 extends LinearOpMode {
                 telemetry.addData("dPadRight", "Pressed");
                 sleep(300);
             } else {
-                relicArmLibrary.stopArm();
-            }
-
-            /*if (gamepad1.right_bumper) {
-                relicArmLibrary.activatePWM();
-            } else {
-                relicArmLibrary.disablePWM();
+                //relicArmLibrary.stopArm();
             }*/
 
             if (gamepad1.left_bumper) {
-                relicArmLibrary.activateClaw();
+                //relicArmLibrary.activateClaw();
                 telemetry.addData("left bumper", "pressed");
                 sleep(300);
             }
@@ -74,7 +68,7 @@ public class TeleOpMode2 extends LinearOpMode {
             drivingLibrary.driveStraight(gamepad1.left_stick_x, -gamepad1.left_stick_y);
             drivingLibrary.turn(gamepad1.right_stick_x, -gamepad1.right_stick_y);
 
-            /*if (gamepad2.a) {
+            if (gamepad2.a) {
                 glyphArmInt++;
                 glyphArmInt %= GlyphArmMode.values().length;
                 glyphArmMode = GlyphArmMode.values()[glyphArmInt];
@@ -103,12 +97,12 @@ public class TeleOpMode2 extends LinearOpMode {
                     break;
             }
 
-            glyphArmLibrary.movePulley(gamepad2);*/
+            glyphArmLibrary.movePulley(gamepad2);
 
             relicArmLibrary.outputInfo();
             telemetry.addData("Status", "Running");
             telemetry.addData("Brake Mode", drivingLibrary.getMode());
-            //telemetry.addData("Glyph Arm Mode", glyphArmMode.getModeString());
+            telemetry.addData("Glyph Arm Mode", glyphArmMode.getModeString());
 
             telemetry.update();
         }

@@ -28,7 +28,7 @@ public class TestIdentifyPictograph extends LinearOpMode {
         while (opModeIsActive()) {
             if (!done) {
                 autonMode.pickUpGlyph();
-                autonMode.glyptograph(Direction.BACKWARD);
+                //autonMode.glyptograph(Direction.BACKWARD);
                 done = true;
             }
             telemetry.update();

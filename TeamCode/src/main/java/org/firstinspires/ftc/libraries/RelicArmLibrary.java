@@ -13,68 +13,33 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 public class RelicArmLibrary {
     OpMode opMode;
-    CRServo cont1;
-    CRServo cont2;
-    CRServo cont3;
-    Servo lift;
+    CRServo lift;
     Servo claw;
     boolean clawState = false;
-    boolean liftState = false;
-
-    double liftBottom =  0.585;
-    double liftTop =    0.66;
     double clawBottom =  0.05;
     double clawTop = 0.45;
 
+    public boolean cont12Locked = false;
+    public boolean cont3locked = false;
+
     public RelicArmLibrary(LinearOpMode opMode) {
         this.opMode = opMode;
-        lift = opMode.hardwareMap.get(Servo.class, "lift");
-        lift.setDirection(Servo.Direction.REVERSE);
+        //lift = opMode.hardwareMap.get(Servo.class, "lift");
         claw = opMode.hardwareMap.get(Servo.class, "claw");
-        cont1 = opMode.hardwareMap.get(CRServo.class, "cont1");
-        cont2 = opMode.hardwareMap.get(CRServo.class, "cont2");
-        cont3 = opMode.hardwareMap.get(CRServo.class, "cont3");
+        lift = opMode.hardwareMap.get(CRServo.class, "cont1");
     }
 
     public void extendArm() {
-        cont1.setPower(1);
-        cont2.setPower(1);
-        cont3.setPower(1);
+        lift.setPower(1);
     }
 
     public void retractArm() {
-        cont1.setPower(-1);
-        cont2.setPower(-1);
-        cont3.setPower(-1);
+        lift.setPower(-1);
     }
 
-    public void firstServoForward() {
-        cont1.setPower(1);
-    }
-    public void firstServoBackward() {
-        cont1.setPower(-1);
-    }
-
-    public void secondServoForward() {
-        cont2.setPower(1);
-    }
-
-    public void secondServoBackward() {
-        cont2.setPower(-1);
-    }
-
-    public void thirdServoForward() {
-        cont3.setPower(1);
-    }
-
-    public void thirdServoBackward() {
-        cont3.setPower(-1);
-    }
 
     public void stopAll() {
-        cont1.setPower(0);
-        cont2.setPower(0);
-        cont3.setPower(0);
+        lift.setPower(0);
     }
 
     public void liftClaw() {
@@ -86,19 +51,33 @@ public class RelicArmLibrary {
         clawState = !clawState;
     }
 
-    public void liftLift() {
-        if (liftState) {
-            lift.setPosition(liftBottom);
-        } else {
-            lift.setPosition(liftTop);
-        }
-        liftState = !liftState;
+    public void outputInfo() {
+        opMode.telemetry.addData("first servo power", lift.getPower());
+        opMode.telemetry.addData("claw pos", claw.getPosition());
     }
 
-    public void outputInfo() {
-        opMode.telemetry.addData("first servo power", cont1.getPower());
-        opMode.telemetry.addData("second servo power", cont2.getPower());
-        opMode.telemetry.addData("third servo power", cont3.getPower());
+    public void lockCont3() {
+        if (cont3locked) {
+            releaseLift();
+        }
+        cont3locked = !cont3locked;
+    }
+
+
+    public void releaseLift() {
+        lift.setPower(0);
+    }
+
+
+    public void idle(boolean noButtonsPressed) {
+        if (cont3locked || cont12Locked) {
+            if (cont3locked) {
+                lift.setPower(-.1);
+            }
+        }
+        else if (noButtonsPressed){
+            stopAll();
+        }
     }
 
 }

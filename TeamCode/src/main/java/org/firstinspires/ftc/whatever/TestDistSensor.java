@@ -24,7 +24,7 @@ public class TestDistSensor extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            autonMode.placeGlyphs(2);
+            //autonMode.placeGlyphs(2);
         }
     }
 }
