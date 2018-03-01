@@ -37,7 +37,6 @@ public class RelicArmLibrary {
         lift.setPower(-1);
     }
 
-
     public void stopAll() {
         lift.setPower(0);
     }
@@ -56,7 +55,7 @@ public class RelicArmLibrary {
         opMode.telemetry.addData("claw pos", claw.getPosition());
     }
 
-    public void lockCont3() {
+    public void lockCont() {
         if (cont3locked) {
             releaseLift();
         }
@@ -70,14 +69,14 @@ public class RelicArmLibrary {
 
 
     public void idle(boolean noButtonsPressed) {
-        if (cont3locked || cont12Locked) {
+        /*if (cont3locked || cont12Locked) {
             if (cont3locked) {
                 lift.setPower(-.1);
             }
         }
         else if (noButtonsPressed){
             stopAll();
-        }
+        }*/
     }
 
 }
