@@ -192,9 +192,9 @@ public class GlyphArmLibrary {
             lastDir = Direction.BACKWARD;
         } else if (gamepad.right_stick_y < 0 && gamepad.right_stick_x < 0.1 &&
                 gamepad.right_stick_x > -0.1) {
-            pulley.setPower(-pulleySpeed);
+            pulley.setPower(pulleySpeed);
             pulleyStopped = false;
-            lastDir = Direction.BACKWARD;
+            lastDir = Direction.FORWARD;
         } else if (!pulleyStopped) {
             if (lastDir == Direction.BACKWARD) {
                 pulley.setPower(pulleySpeed);
