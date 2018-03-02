@@ -223,9 +223,7 @@ public class GlyphArmLibrary {
             pulleyStopped = false;
             lastDir = Direction.BACKWARD;
         } else if (!pulleyStopped) {
-            if (lastDir == Direction.FORWARD) {
-                pulley.setPower(-pulleySpeed);
-            } else if (lastDir == Direction.BACKWARD) {
+            if (lastDir == Direction.BACKWARD) {
                 pulley.setPower(pulleySpeed);
             }
             opMode.sleep(10);
