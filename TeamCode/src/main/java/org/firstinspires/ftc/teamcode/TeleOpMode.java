@@ -41,7 +41,6 @@ import org.firstinspires.ftc.libraries.RelicArmLibrary;
  * y: preset: quick drop glyphs
  */
 
-//@Disabled
 @TeleOp
 public class TeleOpMode extends LinearOpMode {
     DrivingLibrary drivingLibrary;
@@ -71,12 +70,17 @@ public class TeleOpMode extends LinearOpMode {
             if (gamepad2.b) {
                 telemetry.addData("pushed", "b");
                 relicArmLibrary.extendArm();
-            } if (gamepad2.x) {
+            } else if (gamepad2.x) {
                 telemetry.addData("pushed", "x");
                 relicArmLibrary.retractArm();
-            } if (gamepad2.y) {
-                telemetry.addData("pushed", "y");
-                relicArmLibrary.liftClaw();
+            } else {
+                telemetry.addData("pushed", "neither b nor x");
+                relicArmLibrary.stopAll();
+            }
+
+            if (gamepad2.y) {
+                    telemetry.addData("pushed", "y");
+                    relicArmLibrary.liftClaw();
             }
 
             if (gamepad1.b) {
