@@ -29,16 +29,19 @@ public class DrivingLibrary {
     private double[] strafeBias;
 
     // sensor variables
-    private BNO055IMU imu;
+    private BNO055IMU imu; //gyroscope in rev hub
     private Orientation angles;
     private Acceleration gravity;
 
     // other variables
-    private double speedSetting;
+    private double speedSetting; //sets max speed
     private DrivingMode drivingMode;
     private OpMode opMode;
 
     public DrivingLibrary(OpMode opMode) {
+        /* library for functions related to drive train
+
+         */
         this.opMode = opMode;
         hardwareMap = opMode.hardwareMap;
 
@@ -47,9 +50,10 @@ public class DrivingLibrary {
         leftRear = hardwareMap.get(DcMotor.class, "left_rear");
         rightRear = hardwareMap.get(DcMotor.class, "right_rear");
 
-        rightRear.setDirection(DcMotor.Direction.REVERSE);
+        rightRear.setDirection(DcMotor.Direction.REVERSE); //motors face opposite directions so one side is reversed
         rightFront.setDirection(DcMotor.Direction.REVERSE);
 
+        //for imu set up
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
@@ -64,9 +68,12 @@ public class DrivingLibrary {
         strafeBias = new double[] {1, 1, 1, 1};
     }
 
+    //for incrementally changing strafe bias for testing
     public void updateStrafeBias(int wheel, int multiplier) {
         strafeBias[wheel] += (.01 * multiplier);
     }
+
+    //displays strafe bias on phone
     public void printStrafeBias() {
         opMode.telemetry.addData("fl", strafeBias[0]);
         opMode.telemetry.addData("fr", strafeBias[1]);
@@ -75,11 +82,15 @@ public class DrivingLibrary {
     }
 
     public void driveStraight(float x, float y) {
+        /* inputs are joystick values
+        function includes strafing 
+
+         */
         float maxSpeed = Math.max(y + x, y - x);
         double multiplier = 1;
 
         if (maxSpeed > 1) {
-            multiplier = 1 / maxSpeed;
+            multiplier = 1 / maxSpeed; //values normalised to be less than or equal to one
         }
 
         leftFront.setPower(multiplier * speedSetting * (y + x) * strafeBias[0]);
@@ -114,12 +125,12 @@ public class DrivingLibrary {
             case FLOAT_STOP:
                 for (DcMotor motor : allMotors) {
                     motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-                }
+                } //coasts when it stops
                 break;
             case BRAKE_STOP:
                 for (DcMotor motor : allMotors) {
                     motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                }
+                } //fully brakes
                 break;
         }
     }
@@ -148,7 +159,7 @@ public class DrivingLibrary {
     public void setMotorSpeed(double speed) {
         for (DcMotor motor : allMotors) {
             motor.setPower(speed);
-        }
+        } //physically sets motor speed
     }
 
     public void stopDrivingMotors() {
